@@ -1,0 +1,9 @@
+name: CrSerializer
+version: 0.1.0
+
+authors:
+  - GESI Bot <Blacksmoke16+GESIBot@eve.tools>
+
+crystal: 0.26.1
+
+license: MIT
