@@ -43,8 +43,29 @@ class Example
   
   # Do not inclue password on serialize, nor set it on deserialize
   @[CrSerializer::Json::Options(expose: false, readonly: true)]
-  property Password : String?
+  property password : String?
 end
+
+json_str = %({"name": "John", "age": 22, "password": "passw0rd!"})
+
+example = Example.deserialize json_str
+example.name # => "John"
+example.age # => 22
+
+# password is nil because it was set to `readonly`
+example.password # => nil
+
+example.password = "passw0rd!"
+
+example.password # => "passw0rd!"
+
+# password is not serialized because `expose` was set to false
+example.serialize # => {"name":"John","age":22}
+
+
+json_str = %({"name": "John", "age": -1, "password": "passw0rd!"})
+# raises an exepction due to `raise_on_invalid` being true
+example2 = Example.deserialize json_str # => Unhandled exception: Validation tests failed (CrSerializer::ValidationException)
 ```
 
 #### Instance Variables properties

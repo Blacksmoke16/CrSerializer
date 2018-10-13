@@ -21,9 +21,9 @@ module CrSerializer::Json
   getter validator = ValidationHelper.new
 
   macro included
-	  def self.deserialize(json_string : String) : self
-	    from_json(json_string)
-	  end
+    def self.deserialize(json_string : String) : self
+      from_json(json_string)
+    end
   end
 
   def after_initialize : self
@@ -39,22 +39,22 @@ module CrSerializer::Json
 
     # Validations
     {% begin %}
-    	{% cann = @type.annotation(CrSerializer::Options) %}
-    	{% if !cann || cann[:validate] == true || cann[:validate] == nil %}
-	      {% for ivar in @type.instance_vars %}
-	       	{% ann = ivar.annotation(CrSerializer::Assertions) %}
-	        {% if ann && ann[:less_than] %}
-	          @validator.validate_less_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:less_than]}}
-	        {% end %}
-	        {% if ann && ann[:less_than_or_equal] %}
-	          @validator.validate_less_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:less_than_or_equal]}}, true
-	        {% end %}
-	        {% if ann && ann[:greater_than] %}
-	          @validator.validate_greater_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:greater_than]}}
-	        {% end %}
-	        {% if ann && ann[:range] %}
-	        	@validator.validate_range {{ivar.stringify}}, {{ivar.id}}, {{ann[:range]}}
-	        {% end %}
+      {% cann = @type.annotation(CrSerializer::Options) %}
+      {% if !cann || cann[:validate] == true || cann[:validate] == nil %}
+        {% for ivar in @type.instance_vars %}
+          {% ann = ivar.annotation(CrSerializer::Assertions) %}
+          {% if ann && ann[:less_than] %}
+            @validator.validate_less_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:less_than]}}
+          {% end %}
+          {% if ann && ann[:less_than_or_equal] %}
+            @validator.validate_less_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:less_than_or_equal]}}, true
+          {% end %}
+          {% if ann && ann[:greater_than] %}
+            @validator.validate_greater_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:greater_than]}}
+          {% end %}
+          {% if ann && ann[:range] %}
+            @validator.validate_range {{ivar.stringify}}, {{ivar.id}}, {{ann[:range]}}
+          {% end %}
           {% if ann && ann[:size] %}
             @validator.validate_size {{ivar.stringify}}, {{ivar.id}}, {{ann[:size]}}
           {% end %}
@@ -67,26 +67,26 @@ module CrSerializer::Json
           {% if ann && (ann[:unique] == true || ann[:unique] == false) %}
             @validator.validate_unique {{ivar.stringify}}, {{ivar.id}}, {{ann[:unique]}}
           {% end %}
-	        {% if ann && ann[:equal] != nil %}
-	        	@validator.validate_equal {{ivar.stringify}}, {{ivar.id}}, {{ann[:equal]}}
-	        {% end %}
-	        {% if ann && ann[:not_equal] != nil %}
-	        	@validator.validate_not_equal {{ivar.stringify}}, {{ivar.id}}, {{ann[:not_equal]}}
-	        {% end %}
-	        {% if ann && ann[:greater_than_or_equal] %}
-	          @validator.validate_greater_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:greater_than_or_equal]}}, true
-	        {% end %}
-	        {% if ann && (ann[:blank] == true || ann[:blank] == false) %}
-	          @validator.validate_blank {{ivar.stringify}}, {{ivar}}, {{ann[:blank]}}
-	        {% end %}
-	        {% if ann && (ann[:nil] == true || ann[:nil] == false) %}
-	          @validator.validate_nil {{ivar.stringify}}, {{ivar}}, {{ann[:nil]}}
-	        {% end %}
-	      {% end %}
-	    {% end %}
-	    {% if cann && cann[:raise_on_invalid] == true %}
-	    	raise ValidationException.new @validator unless @validator.valid?
-	    {% end %}
+          {% if ann && ann[:equal] != nil %}
+            @validator.validate_equal {{ivar.stringify}}, {{ivar.id}}, {{ann[:equal]}}
+          {% end %}
+          {% if ann && ann[:not_equal] != nil %}
+            @validator.validate_not_equal {{ivar.stringify}}, {{ivar.id}}, {{ann[:not_equal]}}
+          {% end %}
+          {% if ann && ann[:greater_than_or_equal] %}
+            @validator.validate_greater_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:greater_than_or_equal]}}, true
+          {% end %}
+          {% if ann && (ann[:blank] == true || ann[:blank] == false) %}
+            @validator.validate_blank {{ivar.stringify}}, {{ivar}}, {{ann[:blank]}}
+          {% end %}
+          {% if ann && (ann[:nil] == true || ann[:nil] == false) %}
+            @validator.validate_nil {{ivar.stringify}}, {{ivar}}, {{ann[:nil]}}
+          {% end %}
+        {% end %}
+      {% end %}
+      {% if cann && cann[:raise_on_invalid] == true %}
+        raise ValidationException.new @validator unless @validator.valid?
+      {% end %}
     {% end %}
     self
   end
@@ -95,22 +95,22 @@ module CrSerializer::Json
     json = JSON.build do |json|
       json.object do
         {% begin %}
-		    	{% obj = {} of Nil => Nil %}
-		      {% for ivar in @type.instance_vars %}
-		        {% ann = ivar.annotation(CrSerializer::Json::Options) %}
-		        {% if ann && ann[:accessor] %}
-		          json.field {{ivar.stringify}}, {{ann[:accessor]}}
-		        {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
-		          {% if !ann || (ann[:emit_null] == true || ann[:emit_null] == nil) %}
-		          	{% if ann && ann[:serialized_name] %}
-		          		json.field {{ann[:serialized_name]}}, {{ivar.id}}
-		          	{% else %}
-		          		json.field {{ivar.stringify}}, {{ivar.id}}
-		          	{% end %}
-		          {% end %}
-		        {% end %}
-		      {% end %}
-		    {% end %}
+          {% obj = {} of Nil => Nil %}
+          {% for ivar in @type.instance_vars %}
+            {% ann = ivar.annotation(CrSerializer::Json::Options) %}
+            {% if ann && ann[:accessor] %}
+              json.field {{ivar.stringify}}, {{ann[:accessor]}}
+            {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
+              {% if !ann || (ann[:emit_null] == true || ann[:emit_null] == nil) %}
+                {% if ann && ann[:serialized_name] %}
+                  json.field {{ann[:serialized_name]}}, {{ivar.id}}
+                {% else %}
+                  json.field {{ivar.stringify}}, {{ivar.id}}
+                {% end %}
+              {% end %}
+            {% end %}
+          {% end %}
+        {% end %}
       end
     end
     json
