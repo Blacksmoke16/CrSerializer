@@ -1,8 +1,13 @@
 require "json"
+require "./validation_helper"
 
-class Array
-  def serialize
+class Array(T)
+  def serialize : String
     self.map(&.serialize)
+  end
+
+  def self.deserialize(string_or_io) : Array(T)
+    Array(T).from_json string_or_io
   end
 end
 
@@ -37,31 +42,43 @@ module CrSerializer::Json
     	{% cann = @type.annotation(CrSerializer::Options) %}
     	{% if !cann || cann[:validate] == true || cann[:validate] == nil %}
 	      {% for ivar in @type.instance_vars %}
-	        {% ann = ivar.annotation(CrSerializer::Assertions) %}
+	       	{% ann = ivar.annotation(CrSerializer::Assertions) %}
 	        {% if ann && ann[:less_than] %}
 	          @validator.validate_less_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:less_than]}}
 	        {% end %}
-
 	        {% if ann && ann[:less_than_or_equal] %}
 	          @validator.validate_less_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:less_than_or_equal]}}, true
 	        {% end %}
-
 	        {% if ann && ann[:greater_than] %}
 	          @validator.validate_greater_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:greater_than]}}
 	        {% end %}
-
 	        {% if ann && ann[:range] %}
 	        	@validator.validate_range {{ivar.stringify}}, {{ivar.id}}, {{ann[:range]}}
 	        {% end %}
-
+          {% if ann && ann[:size] %}
+            @validator.validate_size {{ivar.stringify}}, {{ivar.id}}, {{ann[:size]}}
+          {% end %}
+          {% if ann && ann[:regex] %}
+            @validator.validate_regex {{ivar.stringify}}, {{ivar.id}}, {{ann[:regex]}}
+          {% end %}
+          {% if ann && ann[:choice] %}
+            @validator.validate_choice {{ivar.stringify}}, {{ivar.id}}, {{ann[:choice]}}
+          {% end %}
+          {% if ann && (ann[:unique] == true || ann[:unique] == false) %}
+            @validator.validate_unique {{ivar.stringify}}, {{ivar.id}}, {{ann[:unique]}}
+          {% end %}
+	        {% if ann && ann[:equal] != nil %}
+	        	@validator.validate_equal {{ivar.stringify}}, {{ivar.id}}, {{ann[:equal]}}
+	        {% end %}
+	        {% if ann && ann[:not_equal] != nil %}
+	        	@validator.validate_not_equal {{ivar.stringify}}, {{ivar.id}}, {{ann[:not_equal]}}
+	        {% end %}
 	        {% if ann && ann[:greater_than_or_equal] %}
 	          @validator.validate_greater_than {{ivar.stringify}}, {{ivar.id}}, {{ann[:greater_than_or_equal]}}, true
 	        {% end %}
-
 	        {% if ann && (ann[:blank] == true || ann[:blank] == false) %}
 	          @validator.validate_blank {{ivar.stringify}}, {{ivar}}, {{ann[:blank]}}
 	        {% end %}
-
 	        {% if ann && (ann[:nil] == true || ann[:nil] == false) %}
 	          @validator.validate_nil {{ivar.stringify}}, {{ivar}}, {{ann[:nil]}}
 	        {% end %}
@@ -74,7 +91,7 @@ module CrSerializer::Json
     self
   end
 
-  def serialize
+  def serialize : String
     json = JSON.build do |json|
       json.object do
         {% begin %}
@@ -84,8 +101,12 @@ module CrSerializer::Json
 		        {% if ann && ann[:accessor] %}
 		          json.field {{ivar.stringify}}, {{ann[:accessor]}}
 		        {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
-		          {% if (!ann || ann[:emit_null] == true) %}
-		          	json.field {{ivar.stringify}}, {{ivar.id}}
+		          {% if !ann || (ann[:emit_null] == true || ann[:emit_null] == nil) %}
+		          	{% if ann && ann[:serialized_name] %}
+		          		json.field {{ann[:serialized_name]}}, {{ivar.id}}
+		          	{% else %}
+		          		json.field {{ivar.stringify}}, {{ivar.id}}
+		          	{% end %}
 		          {% end %}
 		        {% end %}
 		      {% end %}
@@ -93,59 +114,5 @@ module CrSerializer::Json
       end
     end
     json
-  end
-end
-
-class ValidationException < Exception
-  def initialize(@validator : ValidationHelper)
-    super "Validation tests failed"
-  end
-
-  def message : String?
-    @message
-  end
-
-  def to_json : String
-    {
-      code:    400,
-      message: message,
-      errors:  @validator.errors,
-    }.to_json
-  end
-end
-
-class ValidationHelper
-  getter errors : Array(String) = [] of String
-
-  def validate_less_than(field : String, actual : Number?, expected : Number, equal_to : Bool = false) : Void
-    return if actual.nil?
-    valid : Bool = equal_to == true ? actual <= expected : actual < expected
-    @errors << "`#{field}` should be less than #{equal_to ? "or equal to " : ""}#{expected}" unless input < expected
-  end
-
-  def validate_greater_than(field : String, actual : Number?, expected : Number, equal_to : Bool = false) : Void
-    return if actual.nil?
-    valid : Bool = equal_to == true ? actual >= expected : actual > expected
-    @errors << "`#{field}` should be greater than #{expected}" unless valid
-  end
-
-  def validate_blank(field : String, actual : String?, expected : Bool) : Void
-    return if actual.nil?
-    valid = expected == true ? actual.blank? : !actual.blank?
-    @errors << "`#{field}` should#{expected == false ? " not" : ""} be blank" unless valid
-  end
-
-  def validate_nil(field : String, actual : String?, expected : Bool) : Void
-    valid = expected == true ? actual.nil? : !actual.nil?
-    @errors << "`#{field}` should#{expected == false ? " not" : ""} be nil" unless valid
-  end
-
-  def validate_range(field : String, actual : Number?, expected : Range) : Void
-    return if actual.nil?
-    @errors << "`#{field}` should be between #{expected.begin} and #{expected.end} #{expected.exclusive? ? "exclusive" : "inclusive"}" unless expected.includes? actual
-  end
-
-  def valid? : Bool
-    @errors.size.zero?
   end
 end

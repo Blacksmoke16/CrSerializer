@@ -12,7 +12,7 @@ JSON (and later YAML) serializer and validator inspired by [JMS Serializer Annot
 
 ## Roadmap
 
-- [x] JSON Support (In progress)
+- [x] JSON Support
 - [ ] YAML Support
 
 ## Installation
@@ -47,7 +47,7 @@ class Example
 end
 ```
 
-### Instance Variables properties
+#### Instance Variables properties
 
 - [x] `expose: Bool`- Whether the property should be serialized.  Default = `true`
 
@@ -57,9 +57,9 @@ end
 
 - [x] `readonly: Bool` - Whether the property should be settable on deserialization.  Default = `true`
 
-- [ ] `serialized_name: String` - Name of the key to use on serialize.  Default = name of instance variable
+- [x] `serialized_name: String` - Name of the key to use on serialize.  Default = name of instance variable
 
-### Class properties
+#### Class properties
 
 - [x] `validate: Bool`: Whether validations should be ran for this class.  Default = `true`
 - [x] `raise_on_invalid: Bool`: Whether an exception should be raised if a validation test fails.  Default = `false`
@@ -68,37 +68,36 @@ end
 
 #### Generic
 
-- [x] `blank: Bool` - Whether the property should be allowed to be blank
 - [x] `nil: Bool` - Whether the property should be allowed to be nil
-- [ ] `type: T` - Value of the property should be of type `T`
+- [x] `equal: V` - Value is equal to `V`.  Use `nil: true` instead of `equal: nil`
+- [x] `not_equal: V`- Values is not equal to `V`. Use `nil: false` instead of `not_equal: nil`
+- [x] `choice: Array(String|Number)` - Value is of a given set of choices
 
 #### Numeric
 
 - [x] `greater_than: N` - Value of the property should be greater than `N`
 - [x] `greater_than_or_equal: N` - Value of the property should be greater than or equal `N`
 - [x] `less_than: N` - Value of the property should be less than `N`
-
 - [x] `less_than_or_equal: N` - Value of the property should be less than or equal to `N`
 - [x] `range: Range(B, E)` - Value is within `B` and `E`
-- [ ] `equal: N` - Value is equal to `N`
-- [ ] `not_equal: N`- Values is not equal to `N`
 
 #### String
 
-- [ ] `length: Range(B, E)` - Length of the string is between `B` and `E`
-- [ ] `regex: Regex` - Value matches `Regex` pattern
+- [x] `blank: Bool` - Whether the property should be allowed to be blank
+- [x] `size: Range(B, E)` - Size of the string is between `B` and `E`
+- [x] `regex: Regex` - Value matches `Regex` pattern
+- [ ] `email: String` - Value is an property formatted email
 
 #### Array
 
-- [ ] `choice: Array(String|Number)` - Value is of a given set of choices
-- [ ] `size: Range(B, E)` - Size of the array is between `B` and `E`
-- [ ] `unique: Bool` - Whether all values should be unique
+- [x] `size: Range(B, E)` - Size of the array is between `B` and `E`
+- [x] `unique: Bool` - Whether all values should be unique
 
-#### Boolean
+#### Date
 
-- [ ] `truthy: Bool` - Whether the property should be `true` or `false`
+- [ ] `format: String` - Value is is a date in the given format
 
-##Contributing
+## Contributing
 
 1. Fork it (<https://github.com/Blacksmoke16/CrSerializer/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
