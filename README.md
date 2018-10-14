@@ -1,6 +1,6 @@
 # CrSerializer
 
-JSON (and later YAML) serializer and validator inspired by [JMS Serializer Annotations](https://jmsyst.com/libs/serializer/master/reference/annotations) and [Symphony Validation Constraint Annotations](https://symfony.com/doc/current/reference/constraints.html).  Built on top of the standard library functionality of `JSON::Serializable`.
+JSON (and later YAML) serializer and validator inspired by [JMS Serializer Annotations](https://jmsyst.com/libs/serializer/master/reference/annotations) and [Symfony Validation Constraint Annotations](https://symfony.com/doc/current/reference/constraints.html).  Built on top of the standard library functionality of `JSON::Serializable`.
 
 ## Goals
 
@@ -84,6 +84,8 @@ example2 = Example.deserialize json_str # => Unhandled exception: Validation tes
 
 - [x] `validate: Bool`: Whether validations should be ran for this class.  Default = `true`
 - [x] `raise_on_invalid: Bool`: Whether an exception should be raised if a validation test fails.  Default = `false`
+- [x] `exclusion_policy: Symbol`: Policy to use for the class
+  - `:exclude_all`: Excludes all properties from serialization by default.  Only properties with `expose: true` will be serialized
 
 ### Validations
 

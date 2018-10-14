@@ -78,6 +78,17 @@ class ValidateTest
   property age : Int32
 end
 
+@[CrSerializer::Options(exclusion_policy: :exclude_all)]
+class ExcludeAlltest
+  include CrSerializer::Json
+
+  property age : Int32 = 22
+  property name : String = "Joe"
+
+  @[CrSerializer::Json::Options(expose: true)]
+  property value : String = "foo"
+end
+
 describe CrSerializer do
   describe "serialize" do
     describe "#serialized_name" do
@@ -110,6 +121,13 @@ describe CrSerializer do
         model = AccessorTest.new
         model.name = "John"
         model.serialize.should eq %({"name":"JOHN"})
+      end
+    end
+
+    describe "#exclusion_policy" do
+      it "should not expose properties by default" do
+        model = ExcludeAlltest.new
+        model.serialize.should eq %({"value":"foo"})
       end
     end
   end

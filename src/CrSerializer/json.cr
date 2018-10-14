@@ -96,16 +96,19 @@ module CrSerializer::Json
       json.object do
         {% begin %}
           {% obj = {} of Nil => Nil %}
+          {% cann = @type.annotation(::CrSerializer::Options) %}
           {% for ivar in @type.instance_vars %}
-            {% ann = ivar.annotation(CrSerializer::Json::Options) %}
-            {% if ann && ann[:accessor] %}
-              json.field {{ivar.stringify}}, {{ann[:accessor]}}
-            {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
-              {% if !ann || (ann[:emit_null] == true || ann[:emit_null] == nil) %}
-                {% if ann && ann[:serialized_name] %}
-                  json.field {{ann[:serialized_name]}}, {{ivar.id}}
-                {% else %}
-                  json.field {{ivar.stringify}}, {{ivar.id}}
+            {% ann = ivar.annotation(::CrSerializer::Json::Options) %}
+            {% unless (cann && cann[:exclusion_policy] == :exclude_all) && (!ann || ann[:expose] != true) %}
+              {% if ann && ann[:accessor] %}
+                json.field {{ivar.stringify}}, {{ann[:accessor]}}
+              {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
+                {% if !ann || (ann[:emit_null] == true || ann[:emit_null] == nil) %}
+                  {% if ann && ann[:serialized_name] %}
+                    json.field {{ann[:serialized_name]}}, {{ivar.id}}
+                  {% else %}
+                    json.field {{ivar.stringify}}, {{ivar.id}}
+                  {% end %}
                 {% end %}
               {% end %}
             {% end %}
