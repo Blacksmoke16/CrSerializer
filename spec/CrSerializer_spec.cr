@@ -23,6 +23,8 @@ class EmitNullTest
   property age : Int32?
 
   property name : String
+
+  property im_null : String? = nil
 end
 
 class AccessorTest
@@ -110,6 +112,13 @@ describe CrSerializer do
 
     describe "#emit_null" do
       it "should serialize correctly" do
+        model = EmitNullTest.new
+        model.name = "John"
+        model.im_null = "foo"
+        model.serialize.should eq %({"age":null,"name":"John","im_null":"foo"})
+      end
+
+      it "should not emit_null by default" do
         model = EmitNullTest.new
         model.name = "John"
         model.serialize.should eq %({"age":null,"name":"John"})

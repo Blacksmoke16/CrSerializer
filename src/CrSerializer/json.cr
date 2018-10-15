@@ -103,12 +103,10 @@ module CrSerializer::Json
               {% if ann && ann[:accessor] %}
                 json.field {{ivar.stringify}}, {{ann[:accessor]}}
               {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
-                {% if !ann || (ann[:emit_null] == true || ann[:emit_null] == nil) %}
-                  {% if ann && ann[:serialized_name] %}
-                    json.field {{ann[:serialized_name]}}, {{ivar.id}}
-                  {% else %}
-                    json.field {{ivar.stringify}}, {{ivar.id}}
-                  {% end %}
+                {% if ann && ann[:serialized_name] %}
+                  json.field {{ann[:serialized_name]}}, {{ivar.id}} {% unless ann && ann[:emit_null] %} unless {{ivar.id}}.nil? {% end %}
+                {% else %}
+                  json.field {{ivar.stringify}}, {{ivar.id}} {% unless ann && ann[:emit_null] %} unless {{ivar.id}}.nil? {% end %}
                 {% end %}
               {% end %}
             {% end %}
