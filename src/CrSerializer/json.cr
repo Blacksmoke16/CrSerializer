@@ -92,28 +92,31 @@ module CrSerializer::Json
   end
 
   def serialize : String
-    json = JSON.build do |json|
-      json.object do
-        {% begin %}
-          {% obj = {} of Nil => Nil %}
-          {% cann = @type.annotation(::CrSerializer::Options) %}
-          {% for ivar in @type.instance_vars %}
-            {% ann = ivar.annotation(::CrSerializer::Json::Options) %}
-            {% unless (cann && cann[:exclusion_policy] == :exclude_all) && (!ann || ann[:expose] != true) %}
-              {% if ann && ann[:accessor] %}
-                json.field {{ivar.stringify}}, {{ann[:accessor]}}
-              {% elsif !ann || ann[:expose] == true || ann[:expose] == nil %}
-                {% if ann && ann[:serialized_name] %}
-                  json.field {{ann[:serialized_name]}}, {{ivar.id}} {% unless ann && ann[:emit_null] %} unless {{ivar.id}}.nil? {% end %}
-                {% else %}
-                  json.field {{ivar.stringify}}, {{ivar.id}} {% unless ann && ann[:emit_null] %} unless {{ivar.id}}.nil? {% end %}
-                {% end %}
-              {% end %}
-            {% end %}
+    {% begin %}
+      {% properties = {} of Nil => Nil %}
+      {% cann = @type.annotation(::CrSerializer::Options) %}
+      {% for ivar in @type.instance_vars %}
+        {% cr_ann = ivar.annotation(::CrSerializer::Json::Options) %}
+        {% unless (cann && cann[:exclusion_policy] == :exclude_all) && (!cr_ann || cr_ann[:expose] != true) %}
+          {% if (!cr_ann || (cr_ann && (cr_ann[:expose] == true || cr_ann[:expose] == nil))) %}
+            {%
+              properties[ivar.id] = {
+                serialized_name: ((cr_ann && cr_ann[:serialized_name]) || ivar).id.stringify,
+                emit_null:       (cr_ann && cr_ann[:emit_null] == true) ? true : false,
+                value:           (cr_ann && cr_ann[:accessor]) ? cr_ann[:accessor] : ivar.id,
+              }
+            %}
           {% end %}
         {% end %}
+      {% end %}
+      json = JSON.build do |json|
+        json.object do
+          {% for name, value in properties %}
+            json.field {{value[:serialized_name]}}, {{value[:value]}} {% unless value[:emit_null] %} unless {{name.id}}.nil? {% end %}
+          {% end %}
+        end
       end
-    end
-    json
+      json
+    {% end %}
   end
 end
