@@ -45,6 +45,9 @@ class ReadOnlyTest
 
   @[CrSerializer::Json::Options(readonly: true)]
   property name : String?
+
+  @[CrSerializer::Json::Options(readonly: true)]
+  property password : String = "ADefaultPassword"
 end
 
 class NestedTest
@@ -60,7 +63,7 @@ end
 class Age
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions(less_than: 10)]
+  @[CrSerializer::Assertions::LessThan(value: 10)]
   property yrs : Int32
 end
 
@@ -68,7 +71,7 @@ end
 class RaiseTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions(equal: 10)]
+  @[CrSerializer::Assertions::EqualTo(value: 10)]
   property age : Int32
 end
 
@@ -76,7 +79,7 @@ end
 class ValidateTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions(equal: 10)]
+  @[CrSerializer::Assertions::EqualTo(value: 10)]
   property age : Int32
 end
 
@@ -144,9 +147,10 @@ describe CrSerializer do
   describe "deserialize" do
     describe "#readonly" do
       it "should deserialize correctly" do
-        model = ReadOnlyTest.deserialize %({"name":"Secret","age":22})
+        model = ReadOnlyTest.deserialize %({"name":"Secret","age":22,"password":"monkey"})
         model.age.should eq 22
         model.name.should be_nil
+        model.password.should eq "ADefaultPassword"
       end
     end
 
@@ -163,21 +167,21 @@ describe CrSerializer do
         model = NestedTest.deserialize %({"name":"John","age":{"yrs": 15},"friends":["Joe","Fred","Bob"]})
         model.validator.valid?.should be_true
         model.age.validator.valid?.should be_false
-        model.age.validator.errors.first.should eq "`yrs` should be less than 10"
+        model.age.validator.errors.first.should eq "'yrs' has failed the less_than_assertion"
       end
     end
 
     describe "#raise_on_invalid" do
       it "should raise correct exception" do
-        expect_raises CrSerializer::ValidationException, "Validation tests failed" { RaiseTest.deserialize %({"age":22}) }
+        expect_raises CrSerializer::Exceptions::ValidationException, "Validation tests failed" { RaiseTest.deserialize %({"age":22}) }
       end
 
       it "should build correct exception object" do
         begin
           RaiseTest.deserialize %({"age":22})
-        rescue ex : CrSerializer::ValidationException
+        rescue ex : CrSerializer::Exceptions::ValidationException
           ex.message.should eq "Validation tests failed"
-          ex.to_json.should eq %({"code":400,"message":"Validation tests failed","errors":["`age` should equal 10"]})
+          ex.to_json.should eq %({"code":400,"message":"Validation tests failed","errors":["'age' has failed the equal_to_assertion"]})
         end
       end
     end

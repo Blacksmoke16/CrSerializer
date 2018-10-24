@@ -1,6 +1,6 @@
 require "./CrSerializer/**"
 
 module CrSerializer
+  # :nodoc:
   annotation Options; end
-  annotation Assertions; end
 end
