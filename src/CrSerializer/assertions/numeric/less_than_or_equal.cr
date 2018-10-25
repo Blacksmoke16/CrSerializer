@@ -13,9 +13,7 @@ module CrSerializer::Assertions
   # NOTE: Nil values are considered valid
   class LessThanOrEqualAssertion(ActualValueType) < LessThanAssertion(ActualValueType)
     def valid? : Bool
-      val, act = @value, @actual
-      return true unless val && act
-      act <= val
+      (value = @value) && (actual = @actual) ? actual <= value : true
     end
   end
 end

@@ -10,7 +10,7 @@ module CrSerializer::Assertions
   # max_message : String # => Message to display if the value is too big
   # ```
   abstract class RangeAssertion < Assertion
-    def initialize(field : String, message : String?, @actual : NUMERIC_DATA_TYPES?, @range : Range(Float64, Float64), @min_message : String?, @max_message : String?)
+    def initialize(field : String, message : String?, @actual : NUMERIC_DATA_TYPES?, @range : Range(Float64, Float64), @min_message : String? = nil, @max_message : String? = nil)
       super field, message
     end
   end
