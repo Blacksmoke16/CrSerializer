@@ -10,12 +10,12 @@ module CrSerializer::Assertions
   # property age : Int64
   # ```
   #
-  # NOTE: Nil values will fail the assertion
+  # NOTE: Nil values are considered valid
   class LessThanAssertion(ActualValueType) < ComparisonAssertion(NUMERIC_DATA_TYPES?)
-    def valid? : Bool
+    def valid? : Bool?
       val = @value
       act = @actual
-      return false unless val && act
+      return unless val && act
       act < val
     end
   end

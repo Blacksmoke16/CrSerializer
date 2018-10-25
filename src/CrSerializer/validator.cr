@@ -4,7 +4,10 @@ module CrSerializer
 
     # Returns true if the all the assertions are valid, otherwise false
     def valid? : Bool
-      assertions.all?(&.valid?)
+      assertions.all? do |a|
+        valid : Bool? = a.valid?
+        valid.nil? || valid == true
+      end
     end
 
     # Returns the assertions that are not valid

@@ -10,7 +10,7 @@ module CrSerializer::Assertions
   # property first_name : String
   # ```
   #
-  # NOTE: For nil assertion see `NotNilAssertion`
+  # NOTE: For not nil assertion see `NotNilAssertion`
   class NotEqualToAssertion(ActualValueType) < ComparisonAssertion(ALL_DATA_TYPES)
     def valid? : Bool
       @actual != @value

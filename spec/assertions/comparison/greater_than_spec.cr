@@ -36,7 +36,7 @@ describe "Assertions::GreaterThan" do
     model.validator.valid?.should be_true
   end
 
-  describe "with bigger property" do
+  describe "with smaller property" do
     it "should be invalid" do
       model = GreaterThanTest.deserialize(%({"age": 10}))
       model.validator.valid?.should be_false
@@ -46,11 +46,9 @@ describe "Assertions::GreaterThan" do
   end
 
   describe "with nil property" do
-    it "should be invalid" do
+    it "should be valid" do
       model = GreaterThanTest.deserialize(%({"age": null}))
-      model.validator.valid?.should be_false
-      model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the greater_than_assertion"
+      model.validator.valid?.should be_true
     end
   end
 

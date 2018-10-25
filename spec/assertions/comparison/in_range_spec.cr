@@ -4,7 +4,7 @@ class InRangeTest
   include CrSerializer::Json
 
   @[CrSerializer::Assertions::InRange(range: 0_f64..100_f64)]
-  property age : Int64
+  property age : Int64?
 end
 
 class InRangeTestMessage
@@ -26,6 +26,13 @@ describe "Assertions::InRange" do
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "'age' has failed the in_range_assertion"
+    end
+  end
+
+  describe "with a nil property" do
+    it "should be valid" do
+      model = InRangeTest.deserialize(%({"age": null}))
+      model.validator.valid?.should be_true
     end
   end
 

@@ -46,11 +46,9 @@ describe "Assertions::LessThan" do
   end
 
   describe "with nil property" do
-    it "should be invalid" do
+    it "should be valid" do
       model = LessThanTest.deserialize(%({"age": null}))
-      model.validator.valid?.should be_false
-      model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the less_than_assertion"
+      model.validator.valid?.should be_true
     end
   end
 

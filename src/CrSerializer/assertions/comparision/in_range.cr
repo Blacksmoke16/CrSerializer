@@ -10,14 +10,14 @@ module CrSerializer::Assertions
   # property age : Int64
   # ```
   #
-  # NOTE: Nil values will fail the assertion
+  # NOTE: Nil values are considered valid
   # NOTE: range must be of type `Range(Float64, Float64)`
   class InRangeAssertion(T) < RangeAssertion
-    def valid? : Bool
+    def valid? : Bool?
       act : NUMERIC_DATA_TYPES? = @actual
       min_message : String? = @min_message
       max_message : String? = @max_message
-      return false unless act
+      return unless act
       return true if @range === act
       return false unless min_message || max_message
       exclusive : Bool = @range.excludes_end?
