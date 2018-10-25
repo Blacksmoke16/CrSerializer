@@ -41,6 +41,6 @@ module CrSerializer::Assertions
     end
 
     # Returns true if the provided value passes the assertion, otherwise false
-    abstract def valid? : Bool?
+    abstract def valid? : Bool
   end
 end

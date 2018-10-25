@@ -12,10 +12,9 @@ module CrSerializer::Assertions
   #
   # NOTE: Nil values are considered valid
   class GreaterThanAssertion(ActualValueType) < ComparisonAssertion(NUMERIC_DATA_TYPES?)
-    def valid? : Bool?
-      val = @value
-      act = @actual
-      return unless val && act
+    def valid? : Bool
+      val, act = @value, @actual
+      return true unless val && act
       act > val
     end
   end
