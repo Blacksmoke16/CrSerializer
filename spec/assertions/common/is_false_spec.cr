@@ -20,6 +20,13 @@ describe "Assertions::IsFalse" do
     model.validator.valid?.should be_true
   end
 
+  describe "with nil property" do
+    it "should be invalid" do
+      model = IsTrueTest.deserialize(%({"attending":null}))
+      model.validator.valid?.should be_true
+    end
+  end
+
   describe "with false property" do
     it "should be invalid" do
       model = IsFalseTest.deserialize(%({"attending":true}))

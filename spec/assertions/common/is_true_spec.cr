@@ -4,7 +4,7 @@ class IsTrueTest
   include CrSerializer::Json
 
   @[CrSerializer::Assertions::IsTrue]
-  property attending : Bool
+  property attending : Bool?
 end
 
 class IsTrueTestMessage
@@ -18,6 +18,13 @@ describe "Assertions::IsTrue" do
   it "should be valid" do
     model = IsTrueTest.deserialize(%({"attending":true}))
     model.validator.valid?.should be_true
+  end
+
+  describe "with nil property" do
+    it "should be invalid" do
+      model = IsTrueTest.deserialize(%({"attending":null}))
+      model.validator.valid?.should be_true
+    end
   end
 
   describe "with false property" do

@@ -23,20 +23,24 @@ class EqualToTestMessage
   property age : Int32?
 end
 
-class EqualToTestPropertyPath
+class EqualToTestProperty
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::EqualTo(property_path: current_age)]
+  @[CrSerializer::Assertions::EqualTo(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 12
 end
 
-class EqualToTestMissingValue
+class EqualToTestMethod
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::EqualTo]
+  @[CrSerializer::Assertions::EqualTo(value: get_age)]
   property age : Int32
+
+  def get_age : Int32
+    12
+  end
 end
 
 describe "Assertions::EqualTo" do
@@ -66,16 +70,17 @@ describe "Assertions::EqualTo" do
     end
   end
 
-  describe "with a property path" do
-    it "should use the property path's value" do
-      model = EqualToTestPropertyPath.deserialize(%({"age": 12}))
+  describe "with a property" do
+    it "should use the property's value" do
+      model = EqualToTestProperty.deserialize(%({"age": 12}))
       model.validator.valid?.should be_true
     end
   end
 
-  describe "with a missing field" do
-    it "should raise an exception" do
-      expect_raises CrSerializer::Exceptions::MissingFieldException, "Missing required field(s). value or property_path must be supplied" { EqualToTestMissingValue.deserialize(%({"age": 12})) }
+  describe "with a method as the value" do
+    it "should use the method's value" do
+      model = EqualToTestMethod.deserialize(%({"age": 12}))
+      model.validator.valid?.should be_true
     end
   end
 end

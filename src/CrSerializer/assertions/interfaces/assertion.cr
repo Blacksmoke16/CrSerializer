@@ -15,13 +15,14 @@ module CrSerializer::Assertions
     CrSerializer::Assertions::IsBlank            => [:noop],
     CrSerializer::Assertions::IsTrue             => [:noop],
     CrSerializer::Assertions::IsFalse            => [:noop],
-    CrSerializer::Assertions::EqualTo            => [:value, :property_path],
-    CrSerializer::Assertions::NotEqualTo         => [:value, :property_path],
-    CrSerializer::Assertions::LessThan           => [:value, :property_path],
-    CrSerializer::Assertions::LessThanOrEqual    => [:value, :property_path],
-    CrSerializer::Assertions::GreaterThan        => [:value, :property_path],
-    CrSerializer::Assertions::GreaterThanOrEqual => [:value, :property_path],
+    CrSerializer::Assertions::EqualTo            => [:value],
+    CrSerializer::Assertions::NotEqualTo         => [:value],
+    CrSerializer::Assertions::LessThan           => [:value],
+    CrSerializer::Assertions::LessThanOrEqual    => [:value],
+    CrSerializer::Assertions::GreaterThan        => [:value],
+    CrSerializer::Assertions::GreaterThanOrEqual => [:value],
     CrSerializer::Assertions::InRange            => [:range, :min_message, :max_message],
+    CrSerializer::Assertions::Choice             => [:choices],
   }
 
   {% for t in ASSERTIONS %}

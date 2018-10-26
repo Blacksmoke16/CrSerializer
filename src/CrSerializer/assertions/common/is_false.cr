@@ -9,8 +9,9 @@ module CrSerializer::Assertions
   # @[CrSerializer::Assertions::IsFalse]
   # property is_attending : Bool
   # ```
-  class IsFalseAssertion(ActualValueType) < BasicAssertion(Bool)
+  class IsFalseAssertion(ActualValueType) < BasicAssertion(Bool?)
     def valid? : Bool
+      return true if @actual.nil?
       @actual == false
     end
   end

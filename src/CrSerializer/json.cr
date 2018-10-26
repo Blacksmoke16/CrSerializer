@@ -50,7 +50,7 @@ module CrSerializer::Json
           {% for t, v in CrSerializer::Assertions::ASSERTIONS %}
             {% ann = ivar.annotation(t.resolve) %}
               {% if ann %}
-                @validator.assertions << {{t.id}}Assertion({{ivar.type.stringify.id}}).new({{ivar.stringify}},{{ann[:message]}},{{ivar.id}},{{v.select { |fi| ann[fi] }.map { |f| "#{f.id}: #{ann[f]}" }.join(',').id}})
+                @validator.assertions << {{t.id}}Assertion({{ivar.type.stringify.id}}).new({{ivar.stringify}},{{ann[:message]}},{{ivar.id}},{{v.select { |fi| ann[fi] }.map { |f| %(#{f.id}: #{ann[f]}#{f == :choices ? " of CrSerializer::Assertions::ALL_DATA_TYPES".id : "".id}) }.join(',').id}})
               {% end %}
           {% end %}
         {% end %}

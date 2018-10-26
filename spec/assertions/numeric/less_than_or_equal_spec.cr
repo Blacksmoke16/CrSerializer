@@ -14,20 +14,24 @@ class LessThanOrEqualTestMessage
   property age : Int32
 end
 
-class LessThanOrEqualTestPropertyPath
+class LessThanOrEqualTestProperty
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThanOrEqual(property_path: current_age)]
+  @[CrSerializer::Assertions::LessThanOrEqual(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 15
 end
 
-class LessThanOrEqualTestMissingValue
+class LessThanOrEqualTestMethod
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThanOrEqual]
+  @[CrSerializer::Assertions::LessThanOrEqual(value: get_age)]
   property age : Int32
+
+  def get_age : Int32
+    15
+  end
 end
 
 describe "Assertions::LessThanOrEqual" do
@@ -61,16 +65,17 @@ describe "Assertions::LessThanOrEqual" do
     end
   end
 
-  describe "with a property path" do
-    it "should use the property path's value" do
-      model = LessThanOrEqualTestPropertyPath.deserialize(%({"age": 15}))
+  describe "with a property" do
+    it "should use the property's value" do
+      model = LessThanOrEqualTestProperty.deserialize(%({"age": 15}))
       model.validator.valid?.should be_true
     end
   end
 
-  describe "with a missing field" do
-    it "should raise an exception" do
-      expect_raises CrSerializer::Exceptions::MissingFieldException, "Missing required field(s). value or property_path must be supplied" { LessThanOrEqualTestMissingValue.deserialize(%({"age": 15})) }
+  describe "with a method as the value" do
+    it "should use the method's value" do
+      model = LessThanOrEqualTestMethod.deserialize(%({"age": 15}))
+      model.validator.valid?.should be_true
     end
   end
 end

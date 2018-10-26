@@ -14,13 +14,24 @@ class GreaterThanOrEqualTestMessage
   property age : Int32
 end
 
-class GreaterThanOrEqualTestPropertyPath
+class GreaterThanOrEqualTestProperty
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(property_path: current_age)]
+  @[CrSerializer::Assertions::GreaterThanOrEqual(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 15
+end
+
+class GreaterThanOrEqualTestMethod
+  include CrSerializer::Json
+
+  @[CrSerializer::Assertions::GreaterThanOrEqual(value: get_age)]
+  property age : Int32
+
+  def get_age : Int32
+    12
+  end
 end
 
 class GreaterThanOrEqualTestMissingValue
@@ -61,16 +72,17 @@ describe "Assertions::GreaterThanOrEqual" do
     end
   end
 
-  describe "with a property path" do
-    it "should use the property path's value" do
-      model = GreaterThanOrEqualTestPropertyPath.deserialize(%({"age": 15}))
+  describe "with another property as the value" do
+    it "should use the property's value" do
+      model = GreaterThanOrEqualTestProperty.deserialize(%({"age": 15}))
       model.validator.valid?.should be_true
     end
   end
 
-  describe "with a missing field" do
-    it "should raise an exception" do
-      expect_raises CrSerializer::Exceptions::MissingFieldException, "Missing required field(s). value or property_path must be supplied" { GreaterThanOrEqualTestMissingValue.deserialize(%({"age": 15})) }
+  describe "with a method as the value" do
+    it "should use the method's value" do
+      model = GreaterThanOrEqualTestMethod.deserialize(%({"age": 12}))
+      model.validator.valid?.should be_true
     end
   end
 end
