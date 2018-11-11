@@ -1,4 +1,4 @@
-require "../interfaces/assertion"
+require "./interfaces/assertion"
 
 module CrSerializer::Assertions
   # Validates a property is nil
@@ -9,7 +9,7 @@ module CrSerializer::Assertions
   # @[CrSerializer::Assertions::IsNil]
   # property name : String
   # ```
-  class IsNilAssertion(ActualValueType) < BasicAssertion(CrSerializer::Assertions::ALL_DATA_TYPES)
+  class IsNilAssertion(ActualValueType) < BasicAssertion(CrSerializer::Assertions::ALLDATATYPES)
     def valid? : Bool
       @actual.nil? == true
     end

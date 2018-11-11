@@ -1,5 +1,4 @@
 require "./assertion"
-require "../../exceptions/missing_field_exception"
 
 module CrSerializer::Assertions
   # Base class for the comparison assertions

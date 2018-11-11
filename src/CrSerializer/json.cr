@@ -30,6 +30,19 @@ module CrSerializer::Json
     end
   end
 
+  def validate : Nil
+    assertions = [] of CrSerializer::Assertions::Assertion
+    {% for ivar in @type.instance_vars %}
+      {% for t, v in CrSerializer::Assertions::ASSERTIONS %}
+        {% ann = ivar.annotation(t.resolve) %}
+        {% if ann %}
+          assertions << {{t.id}}Assertion({{ivar.type.stringify.id}}).new({{ivar.stringify}},{{ann[:message]}},{{ivar.id}},{{v.select { |fi| ann[fi] }.map { |f| %(#{f.id}: #{ann[f]}#{f == :choices ? " of CrSerializer::Assertions::ALLDATATYPES".id : "".id}) }.join(',').id}})
+        {% end %}
+      {% end %}
+    {% end %}
+    @validator = CrSerializer::Validator.new assertions
+  end
+
   # :nodoc:
   def after_initialize : self
     # Deserialization options
@@ -46,17 +59,10 @@ module CrSerializer::Json
     {% begin %}
       {% cann = @type.annotation(CrSerializer::Options) %}
       {% if !cann || cann[:validate] == true || cann[:validate] == nil %}
-        {% for ivar in @type.instance_vars %}
-          {% for t, v in CrSerializer::Assertions::ASSERTIONS %}
-            {% ann = ivar.annotation(t.resolve) %}
-              {% if ann %}
-                @validator.assertions << {{t.id}}Assertion({{ivar.type.stringify.id}}).new({{ivar.stringify}},{{ann[:message]}},{{ivar.id}},{{v.select { |fi| ann[fi] }.map { |f| %(#{f.id}: #{ann[f]}#{f == :choices ? " of CrSerializer::Assertions::ALL_DATA_TYPES".id : "".id}) }.join(',').id}})
-              {% end %}
-          {% end %}
-        {% end %}
+        validate
       {% end %}
       {% if cann && cann[:raise_on_invalid] == true %}
-        raise CrSerializer::Exceptions::ValidationException.new self.validator unless self.validator.valid?
+        raise CrSerializer::Exceptions::ValidationException.new @validator unless @validator.valid?
       {% end %}
     {% end %}
     self

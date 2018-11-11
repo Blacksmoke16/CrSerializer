@@ -1,4 +1,4 @@
-require "../interfaces/comparison_assertion"
+require "./interfaces/comparison_assertion"
 
 module CrSerializer::Assertions
   # Validates a property is less than a value
@@ -11,7 +11,7 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: Nil values are considered valid
-  class LessThanAssertion(ActualValueType) < ComparisonAssertion(NUMERIC_DATA_TYPES?)
+  class LessThanAssertion(ActualValueType) < ComparisonAssertion(NUMERICDATATYPES?)
     def valid? : Bool
       (value = @value) && (actual = @actual) ? actual < value : true
     end

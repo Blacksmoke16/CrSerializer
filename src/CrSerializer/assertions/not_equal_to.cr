@@ -1,4 +1,4 @@
-require "../interfaces/comparison_assertion"
+require "./interfaces/comparison_assertion"
 
 module CrSerializer::Assertions
   # Validates a property is not equal to a value
@@ -11,7 +11,7 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: For not nil assertion see `NotNilAssertion`
-  class NotEqualToAssertion(ActualValueType) < ComparisonAssertion(ALL_DATA_TYPES)
+  class NotEqualToAssertion(ActualValueType) < ComparisonAssertion(ALLDATATYPES)
     def valid? : Bool
       @actual != @value
     end

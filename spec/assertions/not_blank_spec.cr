@@ -4,7 +4,7 @@ class NotBlankTest
   include CrSerializer::Json
 
   @[CrSerializer::Assertions::NotBlank]
-  property name : String
+  property name : String?
 end
 
 class NotBlankTestMessage
@@ -26,6 +26,13 @@ describe "Assertions::NotBlank" do
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "'name' has failed the not_blank_assertion"
+    end
+  end
+
+  describe "with null property" do
+    it "should be valid" do
+      model = NotBlankTest.deserialize(%({"name": null}))
+      model.validator.valid?.should be_true
     end
   end
 

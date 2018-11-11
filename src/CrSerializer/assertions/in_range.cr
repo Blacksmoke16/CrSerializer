@@ -1,4 +1,4 @@
-require "../interfaces/range_assertion"
+require "./interfaces/range_assertion"
 
 module CrSerializer::Assertions
   # Validates a property is within a given range
@@ -6,15 +6,15 @@ module CrSerializer::Assertions
   # Usable on only Number properties
   #
   # ```
-  # @[CrSerializer::Assertions::EqualTo(range: 0_f64..100_f64)]
+  # @[CrSerializer::Assertions::InRange(range: 0_f64..100_f64)]
   # property age : Int64
   # ```
   #
   # NOTE: Nil values are considered valid
   # NOTE: range must be of type `Range(Float64, Float64)`
-  class InRangeAssertion(T) < RangeAssertion
+  class InRangeAssertion(ActualValueType) < RangeAssertion(ActualValueType)
     def valid? : Bool
-      act : NUMERIC_DATA_TYPES? = @actual
+      act : ActualValueType = @actual
       min_message : String? = @min_message
       max_message : String? = @max_message
       return true unless act

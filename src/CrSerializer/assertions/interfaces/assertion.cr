@@ -1,9 +1,9 @@
 module CrSerializer::Assertions
   # :nodoc:
-  alias NUMERIC_DATA_TYPES = Float32 | Float64 | Int8 | Int16 | Int32 | Int64 | Int128 | UInt8 | UInt16 | UInt32 | UInt64 | UInt128
+  alias NUMERICDATATYPES = Float32 | Float64 | Int8 | Int16 | Int32 | Int64 | Int128 | UInt8 | UInt16 | UInt32 | UInt64 | UInt128
 
   # :nodoc:
-  alias ALL_DATA_TYPES = NUMERIC_DATA_TYPES | Bool | String | Nil
+  alias ALLDATATYPES = NUMERICDATATYPES | Bool | String | Nil
 
   # Mapping of assertion name to fields used for it
   #
@@ -22,7 +22,8 @@ module CrSerializer::Assertions
     CrSerializer::Assertions::GreaterThan        => [:value],
     CrSerializer::Assertions::GreaterThanOrEqual => [:value],
     CrSerializer::Assertions::InRange            => [:range, :min_message, :max_message],
-    CrSerializer::Assertions::Choice             => [:choices],
+    CrSerializer::Assertions::Size               => [:range, :min_message, :max_message],
+    CrSerializer::Assertions::Choice             => [:choices, :min_matches, :max_matches, :min_message, :max_message, :multiple_message],
   }
 
   {% for t in ASSERTIONS %}

@@ -1,4 +1,4 @@
-require "../interfaces/basic_assertion"
+require "./interfaces/basic_assertion"
 
 module CrSerializer::Assertions
   # Validates a property is false
