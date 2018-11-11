@@ -91,7 +91,7 @@ class ValidateTest
   property age : Int32
 end
 
-@[CrSerializer::Options(exclusion_policy: :exclude_all)]
+@[CrSerializer::Options(exclusion_policy: CrSerializer::ExclusionPolicy::ExcludeAll)]
 class ExcludeAlltest
   include CrSerializer::Json
 

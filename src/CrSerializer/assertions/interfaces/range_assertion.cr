@@ -1,9 +1,9 @@
 require "./assertion"
 
 module CrSerializer::Assertions
-  # Base class for the comparison assertions
+  # Base class for assertions that use a `Range`
   #
-  # Optional values:
+  # Optional annotation fields:
   # ```
   # min_message : String # => Message to display if the value is too small
   # max_message : String # => Message to display if the value is too big

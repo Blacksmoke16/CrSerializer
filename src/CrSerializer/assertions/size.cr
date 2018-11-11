@@ -3,7 +3,7 @@ require "./interfaces/range_assertion"
 module CrSerializer::Assertions
   # Validates a property's size is within a given range
   #
-  # Usable on only types that have a `#size` method, such as Array or String
+  # Usable only on types that have a `#size` method, such as Array or String
   #
   # ```
   # @[CrSerializer::Assertions::Size(range: 0_f64..100_f64)]

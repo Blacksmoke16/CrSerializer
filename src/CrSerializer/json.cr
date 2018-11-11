@@ -30,6 +30,7 @@ module CrSerializer::Json
     end
   end
 
+  # Rerun all assertions on the current state of the object
   def validate : Nil
     assertions = [] of CrSerializer::Assertions::Assertion
     {% for ivar in @type.instance_vars %}
@@ -75,7 +76,7 @@ module CrSerializer::Json
       {% cann = @type.annotation(::CrSerializer::Options) %}
       {% for ivar in @type.instance_vars %}
         {% cr_ann = ivar.annotation(::CrSerializer::Json::Options) %}
-        {% unless (cann && cann[:exclusion_policy] == :exclude_all) && (!cr_ann || cr_ann[:expose] != true) %}
+        {% unless (cann && cann[:exclusion_policy].resolve == CrSerializer::ExclusionPolicy::ExcludeAll) && (!cr_ann || cr_ann[:expose] != true) %}
           {% if (!cr_ann || (cr_ann && (cr_ann[:expose] == true || cr_ann[:expose] == nil))) %}
             {%
               properties[ivar.id] = {
