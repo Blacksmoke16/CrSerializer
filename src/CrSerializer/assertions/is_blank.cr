@@ -1,15 +1,21 @@
-require "./interfaces/basic_assertion"
+require "./assertion"
 
 module CrSerializer::Assertions
   # Validates a property is blank
   #
-  # Usable on only String properties
+  # Usable on only `String` properties
   #
   # ```
-  # @[CrSerializer::Assertions::IsBlank]
+  # @[Assert::IsBlank]
   # property name : String
   # ```
-  class IsBlankAssertion(ActualValueType) < BasicAssertion(String?)
+  class IsBlankAssertion(ActualValueType) < Assertion
+    @message : String = "'{{field}}' should be blank"
+
+    def initialize(field : String, message : String?, @actual : String?)
+      super field, message
+    end
+
     def valid? : Bool
       if actual = @actual
         actual.blank? == true

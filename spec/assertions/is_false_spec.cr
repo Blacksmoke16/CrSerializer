@@ -3,18 +3,18 @@ require "../../spec_helper"
 class IsFalseTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::IsFalse]
-  property attending : Bool
+  @[Assert::IsFalse]
+  property attending : Bool?
 end
 
 class IsFalseTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::IsFalse(message: "Attending should be false")]
+  @[Assert::IsFalse(message: "Expected {{field}} to be false but got {{actual}}")]
   property attending : Bool
 end
 
-describe "Assertions::IsFalse" do
+describe Assert::IsFalse do
   it "should be valid" do
     model = IsFalseTest.deserialize(%({"attending":false}))
     model.validator.valid?.should be_true
@@ -22,7 +22,7 @@ describe "Assertions::IsFalse" do
 
   describe "with nil property" do
     it "should be invalid" do
-      model = IsTrueTest.deserialize(%({"attending":null}))
+      model = IsFalseTest.deserialize(%({"attending":null}))
       model.validator.valid?.should be_true
     end
   end
@@ -32,7 +32,7 @@ describe "Assertions::IsFalse" do
       model = IsFalseTest.deserialize(%({"attending":true}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'attending' has failed the is_false_assertion"
+      model.validator.errors.first.should eq "'attending' should be false"
     end
   end
 
@@ -41,7 +41,7 @@ describe "Assertions::IsFalse" do
       model = IsFalseTestMessage.deserialize(%({"attending":true}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Attending should be false"
+      model.validator.errors.first.should eq "Expected attending to be false but got true"
     end
   end
 end

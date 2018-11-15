@@ -4,21 +4,23 @@ require "../../spec_helper"
 class CustomTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::Foo]
+  @[Assert::Foo]
   property name : String?
 end
 
 # Define an assertion handler
-module CrSerializer::Assertions
-  class FooAssertion(ActualValueType) < BasicAssertion(CrSerializer::Assertions::ALLDATATYPES)
-    def valid?
-      @actual == "foo"
-    end
+class FooAssertion(ActualValueType) < CrSerializer::Assertions::Assertion
+  def initialize(field : String, message : String?, @actual : ActualValueType, noop : Nil = nil)
+    super field, message
+  end
+
+  def valid?
+    @actual == "foo"
   end
 end
 
 # Register the assertion and properties
-register_assertion CrSerializer::Assertions::Foo, [] of Symbol
+register_assertion Assert::Foo, [] of Symbol
 
 describe "Assertions::Custom" do
   describe "with name as `foo`" do
@@ -33,7 +35,7 @@ describe "Assertions::Custom" do
       model = CustomTest.deserialize(%({"name":"bar"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'name' has failed the foo_assertion"
+      model.validator.errors.first.should eq "The FooAssertion has failed."
     end
   end
 
@@ -42,7 +44,7 @@ describe "Assertions::Custom" do
       model = CustomTest.deserialize(%({"name":null}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'name' has failed the foo_assertion"
+      model.validator.errors.first.should eq "The FooAssertion has failed."
     end
   end
 end

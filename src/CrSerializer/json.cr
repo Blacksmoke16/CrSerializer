@@ -1,5 +1,6 @@
 require "json"
 require "./validator"
+require "./assertions/*"
 
 # :nodoc:
 class Array(T)
@@ -17,6 +18,7 @@ module CrSerializer::Json
   annotation Options; end
 
   include JSON::Serializable
+  include CrSerializer::Assertions
 
   @[JSON::Field(ignore: true)]
   @[CrSerializer::Json::Options(expose: false)]
@@ -37,7 +39,8 @@ module CrSerializer::Json
       {% for t, v in CrSerializer::Assertions::ASSERTIONS %}
         {% ann = ivar.annotation(t.resolve) %}
         {% if ann %}
-          assertions << {{t.id}}Assertion({{ivar.type.stringify.id}}).new({{ivar.stringify}},{{ann[:message]}},{{ivar.id}},{{v.select { |fi| ann[fi] }.map { |f| %(#{f.id}: #{ann[f]}#{f == :choices ? " of CrSerializer::Assertions::ALLDATATYPES".id : "".id}) }.join(',').id}})
+          {% v = v.expressions[0] if v.is_a?(Expressions) %}
+          assertions << {{t.resolve.name.split("::").last.id}}Assertion({{ivar.type.stringify.id}}).new({{ivar.stringify}},{{ann[:message]}},{{ivar.id}},{{v.select { |fi| ann[fi] != nil }.map { |f| %(#{f.id}: #{ann[f]}#{f == :choices ? " of CrSerializer::Assertions::ALLDATATYPES".id : "".id}) }.join(',').id}})
         {% end %}
       {% end %}
     {% end %}
@@ -76,7 +79,7 @@ module CrSerializer::Json
       {% cann = @type.annotation(::CrSerializer::Options) %}
       {% for ivar in @type.instance_vars %}
         {% cr_ann = ivar.annotation(::CrSerializer::Json::Options) %}
-        {% unless (cann && cann[:exclusion_policy].resolve == CrSerializer::ExclusionPolicy::ExcludeAll) && (!cr_ann || cr_ann[:expose] != true) %}
+        {% unless (cann && cann[:exclusion_policy].resolve == CrSerializer::ExclusionPolicy::EXCLUDE_ALL) && (!cr_ann || cr_ann[:expose] != true) %}
           {% if (!cr_ann || (cr_ann && (cr_ann[:expose] == true || cr_ann[:expose] == nil))) %}
             {%
               properties[ivar.id] = {

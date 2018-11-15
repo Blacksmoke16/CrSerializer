@@ -61,7 +61,18 @@ end
 class NestedTest
   include CrSerializer::Json
 
-  property name : String
+  property name : Name
+
+  property age : Age
+
+  property friends : Array(String)
+end
+
+class NestedValidTest
+  include CrSerializer::Json
+
+  @[Assert::Valid]
+  property name : Name
 
   property age : Age
 
@@ -71,15 +82,22 @@ end
 class Age
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThan(value: 10)]
+  @[Assert::LessThan(value: 10)]
   property yrs : Int32?
+end
+
+class Name
+  include CrSerializer::Json
+
+  @[Assert::EqualTo(value: "foo")]
+  property n : String
 end
 
 @[CrSerializer::Options(raise_on_invalid: true)]
 class RaiseTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::EqualTo(value: 10)]
+  @[Assert::EqualTo(value: 10)]
   property age : Int32
 end
 
@@ -87,11 +105,11 @@ end
 class ValidateTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::EqualTo(value: 10)]
+  @[Assert::EqualTo(value: 10)]
   property age : Int32
 end
 
-@[CrSerializer::Options(exclusion_policy: CrSerializer::ExclusionPolicy::ExcludeAll)]
+@[CrSerializer::Options(exclusion_policy: CrSerializer::ExclusionPolicy::EXCLUDE_ALL)]
 class ExcludeAlltest
   include CrSerializer::Json
 
@@ -172,19 +190,52 @@ describe CrSerializer do
     end
 
     describe "nested classes" do
-      it "should deserialize correctly" do
-        model = NestedTest.deserialize %({"name":"John","age":{"yrs": 5},"friends":["Joe","Fred","Bob"]})
-        model.name.should eq "John"
-        model.age.should be_a Age
-        model.age.yrs.should eq 5
-        model.friends.should eq %w(Joe Fred Bob)
+      context "without valid assertion" do
+        describe "when all properties are valid" do
+          it "should deserialize correctly" do
+            model = NestedTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":["Joe","Fred","Bob"]})
+            model.age.should be_a Age
+            model.age.yrs.should eq 5
+            model.name.should be_a Name
+            model.name.n.should eq "foo"
+            model.friends.should eq %w(Joe Fred Bob)
+          end
+        end
+
+        describe "when a proeprty subclass is invalid" do
+          it "should not invalidate parent object" do
+            model = NestedTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":["Joe","Fred","Bob"]})
+            model.validator.valid?.should be_true
+            model.age.validator.valid?.should be_false
+            model.age.validator.errors.first.should eq "'yrs' should be less than 10"
+            model.name.validator.valid?.should be_false
+            model.name.validator.errors.first.should eq "'n' should be equal to foo"
+          end
+        end
       end
 
-      it "should validate nested classes" do
-        model = NestedTest.deserialize %({"name":"John","age":{"yrs": 15},"friends":["Joe","Fred","Bob"]})
-        model.validator.valid?.should be_true
-        model.age.validator.valid?.should be_false
-        model.age.validator.errors.first.should eq "'yrs' has failed the less_than_assertion"
+      context "with valid assertion" do
+        describe "when all properties are valid" do
+          it "should deserialize correctly and be valid" do
+            model = NestedValidTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":["Joe","Fred","Bob"]})
+            model.age.should be_a Age
+            model.age.yrs.should eq 5
+            model.name.should be_a Name
+            model.name.n.should eq "foo"
+            model.friends.should eq %w(Joe Fred Bob)
+          end
+        end
+
+        describe "when a proeprty subclass is invalid" do
+          it "should invalidate the parent object" do
+            model = NestedValidTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":["Joe","Fred","Bob"]})
+            model.validator.valid?.should be_false
+            model.age.validator.valid?.should be_false
+            model.age.validator.errors.first.should eq "'yrs' should be less than 10"
+            model.name.validator.valid?.should be_false
+            model.name.validator.errors.first.should eq "'n' should be equal to foo"
+          end
+        end
       end
     end
 
@@ -199,7 +250,7 @@ describe CrSerializer do
             RaiseTest.deserialize %({"age":22})
           rescue ex : CrSerializer::Exceptions::ValidationException
             ex.message.should eq "Validation tests failed"
-            ex.to_json.should eq %({"code":400,"message":"Validation tests failed","errors":["'age' has failed the equal_to_assertion"]})
+            ex.to_json.should eq %({"code":400,"message":"Validation tests failed","errors":["'age' should be equal to 10"]})
           end
         end
       end
@@ -211,34 +262,6 @@ describe CrSerializer do
           model.age.should eq 22
         end
       end
-    end
-  end
-
-  describe "validator" do
-    it "should validate on deserialize" do
-      model = Age.deserialize %({"yrs":5})
-      model.validator.valid?.should be_true
-      model.yrs.should eq 5
-    end
-
-    it "should only validate if #validate is called" do
-      model = Age.deserialize %({"yrs":5})
-      model.validator.valid?.should be_true
-      model.yrs.should eq 5
-      model.yrs = 100
-      model.validator.valid?.should be_true
-    end
-
-    it "should validate current state of the object" do
-      model = Age.deserialize %({"yrs":5})
-      model.validator.valid?.should be_true
-      model.yrs.should eq 5
-
-      model.yrs = 100
-      model.validate
-      model.validator.valid?.should be_false
-      model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'yrs' has failed the less_than_assertion"
     end
   end
 end

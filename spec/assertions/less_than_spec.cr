@@ -3,21 +3,21 @@ require "../../spec_helper"
 class LessThanTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThan(value: 12)]
+  @[Assert::LessThan(value: 12)]
   property age : Int32?
 end
 
 class LessThanTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThan(value: 12, message: "Age should be less than 12")]
+  @[Assert::LessThan(value: 12, message: "Expcted {{field}} to be less than {{value}} but got {{actual}}")]
   property age : Int32
 end
 
 class LessThanTestPropertyPath
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThan(value: current_age)]
+  @[Assert::LessThan(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 15
@@ -26,7 +26,7 @@ end
 class LessThanTestMethod
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThan(value: get_age)]
+  @[Assert::LessThan(value: get_age)]
   property age : Int32
 
   def get_age : Int32
@@ -34,7 +34,7 @@ class LessThanTestMethod
   end
 end
 
-describe "Assertions::LessThan" do
+describe Assert::LessThan do
   it "should be valid" do
     model = LessThanTest.deserialize(%({"age": 10}))
     model.validator.valid?.should be_true
@@ -45,7 +45,7 @@ describe "Assertions::LessThan" do
       model = LessThanTest.deserialize(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the less_than_assertion"
+      model.validator.errors.first.should eq "'age' should be less than 12"
     end
   end
 
@@ -61,7 +61,7 @@ describe "Assertions::LessThan" do
       model = LessThanTestMessage.deserialize(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Age should be less than 12"
+      model.validator.errors.first.should eq "Expcted age to be less than 12 but got 123"
     end
   end
 

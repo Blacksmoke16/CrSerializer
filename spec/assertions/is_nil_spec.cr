@@ -3,27 +3,27 @@ require "../../spec_helper"
 class IsNilTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::IsNil]
+  @[Assert::IsNil]
   property age : Int64?
 
-  @[CrSerializer::Assertions::IsNil]
+  @[Assert::IsNil]
   property attending : Bool?
 
-  @[CrSerializer::Assertions::IsNil]
+  @[Assert::IsNil]
   property cash : Float32?
 
-  @[CrSerializer::Assertions::IsNil]
+  @[Assert::IsNil]
   property name : String?
 end
 
 class IsNilTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::IsNil(message: "Age should be nil")]
+  @[Assert::IsNil(message: "Expected {{field}} to be nil but got {{actual}}")]
   property age : Int32?
 end
 
-describe "Assertions::IsNil" do
+describe Assert::IsNil do
   describe "with null property" do
     it "should be valid" do
       model = IsNilTest.deserialize(%({"age": null,"attending":null,"cash":null,"name":null}))
@@ -43,10 +43,10 @@ describe "Assertions::IsNil" do
       model = IsNilTest.deserialize(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 4
-      model.validator.errors.first.should eq "'age' has failed the is_nil_assertion"
-      model.validator.errors[1].should eq "'attending' has failed the is_nil_assertion"
-      model.validator.errors[2].should eq "'cash' has failed the is_nil_assertion"
-      model.validator.errors[3].should eq "'name' has failed the is_nil_assertion"
+      model.validator.errors.first.should eq "'age' should be null"
+      model.validator.errors[1].should eq "'attending' should be null"
+      model.validator.errors[2].should eq "'cash' should be null"
+      model.validator.errors[3].should eq "'name' should be null"
     end
   end
 
@@ -55,7 +55,7 @@ describe "Assertions::IsNil" do
       model = IsNilTestMessage.deserialize(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Age should be nil"
+      model.validator.errors.first.should eq "Expected age to be nil but got 123"
     end
   end
 end

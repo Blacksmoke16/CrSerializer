@@ -3,18 +3,18 @@ require "../../spec_helper"
 class NotNilTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::NotNil]
+  @[Assert::NotNil]
   property age : Int32?
 end
 
 class NotNilTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::NotNil(message: "Age should not be nil")]
+  @[Assert::NotNil(message: "Expected {{field}} to not be null but got {{actual}}")]
   property age : Int32?
 end
 
-describe "Assertions::NotNil" do
+describe Assert::NotNil do
   it "should be valid" do
     model = NotNilTest.deserialize(%({"age": 123}))
     model.validator.valid?.should be_true
@@ -25,7 +25,7 @@ describe "Assertions::NotNil" do
       model = NotNilTest.deserialize(%({"age": null}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the not_nil_assertion"
+      model.validator.errors.first.should eq "'age' should not be null"
     end
   end
 
@@ -34,7 +34,7 @@ describe "Assertions::NotNil" do
       model = NotNilTest.deserialize(%({}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the not_nil_assertion"
+      model.validator.errors.first.should eq "'age' should not be null"
     end
   end
 
@@ -43,7 +43,7 @@ describe "Assertions::NotNil" do
       model = NotNilTestMessage.deserialize(%({}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Age should not be nil"
+      model.validator.errors.first.should eq "Expected age to not be null but got \"\""
     end
   end
 end

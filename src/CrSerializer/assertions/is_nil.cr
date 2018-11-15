@@ -1,4 +1,4 @@
-require "./interfaces/assertion"
+require "./assertion"
 
 module CrSerializer::Assertions
   # Validates a property is nil
@@ -6,10 +6,16 @@ module CrSerializer::Assertions
   # Usable on all data types
   #
   # ```
-  # @[CrSerializer::Assertions::IsNil]
+  # @[Assert::IsNil]
   # property name : String
   # ```
-  class IsNilAssertion(ActualValueType) < BasicAssertion(CrSerializer::Assertions::ALLDATATYPES)
+  class IsNilAssertion(ActualValueType) < Assertion
+    @message : String = "'{{field}}' should be null"
+
+    def initialize(field : String, message : String?, @actual : ActualValueType)
+      super field, message
+    end
+
     def valid? : Bool
       @actual.nil? == true
     end

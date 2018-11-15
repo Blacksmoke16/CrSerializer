@@ -3,18 +3,18 @@ require "../../spec_helper"
 class IsBlankTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::IsBlank]
+  @[Assert::IsBlank]
   property name : String?
 end
 
 class IsBlankTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::IsBlank(message: "Name should be blank")]
+  @[Assert::IsBlank(message: "Expected {{field}} to be blank but got {{actual}}")]
   property name : String
 end
 
-describe "Assertions::IsBlank" do
+describe Assert::IsBlank do
   it "should be valid" do
     model = IsBlankTest.deserialize(%({"name": ""}))
     model.validator.valid?.should be_true
@@ -25,7 +25,7 @@ describe "Assertions::IsBlank" do
       model = IsBlankTest.deserialize(%({"name": "Phill"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'name' has failed the is_blank_assertion"
+      model.validator.errors.first.should eq "'name' should be blank"
     end
   end
 
@@ -41,7 +41,7 @@ describe "Assertions::IsBlank" do
       model = IsBlankTestMessage.deserialize(%({"name":"Joe"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Name should be blank"
+      model.validator.errors.first.should eq "Expected name to be blank but got Joe"
     end
   end
 end

@@ -3,18 +3,18 @@ require "../../spec_helper"
 class NotBlankTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::NotBlank]
+  @[Assert::NotBlank]
   property name : String?
 end
 
 class NotBlankTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::NotBlank(message: "Name should not be blank")]
+  @[Assert::NotBlank(message: "Expected {{field}} to not be blank but got {{actual}}")]
   property name : String
 end
 
-describe "Assertions::NotBlank" do
+describe Assert::NotBlank do
   it "should be valid" do
     model = NotBlankTest.deserialize(%({"name": "John"}))
     model.validator.valid?.should be_true
@@ -25,7 +25,7 @@ describe "Assertions::NotBlank" do
       model = NotBlankTest.deserialize(%({"name": ""}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'name' has failed the not_blank_assertion"
+      model.validator.errors.first.should eq "'name' should not be blank"
     end
   end
 
@@ -41,7 +41,7 @@ describe "Assertions::NotBlank" do
       model = NotBlankTestMessage.deserialize(%({"name":""}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Name should not be blank"
+      model.validator.errors.first.should eq "Expected name to not be blank but got \"\""
     end
   end
 end

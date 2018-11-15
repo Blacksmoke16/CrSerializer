@@ -3,21 +3,21 @@ require "../../spec_helper"
 class GreaterThanOrEqualTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(value: 10)]
+  @[Assert::GreaterThanOrEqual(value: 10)]
   property age : Int32?
 end
 
 class GreaterThanOrEqualTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(value: 12, message: "Age should be greater than or equal to 12")]
+  @[Assert::GreaterThanOrEqual(value: 12, message: "Expected {{field}} to be greater than or equal to {{value}} but got {{actual}}")]
   property age : Int32
 end
 
 class GreaterThanOrEqualTestProperty
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(value: current_age)]
+  @[Assert::GreaterThanOrEqual(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 15
@@ -26,7 +26,7 @@ end
 class GreaterThanOrEqualTestMethod
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(value: get_age)]
+  @[Assert::GreaterThanOrEqual(value: get_age)]
   property age : Int32
 
   def get_age : Int32
@@ -37,11 +37,11 @@ end
 class GreaterThanOrEqualTestMissingValue
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThanOrEqual]
+  @[Assert::GreaterThanOrEqual]
   property age : Int32
 end
 
-describe "Assertions::GreaterThanOrEqual" do
+describe Assert::GreaterThanOrEqual do
   it "should be valid" do
     model = GreaterThanOrEqualTest.deserialize(%({"age": 10}))
     model.validator.valid?.should be_true
@@ -52,7 +52,7 @@ describe "Assertions::GreaterThanOrEqual" do
       model = GreaterThanOrEqualTest.deserialize(%({"age": -12}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the greater_than_or_equal_assertion"
+      model.validator.errors.first.should eq "'age' should be greater than or equal to 10"
     end
   end
 
@@ -68,7 +68,7 @@ describe "Assertions::GreaterThanOrEqual" do
       model = GreaterThanOrEqualTestMessage.deserialize(%({"age": 9}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Age should be greater than or equal to 12"
+      model.validator.errors.first.should eq "Expected age to be greater than or equal to 12 but got 9"
     end
   end
 

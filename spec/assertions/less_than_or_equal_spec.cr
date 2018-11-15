@@ -3,21 +3,21 @@ require "../../spec_helper"
 class LessThanOrEqualTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThanOrEqual(value: 10)]
+  @[Assert::LessThanOrEqual(value: 10)]
   property age : Int32?
 end
 
 class LessThanOrEqualTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThanOrEqual(value: 12, message: "Age should be less than or equal to 12")]
+  @[Assert::LessThanOrEqual(value: 12, message: "Expected {{field}} to be less than or equal to {{value}} but got {{actual}}")]
   property age : Int32
 end
 
 class LessThanOrEqualTestProperty
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThanOrEqual(value: current_age)]
+  @[Assert::LessThanOrEqual(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 15
@@ -26,7 +26,7 @@ end
 class LessThanOrEqualTestMethod
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::LessThanOrEqual(value: get_age)]
+  @[Assert::LessThanOrEqual(value: get_age)]
   property age : Int32
 
   def get_age : Int32
@@ -34,7 +34,7 @@ class LessThanOrEqualTestMethod
   end
 end
 
-describe "Assertions::LessThanOrEqual" do
+describe Assert::LessThanOrEqual do
   it "should be valid" do
     model = LessThanOrEqualTest.deserialize(%({"age": 10}))
     model.validator.valid?.should be_true
@@ -45,7 +45,7 @@ describe "Assertions::LessThanOrEqual" do
       model = LessThanOrEqualTest.deserialize(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the less_than_or_equal_assertion"
+      model.validator.errors.first.should eq "'age' should be less than or equal to 10"
     end
   end
 
@@ -61,7 +61,7 @@ describe "Assertions::LessThanOrEqual" do
       model = LessThanOrEqualTestMessage.deserialize(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Age should be less than or equal to 12"
+      model.validator.errors.first.should eq "Expected age to be less than or equal to 12 but got 123"
     end
   end
 

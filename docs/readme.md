@@ -23,7 +23,7 @@ These options are used to control how individual instance variables behave on de
 
 ```crystal
 class Example
-@[CrSerializer::Json::Options(expose: false, readonly: true)]
+  @[CrSerializer::Json::Options(expose: false, readonly: true)]
   property password : String
 end
 ```
@@ -40,13 +40,13 @@ CrSerializer defines an instance variable `validator` when including the module.
 
 A model can be manually validated by calling `validate` on it.  This will rerun all the assertions on the current state of the object.
 
-**NOTE**:  Unless you define a `NotNil` assertion on an instance variable, nil values are considered valid.
+**NOTE**:  Unless you define a `Assert::NotNil` assertion on an instance variable, nil values are considered valid.
 
 ```crystal
 class Example
   # Validates on that age is >= 0 AND not nil
-  @[CrSerializer::Assertions::NotNil] 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(value: 0)] 
+  @[Assert::NotNil] 
+  @[Assert::GreaterThanOrEqual(value: 0)] 
   property age : Int32?
 end
 
@@ -74,8 +74,8 @@ class Example
   property name : String
   
   # Validates on deserialization that value is >= 0 AND not nil
-  @[CrSerializer::Assertions::NotNil] 
-  @[CrSerializer::Assertions::GreaterThanOrEqual(value: 0)] 
+  @[Assert::NotNil] 
+  @[Assert::GreaterThanOrEqual(value: 0)] 
   property age : Int32
   
   # Do not inclue password on serialize, nor set it on deserialize

@@ -3,21 +3,21 @@ require "../../spec_helper"
 class GreaterThanTest
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThan(value: 12)]
+  @[Assert::GreaterThan(value: 12)]
   property age : Int32?
 end
 
 class GreaterThanTestMessage
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThan(value: 12, message: "Age should be greater than 12")]
+  @[Assert::GreaterThan(value: 12, message: "Age should be greater than {{value}} but got {{actual}}")]
   property age : Int32
 end
 
 class GreaterThanTestProperty
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThan(value: current_age)]
+  @[Assert::GreaterThan(value: current_age)]
   property age : Int32
 
   property current_age : Int32 = 15
@@ -26,7 +26,7 @@ end
 class GreaterThanTestMethod
   include CrSerializer::Json
 
-  @[CrSerializer::Assertions::GreaterThan(value: get_age)]
+  @[Assert::GreaterThan(value: get_age)]
   property age : Int32
 
   def get_age : Int32
@@ -34,7 +34,7 @@ class GreaterThanTestMethod
   end
 end
 
-describe "Assertions::GreaterThan" do
+describe Assert::GreaterThan do
   it "should be valid" do
     model = GreaterThanTest.deserialize(%({"age": 50}))
     model.validator.valid?.should be_true
@@ -45,7 +45,7 @@ describe "Assertions::GreaterThan" do
       model = GreaterThanTest.deserialize(%({"age": 10}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' has failed the greater_than_assertion"
+      model.validator.errors.first.should eq "'age' should be greater than 12"
     end
   end
 
@@ -61,7 +61,7 @@ describe "Assertions::GreaterThan" do
       model = GreaterThanTestMessage.deserialize(%({"age": 5}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Age should be greater than 12"
+      model.validator.errors.first.should eq "Age should be greater than 12 but got 5"
     end
   end
 
