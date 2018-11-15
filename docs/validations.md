@@ -23,6 +23,7 @@ CrSerializer offers various common assertions.  Visit the [Assertions API docs](
 * `Email` - Asserts that the property is a valid email address
 * `IP` - Asserts that the property is a valid IP address
 * `Uuid` - Asserts that the property if a valid RFC4122 UUID
+* `Luhn` - Asserts that the property is a valid credit card number
 
 Custom assertions can also be defined for more use case specific cases.  See the - [Custom Assertions](./custom_assertions.md) docs for more info.
 
