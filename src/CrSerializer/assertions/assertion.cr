@@ -16,6 +16,7 @@ module CrSerializer::Assertions
     Assert::IsTrue             => ([] of Symbol),
     Assert::IsFalse            => ([] of Symbol),
     Assert::Valid              => ([] of Symbol),
+    Assert::Luhn               => ([] of Symbol),
     Assert::EqualTo            => [:value],
     Assert::NotEqualTo         => [:value],
     Assert::LessThan           => [:value],

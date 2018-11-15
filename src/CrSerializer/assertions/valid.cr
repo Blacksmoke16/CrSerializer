@@ -1,9 +1,9 @@
 require "./assertion"
 
 module CrSerializer::Assertions
-  # Validates that the child object is valid.  Will render the parent object as invalid if any assertions on the child object fail.
+  # Validates that the child object(s) is valid.  Will render the parent object as invalid if any assertions on the child object(s) fail.
   #
-  # Usable on custom Classes
+  # Usable on `Klass` and `Array(Klass)`
   #
   # ```
   # @[Assert::Valid]
@@ -21,7 +21,7 @@ module CrSerializer::Assertions
     end
 
     def valid? : Bool
-      @actual.validator.valid?
+      (actual = @actual).is_a?(Array) ? actual.all? { |i| i.validator.valid? } : actual.validator.valid?
     end
   end
 end

@@ -18,7 +18,7 @@ CrSerializer offers various common assertions.  Visit the [Assertions API docs](
 * `NotNil` - Asserts that a property is not nil
 * `Size` - Asserts that the size of a property is within a given range
 * `RegexMatch` - Asserts that the property matches the given Regex pattern
-* `Valid` - Asserts that the child object must be valid for the property to be valid
+* `Valid` - Asserts that the child object(s) must be valid for the property to be valid
 * `Url` - Asserts that the property is a valid URL
 * `Email` - Asserts that the property is a valid email address
 * `IP` - Asserts that the property is a valid IP address

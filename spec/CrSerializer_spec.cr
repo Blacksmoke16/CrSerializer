@@ -64,8 +64,16 @@ class NestedTest
   property name : Name
 
   property age : Age
+end
 
-  property friends : Array(String)
+class NestedArrayTest
+  include CrSerializer::Json
+
+  property name : Name
+
+  property age : Age
+
+  property friends : Array(Friend)
 end
 
 class NestedValidTest
@@ -75,8 +83,17 @@ class NestedValidTest
   property name : Name
 
   property age : Age
+end
 
-  property friends : Array(String)
+class NestedArrayValidTest
+  include CrSerializer::Json
+
+  property name : Name
+
+  property age : Age
+
+  @[Assert::Valid]
+  property friends : Array(Friend)
 end
 
 class Age
@@ -90,6 +107,13 @@ class Name
   include CrSerializer::Json
 
   @[Assert::EqualTo(value: "foo")]
+  property n : String
+end
+
+class Friend
+  include CrSerializer::Json
+
+  @[Assert::EqualTo(value: "Jim")]
   property n : String
 end
 
@@ -191,49 +215,121 @@ describe CrSerializer do
 
     describe "nested classes" do
       context "without valid assertion" do
-        describe "when all properties are valid" do
-          it "should deserialize correctly" do
-            model = NestedTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":["Joe","Fred","Bob"]})
-            model.age.should be_a Age
-            model.age.yrs.should eq 5
-            model.name.should be_a Name
-            model.name.n.should eq "foo"
-            model.friends.should eq %w(Joe Fred Bob)
+        context "with single objects" do
+          describe "when all properties are valid" do
+            it "should deserialize correctly" do
+              model = NestedTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5}})
+              model.age.should be_a Age
+              model.age.validator.valid?.should be_true
+              model.age.yrs.should eq 5
+              model.name.should be_a Name
+              model.name.validator.valid?.should be_true
+              model.name.n.should eq "foo"
+            end
+          end
+
+          describe "when a proeprty subclass is invalid" do
+            it "should not invalidate parent object" do
+              model = NestedTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15}})
+              model.validator.valid?.should be_true
+              model.age.validator.valid?.should be_false
+              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
+              model.name.validator.valid?.should be_false
+              model.name.validator.errors.first.should eq "'n' should be equal to foo"
+            end
           end
         end
 
-        describe "when a proeprty subclass is invalid" do
-          it "should not invalidate parent object" do
-            model = NestedTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":["Joe","Fred","Bob"]})
-            model.validator.valid?.should be_true
-            model.age.validator.valid?.should be_false
-            model.age.validator.errors.first.should eq "'yrs' should be less than 10"
-            model.name.validator.valid?.should be_false
-            model.name.validator.errors.first.should eq "'n' should be equal to foo"
+        context "with an array of objects" do
+          describe "when all properties are valid" do
+            it "should deserialize correctly" do
+              model = NestedArrayTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":[{"n":"Jim"},{"n":"Jim"}]})
+              model.validator.valid?.should be_true
+              model.age.should be_a Age
+              model.age.validator.valid?.should be_true
+              model.age.yrs.should eq 5
+              model.name.should be_a Name
+              model.name.validator.valid?.should be_true
+              model.name.n.should eq "foo"
+              model.friends.should be_a Array(Friend)
+              model.friends[0].validator.valid?.should be_true
+              model.friends[0].n.should eq "Jim"
+              model.friends[1].validator.valid?.should be_true
+              model.friends[1].n.should eq "Jim"
+            end
+          end
+
+          describe "when a proeprty subclass is invalid" do
+            it "should not invalidate parent object" do
+              model = NestedArrayTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":[{"n":"Bob"},{"n":"Jim"}]})
+              model.validator.valid?.should be_true
+              model.age.validator.valid?.should be_false
+              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
+              model.name.validator.valid?.should be_false
+              model.name.validator.errors.first.should eq "'n' should be equal to foo"
+              model.friends[0].validator.valid?.should be_false
+              model.friends[0].validator.errors.first.should eq "'n' should be equal to Jim"
+              model.friends[1].validator.valid?.should be_true
+            end
           end
         end
       end
 
       context "with valid assertion" do
-        describe "when all properties are valid" do
-          it "should deserialize correctly and be valid" do
-            model = NestedValidTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":["Joe","Fred","Bob"]})
-            model.age.should be_a Age
-            model.age.yrs.should eq 5
-            model.name.should be_a Name
-            model.name.n.should eq "foo"
-            model.friends.should eq %w(Joe Fred Bob)
+        context "with single objects" do
+          describe "when all properties are valid" do
+            it "should deserialize correctly and be valid" do
+              model = NestedValidTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5}})
+              model.age.should be_a Age
+              model.age.yrs.should eq 5
+              model.name.should be_a Name
+              model.name.n.should eq "foo"
+            end
+          end
+
+          describe "when a proeprty subclass is invalid" do
+            it "should invalidate the parent object" do
+              model = NestedValidTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15}})
+              model.validator.valid?.should be_false
+              model.age.validator.valid?.should be_false
+              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
+              model.name.validator.valid?.should be_false
+              model.name.validator.errors.first.should eq "'n' should be equal to foo"
+            end
           end
         end
 
-        describe "when a proeprty subclass is invalid" do
-          it "should invalidate the parent object" do
-            model = NestedValidTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":["Joe","Fred","Bob"]})
-            model.validator.valid?.should be_false
-            model.age.validator.valid?.should be_false
-            model.age.validator.errors.first.should eq "'yrs' should be less than 10"
-            model.name.validator.valid?.should be_false
-            model.name.validator.errors.first.should eq "'n' should be equal to foo"
+        context "with an array of objects" do
+          describe "when all properties are valid" do
+            it "should deserialize correctly" do
+              model = NestedArrayValidTest.deserialize %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":[{"n":"Jim"},{"n":"Jim"}]})
+              model.validator.valid?.should be_true
+              model.age.should be_a Age
+              model.age.validator.valid?.should be_true
+              model.age.yrs.should eq 5
+              model.name.should be_a Name
+              model.name.validator.valid?.should be_true
+              model.name.n.should eq "foo"
+              model.friends.should be_a Array(Friend)
+              model.friends[0].validator.valid?.should be_true
+              model.friends[0].n.should eq "Jim"
+              model.friends[1].validator.valid?.should be_true
+              model.friends[1].n.should eq "Jim"
+            end
+          end
+
+          describe "when a proeprty subclass is invalid" do
+            it "should invalidate parent object" do
+              model = NestedArrayValidTest.deserialize %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":[{"n":"Bob"},{"n":"Jim"}]})
+              model.validator.valid?.should be_false
+              model.age.validator.valid?.should be_false
+              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
+              model.name.validator.valid?.should be_false
+              model.name.validator.errors.first.should eq "'n' should be equal to foo"
+              model.friends[0].validator.valid?.should be_false
+              model.friends[0].validator.errors.first.should eq "'n' should be equal to Jim"
+              model.friends[1].validator.valid?.should be_true
+            end
           end
         end
       end
