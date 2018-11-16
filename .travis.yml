@@ -1,6 +1,11 @@
 language: crystal
+crystal:
+  - latest
+  - nightly
+
 install:
   - shards install
+
 script:
   - bin/ameba
   - crystal spec
@@ -14,3 +19,4 @@ deploy:
   local-dir: docs
   on:
     branch: master
+    "$TRAVIS_EVENT_TYPE != cron"
