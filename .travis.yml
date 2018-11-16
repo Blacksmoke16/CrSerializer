@@ -19,4 +19,4 @@ deploy:
   local-dir: docs
   on:
     branch: master
-    "$TRAVIS_EVENT_TYPE != cron"
+    condition: "$TRAVIS_EVENT_TYPE != cron"
