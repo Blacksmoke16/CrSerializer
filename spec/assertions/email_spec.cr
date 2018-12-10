@@ -1,28 +1,28 @@
 require "../../spec_helper"
 
 class EmailHTML5Test
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Email(mode: CrSerializer::Assertions::EmailValidationMode::HTML5)]
   property email : String?
 end
 
 class EmailLOOSETest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Email(mode: CrSerializer::Assertions::EmailValidationMode::LOOSE)]
   property email : String?
 end
 
 class EmailDefaultTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Email]
   property email : String?
 end
 
 class EmailDefaultTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Email(message: "Invalid Email")]
   property email : String?

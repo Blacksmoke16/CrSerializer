@@ -1,58 +1,199 @@
 require "../../spec_helper"
 
-class GreaterThanTest
-  include CrSerializer::Json
+class GreaterThanIntegerTest
+  include CrSerializer
 
-  @[Assert::GreaterThan(value: 12)]
-  property age : Int32?
+  @[Assert::GreaterThan(value: 6_i8)]
+  property int8 : Int8?
+
+  @[Assert::GreaterThan(value: 19_i16)]
+  property int16 : Int16?
+
+  @[Assert::GreaterThan(value: 0_i32)]
+  property int32 : Int32?
+
+  @[Assert::GreaterThan(value: -10_i64)]
+  property int64 : Int64?
+end
+
+class GreaterThanFloatTest
+  include CrSerializer
+
+  @[Assert::GreaterThan(value: 6.123_f32)]
+  property float32 : Float32?
+
+  @[Assert::GreaterThan(value: 0.0001_f64)]
+  property float64 : Float64?
+end
+
+class GreaterThanStringTest
+  include CrSerializer
+
+  @[Assert::GreaterThan(value: "X")]
+  property str : String?
+end
+
+class GreaterThanDateTest
+  include CrSerializer
+
+  @[Assert::GreaterThan(value: Time.new(2010, 1, 1, location: Time::Location::UTC))]
+  property startdate : Time?
+
+  @[Assert::GreaterThan(value: startdate)]
+  property enddate : Time?
+end
+
+class GreaterThanArrayTest
+  include CrSerializer
+
+  @[Assert::GreaterThan(value: [1, 2, 3])]
+  property arr : Array(Int32)?
 end
 
 class GreaterThanTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::GreaterThan(value: 12, message: "Age should be greater than {{value}} but got {{actual}}")]
   property age : Int32
 end
 
-class GreaterThanTestProperty
-  include CrSerializer::Json
-
-  @[Assert::GreaterThan(value: current_age)]
-  property age : Int32
-
-  property current_age : Int32 = 15
-end
-
-class GreaterThanTestMethod
-  include CrSerializer::Json
-
-  @[Assert::GreaterThan(value: get_age)]
-  property age : Int32
-
-  def get_age : Int32
-    25
-  end
-end
-
 describe Assert::GreaterThan do
-  it "should be valid" do
-    model = GreaterThanTest.deserialize(%({"age": 50}))
-    model.validator.valid?.should be_true
-  end
+  describe "integer" do
+    describe "with valid values" do
+      it "should be valid" do
+        model = GreaterThanIntegerTest.deserialize(%({"int8": 50,"int16": 50,"int32": 50,"int64": -9}))
+        model.validator.valid?.should be_true
+      end
+    end
 
-  describe "with smaller property" do
-    it "should be invalid" do
-      model = GreaterThanTest.deserialize(%({"age": 10}))
-      model.validator.valid?.should be_false
-      model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "'age' should be greater than 12"
+    describe "with null values" do
+      it "should be valid" do
+        model = GreaterThanIntegerTest.deserialize(%({"int8": null,"int16": null,"int32": null,"int64": null}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with invalid values" do
+      it "should be invalid" do
+        model = GreaterThanIntegerTest.deserialize(%({"int8": 1,"int16": 6,"int32": 0,"int64": -11}))
+        model.validator.valid?.should be_false
+        model.validator.errors.size.should eq 4
+        model.validator.errors[0].should eq "'int8' should be greater than 6"
+        model.validator.errors[1].should eq "'int16' should be greater than 19"
+        model.validator.errors[2].should eq "'int32' should be greater than 0"
+        model.validator.errors[3].should eq "'int64' should be greater than -10"
+      end
     end
   end
 
-  describe "with nil property" do
-    it "should be valid" do
-      model = GreaterThanTest.deserialize(%({"age": null}))
-      model.validator.valid?.should be_true
+  describe "float" do
+    describe "with valid values" do
+      it "should be valid" do
+        model = GreaterThanFloatTest.deserialize(%({"float32": 6.2,"float64": 0.1}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with null values" do
+      it "should be valid" do
+        model = GreaterThanFloatTest.deserialize(%({"float32": null,"float64": null}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with invalid values" do
+      it "should be invalid" do
+        model = GreaterThanFloatTest.deserialize(%({"float32": 5.99,"float64": 0.000099}))
+        model.validator.valid?.should be_false
+        model.validator.errors.size.should eq 2
+        model.validator.errors[0].should eq "'float32' should be greater than 6.123"
+        model.validator.errors[1].should eq "'float64' should be greater than 0.0001"
+      end
+    end
+  end
+
+  describe "string" do
+    describe "with valid values" do
+      it "should be valid" do
+        model = GreaterThanStringTest.deserialize(%({"str": "Z"}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with null values" do
+      it "should be valid" do
+        model = GreaterThanStringTest.deserialize(%({"str": null}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with invalid values" do
+      it "should be invalid" do
+        model = GreaterThanStringTest.deserialize(%({"str": "G"}))
+        model.validator.valid?.should be_false
+        model.validator.errors.size.should eq 1
+        model.validator.errors[0].should eq "'str' should be greater than X"
+      end
+    end
+  end
+
+  describe "date" do
+    describe "with valid values" do
+      it "should be valid" do
+        model = GreaterThanDateTest.deserialize(%({"startdate": "2017-06-06T13:12:32Z"}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with null values" do
+      it "should be valid" do
+        model = GreaterThanDateTest.deserialize(%({"startdate": null}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with invalid values" do
+      it "should be invalid" do
+        model = GreaterThanDateTest.deserialize(%({"startdate": "2001-06-06T13:12:32Z"}))
+        model.validator.valid?.should be_false
+        model.validator.errors.size.should eq 1
+        model.validator.errors[0].should eq "'startdate' should be greater than 2010-01-01 00:00:00 UTC"
+      end
+    end
+
+    describe "with enddate before startdate" do
+      it "should be invalid" do
+        model = GreaterThanDateTest.deserialize(%({"startdate": "2001-06-06T13:12:32Z", "enddate": "2000-06-06T13:12:32Z"}))
+        model.validator.valid?.should be_false
+        model.validator.errors.size.should eq 2
+        model.validator.errors[0].should eq "'startdate' should be greater than 2010-01-01 00:00:00 UTC"
+        model.validator.errors[1].should eq "'enddate' should be greater than 2001-06-06 13:12:32 UTC"
+      end
+    end
+  end
+
+  describe "array" do
+    describe "with valid values" do
+      it "should be valid" do
+        model = GreaterThanArrayTest.deserialize(%({"arr": [2,3,4]}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with null values" do
+      it "should be valid" do
+        model = GreaterThanArrayTest.deserialize(%({"arr": null}))
+        model.validator.valid?.should be_true
+      end
+    end
+
+    describe "with invalid values" do
+      it "should be invalid" do
+        model = GreaterThanArrayTest.deserialize(%({"arr": [1,1,2]}))
+        model.validator.valid?.should be_false
+        model.validator.errors.size.should eq 1
+        model.validator.errors[0].should eq "'arr' should be greater than [1, 2, 3]"
+      end
     end
   end
 
@@ -62,20 +203,6 @@ describe Assert::GreaterThan do
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Age should be greater than 12 but got 5"
-    end
-  end
-
-  describe "with a property" do
-    it "should use the property's value" do
-      model = GreaterThanTestProperty.deserialize(%({"age": 50}))
-      model.validator.valid?.should be_true
-    end
-  end
-
-  describe "with a method" do
-    it "should use the method's value" do
-      model = GreaterThanTestMethod.deserialize(%({"age": 26}))
-      model.validator.valid?.should be_true
     end
   end
 end

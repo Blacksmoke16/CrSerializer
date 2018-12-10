@@ -1,14 +1,14 @@
 require "../../spec_helper"
 
 class NotBlankTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::NotBlank]
   property name : String?
 end
 
 class NotBlankTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::NotBlank(message: "Expected {{field}} to not be blank but got {{actual}}")]
   property name : String

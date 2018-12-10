@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class EqualToTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::EqualTo(value: 12_i64)]
   property age : Int64
@@ -17,14 +17,14 @@ class EqualToTest
 end
 
 class EqualToTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::EqualTo(value: 12, message: "Expected {{field}} to equal {{value}} but got {{actual}}")]
   property age : Int32?
 end
 
 class EqualToTestProperty
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::EqualTo(value: current_age)]
   property age : Int32
@@ -33,7 +33,7 @@ class EqualToTestProperty
 end
 
 class EqualToTestMethod
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::EqualTo(value: get_age)]
   property age : Int32

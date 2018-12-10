@@ -3,7 +3,7 @@ require "./assertion"
 module CrSerializer::Assertions
   # Validates a property is less than a value
   #
-  # Usable on only `Number` properties
+  # Usable on any type that includes `Comparable`
   #
   # ```
   # @[Assert::LessThan(value: 100)]

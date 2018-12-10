@@ -7,3 +7,24 @@
 
 ## Instance Variable Options
 * `readonly: Bool` - Skip this instance variable on `#deserialize` but display it on `#serialize`.  Defaulted to `false`.
+
+## PostDeserialize Callback
+
+A method can be defined that will run **after** the object has been deserialized.   This can be useful for setting calculated properties based on the data from the JSON object.
+
+```crystal
+class Klass
+  include CrSerializer
+
+  property name : String
+
+  def after_initialize
+    super
+    @name = @name.upcase
+  end
+end
+
+Klass.deserialize %({"name": "bob"}) # => #<Klass:0x7f4b478aeec0 @name="BOB", ...>
+```
+
+**NOTE**:  You **_must_** call `super` in the `after_initialize` method, otherwise validations will not run.

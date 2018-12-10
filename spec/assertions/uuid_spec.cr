@@ -1,42 +1,42 @@
 require "../../spec_helper"
 
 class NonStrictUUIDTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Uuid(strict: false)]
   property uuid : String?
 end
 
 class StrictUUIDTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Uuid(strict: true)]
   property uuid : String?
 end
 
 class VersionUUIDTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Uuid(versions: [UUID::Version::V3, UUID::Version::V4])]
   property uuid : String?
 end
 
 class VariantUUIDTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Uuid(variants: [UUID::Variant::Future, UUID::Variant::NCS])]
   property uuid : String?
 end
 
 class DefaultUUIDTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Uuid]
   property uuid : String?
 end
 
 class DefaultUUIDTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Uuid(message: "{{actual}} is not a valid UUID")]
   property uuid : String?

@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class IsNilTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IsNil]
   property age : Int64?
@@ -17,7 +17,7 @@ class IsNilTest
 end
 
 class IsNilTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IsNil(message: "Expected {{field}} to be nil but got {{actual}}")]
   property age : Int32?

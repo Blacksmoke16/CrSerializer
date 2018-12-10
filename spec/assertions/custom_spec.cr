@@ -2,7 +2,7 @@ require "../../spec_helper"
 
 # Test class
 class CustomTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Foo]
   property name : String?

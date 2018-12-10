@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class LuhnTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Luhn]
   property cc_number : String?

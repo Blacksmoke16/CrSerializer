@@ -1,14 +1,14 @@
 require "../../spec_helper"
 
 class InRangeTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::InRange(range: 0_f64..100_f64)]
   property age : Int64?
 end
 
 class InRangeTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::InRange(range: 0_f64..100_f64, min_message: "Age cannot be negative", max_message: "You cannot live more than 100 years")]
   property age : Int32?

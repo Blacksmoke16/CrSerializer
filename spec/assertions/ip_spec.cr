@@ -1,28 +1,28 @@
 require "../../spec_helper"
 
 class IPV4Test
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IP(version: CrSerializer::Assertions::IPVersion::IPV4)]
   property ip : String?
 end
 
 class IPV6Test
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IP(version: CrSerializer::Assertions::IPVersion::IPV6)]
   property ip : String?
 end
 
 class IPDefaultTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IP]
   property ip : String?
 end
 
 class IPDefaultMessageTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IP(message: "{{actual}} is not a valid IP address")]
   property ip : String?

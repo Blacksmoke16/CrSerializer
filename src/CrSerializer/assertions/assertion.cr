@@ -74,9 +74,7 @@ module CrSerializer::Assertions
           {% if @type.class.name.includes? k.stringify.split("::").last %}
             {% v = v.expressions[0] if v.is_a?(Expressions) %}
             {% for field in v %}
-              {% if field != :noop %}
-                @message = @message.sub("\{{{{field.id}}}}", @{{field.id}})
-              {% end %}
+              @message = @message.sub("\{{{{field.id}}}}", @{{field.id}})
             {% end %}
           {% end %}
         {% end %}

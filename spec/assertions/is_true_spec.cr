@@ -1,14 +1,14 @@
 require "../../spec_helper"
 
 class IsTrueTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IsTrue]
   property attending : Bool?
 end
 
 class IsTrueTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::IsTrue(message: "Expected {{field}} to be true but got {{actual}}")]
   property attending : Bool

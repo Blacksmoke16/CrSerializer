@@ -3,11 +3,11 @@ require "./assertion"
 module CrSerializer::Assertions
   # Validates a property is greater than or equal to a value
   #
-  # Usable on only `Number` properties
+  # Usable on any type that includes `Comparable`
   #
   # ```
-  # @[Assert::GreaterThanOrEqual(value: 100)]
-  # property age : Int64
+  # @[Assert::GreaterThanOrEqual(value: Time.utc_now))]
+  # property now : Time
   # ```
   #
   # NOTE: value can be: a hardcoded value like `10`, the name of another property, or the name of a method

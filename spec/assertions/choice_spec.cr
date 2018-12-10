@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class ChoiceTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: [1_i64, 3_i64, 6_i64])]
   property age : Int64?
@@ -20,42 +20,42 @@ class ChoiceTest
 end
 
 class ChoiceMultipleTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: [2, 4, 6], multiple_message: "One ore more value is invalid")]
   property fav_numbers : Array(Int32)
 end
 
 class ChoiceMultipleTestMin
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: ["a", "b", "c"], min_matches: 2, min_message: "You must have at least 2 choices")]
   property fav_letters : Array(String)
 end
 
 class ChoiceMultipleTestMinMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: ["a", "b", "c"], min_matches: 2)]
   property fav_letters : Array(String)
 end
 
 class ChoiceMultipleTestMax
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: ["a", "b", "c"], max_matches: 2, max_message: "You must have at most 2 choices")]
   property fav_letters : Array(String)
 end
 
 class ChoiceMultipleTestMaxMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: ["a", "b", "c"], max_matches: 2)]
   property fav_letters : Array(String)
 end
 
 class ChoiceTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Choice(choices: ["Jim", "Bob", "Fred"], message: "Name is not a valid choice")]
   property name : String

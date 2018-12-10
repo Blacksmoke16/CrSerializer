@@ -1,21 +1,21 @@
 require "../../spec_helper"
 
 class SizeArrayTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Size(range: 2_f64..3_f64)]
   property fav_numbers : Array(Int32)?
 end
 
 class SizeStringTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Size(range: 2_f64..10_f64)]
   property password : String?
 end
 
 class SizeTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Size(range: 5_f64..10_f64, min_message: "Password should be at least 5 characters", max_message: "Password cannot be more than 10 characters")]
   property password : String

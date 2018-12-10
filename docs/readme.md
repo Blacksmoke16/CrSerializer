@@ -4,14 +4,14 @@ CrSerializer had two main focuses:  serialization/deserialization and validation
 
 ## Serialization/Deserialization
 
-CrSerializer enables finer control of object serialization and deserialization.  Some options are applied at the class level while others are at the instance variable level.  For example:
+CrSerializer enables finer control of object serialization and deserialization.  Some options are applied at the class level while others are at the instance variable level.
 
 ### Class Options
 
-These options are used with a class level annotation.  For example:
+The class level annotation controls how all instance variables in the class behave on serialization and deserialization. 
 
 ```crystal
-@[CrSerializer::Options(raise_on_invalid: false, validate: false)]
+@[CrSerializer::ClassOptions(raise_on_invalid: false, validate: false)]
 class Example
   property name : String = "John"
 end
@@ -19,11 +19,11 @@ end
 
 ### Instance Variable options
 
-These options are used to control how individual instance variables behave on deserialization and serialization.  For example:
+The instance variable annotation controls how that instance variables behave on serialization and deserialization. 
 
 ```crystal
 class Example
-  @[CrSerializer::Json::Options(expose: false, readonly: true)]
+  @[CrSerializer::Options(expose: false, readonly: true)]
   property password : String
 end
 ```
@@ -67,19 +67,19 @@ model.serialize # => {"age": -1}
 require "CrSerializer"
 
 # Raise an exception if a validation test fails
-@[CrSerializer::Options(raise_on_invalid: true)]
+@[CrSerializer::ClassOptions(raise_on_invalid: true)]
 class Example
-  include CrSerializer::Json
+  include CrSerializer
 
   property name : String
   
   # Validates on deserialization that value is >= 0 AND not nil
   @[Assert::NotNil] 
   @[Assert::GreaterThanOrEqual(value: 0)] 
-  property age : Int32
+  property age : Int32?
   
   # Do not inclue password on serialize, nor set it on deserialize
-  @[CrSerializer::Json::Options(expose: false, readonly: true)]
+  @[CrSerializer::Options(expose: false, readonly: true)]
   property password : String?
 end
 

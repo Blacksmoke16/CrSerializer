@@ -1,35 +1,35 @@
 require "../../spec_helper"
 
 class UrlTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Url]
   property url : String?
 end
 
 class UrlProtocolTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Url(protocols: %w(ftp file git))]
   property url : String?
 end
 
 class UrlRelativeProtocolTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Url(relative_protocol: true)]
   property url : String?
 end
 
 class UrlDefaultTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Url]
   property url : String?
 end
 
 class UrlDefaultTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::Url(message: "{{actual}} is not a valid URL")]
   property url : String?

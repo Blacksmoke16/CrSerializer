@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class NotEqualToTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::NotEqualTo(value: 12_i64)]
   property age : Int64
@@ -17,14 +17,14 @@ class NotEqualToTest
 end
 
 class NotEqualToTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::NotEqualTo(value: 12, message: "Expected {{field}} to not equal {{value}} but got {{actual}}")]
   property age : Int32?
 end
 
 class NotEqualToTestProperty
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::NotEqualTo(value: current_age)]
   property age : Int32
@@ -33,7 +33,7 @@ class NotEqualToTestProperty
 end
 
 class NotEqualToTestMethod
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::NotEqualTo(value: get_age)]
   property age : Int32

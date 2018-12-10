@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class RegexMatchTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::RegexMatch(pattern: /foo==bar/)]
   property name_match : String?
@@ -11,7 +11,7 @@ class RegexMatchTest
 end
 
 class RegexMatchTestMessage
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::RegexMatch(message: "Expected {{field}} to match {{pattern}}", pattern: /foo==bar/)]
   property name : String

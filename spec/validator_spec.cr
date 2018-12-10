@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 class InvalidPropertiesTest
-  include CrSerializer::Json
+  include CrSerializer
 
   @[Assert::EqualTo(value: "foo")]
   property name : String
