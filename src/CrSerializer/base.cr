@@ -82,7 +82,7 @@ module CrSerializer
   # Serializes the object to JSON
   #
   # Optionally accepts an array of groups that should be serialized
-  def serialize(groups : Array(String) = ["default"])
+  def serialize(groups : Array(String) = ["default"]) : String
     io = IO::Memory.new
     builder = ::JSON::Builder.new io
     builder.document do

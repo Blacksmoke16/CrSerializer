@@ -1,6 +1,6 @@
 # Documentation
 
-CrSerializer had two main focuses:  serialization/deserialization and validations.
+CrSerializer has two main focuses:  serialization/deserialization and validations.
 
 ## Serialization/Deserialization
 
@@ -13,6 +13,8 @@ The class level annotation controls how all instance variables in the class beha
 ```crystal
 @[CrSerializer::ClassOptions(raise_on_invalid: false, validate: false)]
 class Example
+  include CrSerializer
+
   property name : String = "John"
 end
 ```
@@ -23,6 +25,8 @@ The instance variable annotation controls how that instance variables behave on 
 
 ```crystal
 class Example
+  include CrSerializer
+
   @[CrSerializer::Options(expose: false, readonly: true)]
   property password : String
 end
@@ -44,6 +48,8 @@ A model can be manually validated by calling `validate` on it.  This will rerun 
 
 ```crystal
 class Example
+  include CrSerializer
+
   # Validates on that age is >= 0 AND not nil
   @[Assert::NotNil] 
   @[Assert::GreaterThanOrEqual(value: 0)] 
