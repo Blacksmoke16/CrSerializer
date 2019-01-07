@@ -95,6 +95,14 @@ class ValidateTest
   property age : Int32
 end
 
+class DefaultValue
+  include CrSerializer
+
+  @[Assert::GreaterThan(value: 0)]
+  @[Assert::NotNil]
+  property age : Int32 = 99
+end
+
 describe "deserialize" do
   describe "readonly" do
     it "should deserialize correctly" do
@@ -105,12 +113,25 @@ describe "deserialize" do
     end
   end
 
+  describe "with a default value" do
+    it "should set the default value" do
+      model = DefaultValue.deserialize %({"age": null})
+      model.age.should eq 99
+    end
+  end
+
   describe "with no annotations" do
     it "should deserialize correctly" do
       model = NoAnnotationsTest.deserialize %({"name":"Secret","age":22,"password":"monkey"})
       model.age.should eq 22
       model.name.should eq "Secret"
       model.password.should eq "monkey"
+    end
+  end
+
+  describe "with a default value" do
+    it "should set the default value" do
+      Int32.deserialize("12").should eq 12
     end
   end
 

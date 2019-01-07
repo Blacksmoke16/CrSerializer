@@ -16,6 +16,15 @@ class ExposeTest
   property name : String = "John"
 end
 
+class JsonFieldTest
+  include CrSerializer
+
+  @[JSON::Field(ignore: true)]
+  property age : Int32 = 66
+
+  property name : String = "John"
+end
+
 class EmitNullTest
   include CrSerializer
 
@@ -92,6 +101,12 @@ class Foo
   property sub_class : String = "bar"
 end
 
+class ArrayTest
+  include CrSerializer
+
+  property numbers : Array(Int32) = [1, 2, 3]
+end
+
 describe "serialize" do
   describe "serialized_name" do
     it "should serialize correctly" do
@@ -101,6 +116,7 @@ describe "serialize" do
     describe "with an array" do
       it "should serialize correctly" do
         [SerializedNameTest.new, SerializedNameTest.new].serialize.should eq %([{"years_young":77},{"years_young":77}])
+        ArrayTest.new.serialize.should eq %({"numbers":[1,2,3]})
       end
     end
   end
@@ -113,6 +129,12 @@ describe "serialize" do
     describe "with an array" do
       it "should serialize correctly" do
         [ExposeTest.new, ExposeTest.new].serialize.should eq %([{"name":"John"},{"name":"John"}])
+      end
+    end
+
+    describe "with JSON:Field#ignore" do
+      it "should serialize correctly" do
+        JsonFieldTest.new.serialize.should eq %({"name":"John"})
       end
     end
   end
@@ -185,15 +207,21 @@ describe "serialize" do
 
   describe "groups" do
     describe "default group" do
-      GroupsTest.new.serialize.should eq %({"user_id":999,"other_id":7777})
+      it "should serialize correctly" do
+        GroupsTest.new.serialize.should eq %({"user_id":999,"other_id":7777})
+      end
     end
 
     describe "admin group" do
-      GroupsTest.new.serialize(["admin"]).should eq %({"admin_id":123,"other_id":7777})
+      it "should serialize correctly" do
+        GroupsTest.new.serialize(["admin"]).should eq %({"admin_id":123,"other_id":7777})
+      end
     end
 
     describe "admin + default" do
-      GroupsTest.new.serialize(["admin", "default"]).should eq %({"user_id":999,"admin_id":123,"other_id":7777})
+      it "should serialize correctly" do
+        GroupsTest.new.serialize(["admin", "default"]).should eq %({"user_id":999,"admin_id":123,"other_id":7777})
+      end
     end
 
     describe "with an array" do

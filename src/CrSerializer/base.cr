@@ -24,6 +24,18 @@ class Array(T)
   end
 end
 
+# Override `Object#to_json` to allow for the two params
+# :nodoc:
+class Object
+  def to_json(json : ::JSON::Builder, groups : Array(String) = ["default"])
+    to_json json
+  end
+
+  def self.deserialize(json : String) : self
+    from_json json
+  end
+end
+
 module CrSerializer
   include JSON::Serializable
   include CrSerializer::Assertions
@@ -100,8 +112,9 @@ module JSON::Serializable
       {% cann = @type.annotation(CrSerializer::ClassOptions) %}
       {% for ivar in @type.instance_vars %}
         {% cr_ann = ivar.annotation(CrSerializer::Options) %}
+        {% json_ann = ivar.annotation(JSON::Field) %}
         {% unless (cann && cann[:exclusion_policy].resolve == CrSerializer::ExclusionPolicy::EXCLUDE_ALL) && (!cr_ann || cr_ann[:expose] != true) %}
-          {% if (!cr_ann || (cr_ann && (cr_ann[:expose] == true || cr_ann[:expose] == nil))) %}
+          {% if (!cr_ann || (cr_ann && (cr_ann[:expose] == true || cr_ann[:expose] == nil))) && (!json_ann || (json_ann && (json_ann[:ignore] == false || json_ann[:ignore] == nil))) %}
             {%
               properties[ivar.id] = {
                 key:       ((cr_ann && cr_ann[:serialized_name]) || ivar).id.stringify,
