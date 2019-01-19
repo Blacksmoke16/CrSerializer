@@ -4,7 +4,7 @@ CrSerializer has two main focuses:  serialization/deserialization and validation
 
 ## Serialization/Deserialization
 
-CrSerializer enables finer control of object serialization and deserialization.  Some options are applied at the class level while others are at the instance variable level.
+CrSerializer enables finer control of object serialization and deserialization, with support for  both YAML and JSON.  Some options are applied at the class level while others are at the instance variable level.
 
 ### Class Options
 
@@ -56,13 +56,13 @@ class Example
   property age : Int32?
 end
 
-model = Example.deserialize %({"age": 10})
+model = Example.from_json %({"age": 10})
 model.validator.valid? # => true
 model.age = -1
 model.validator.valid? # => true
 model.validate
 model.validator.valid? # => false
-model.serialize # => {"age": -1}
+model.to_json # => {"age": -1}
 ```
 - [Validations](./validations.md)
 - [Custom Assertions](./custom_assertions.md)
@@ -91,7 +91,7 @@ end
 
 json_str = %({"name": "John", "age": 22, "password": "passw0rd!"})
 
-example = Example.deserialize json_str
+example = Example.from_json json_str
 example.name # => "John"
 example.age # => 22
 
@@ -103,10 +103,10 @@ example.password = "passw0rd!"
 example.password # => "passw0rd!"
 
 # password is not serialized because `expose` was set to false
-example.serialize # => {"name":"John","age":22}
+example.to_json # => {"name":"John","age":22}
 
 
 json_str = %({"name": "John", "age": -1, "password": "passw0rd!"})
 # raises an exepction due to `raise_on_invalid` being true
-example2 = Example.deserialize json_str # => Unhandled exception: Validation tests failed (CrSerializer::Exceptions::ValidationException)
+example2 = Example.from_json json_str # => Unhandled exception: Validation tests failed (CrSerializer::Exceptions::ValidationException)
 ```

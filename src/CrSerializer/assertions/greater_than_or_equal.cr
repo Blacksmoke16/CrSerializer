@@ -10,7 +10,7 @@ module CrSerializer::Assertions
   # property now : Time
   # ```
   #
-  # NOTE: value can be: a hardcoded value like `10`, the name of another property, or the name of a method
+  # NOTE: value can be: a hard-coded value like `10`, the name of another property, or the name of a method
   # NOTE: Nil values are considered valid
   class GreaterThanOrEqualAssertion(ActualValueType) < Assertion
     @message : String = "'{{field}}' should be greater than or equal to {{value}}"

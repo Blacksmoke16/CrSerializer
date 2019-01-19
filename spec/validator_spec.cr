@@ -15,13 +15,13 @@ end
 
 describe CrSerializer::Validator do
   it "should validate on deserialize" do
-    model = Age.deserialize %({"yrs":5})
+    model = Age.from_json %({"yrs":5})
     model.validator.valid?.should be_true
     model.yrs.should eq 5
   end
 
   it "should only validate if #validate is called" do
-    model = Age.deserialize %({"yrs":5})
+    model = Age.from_json %({"yrs":5})
     model.validator.valid?.should be_true
     model.yrs.should eq 5
     model.yrs = 100
@@ -29,7 +29,7 @@ describe CrSerializer::Validator do
   end
 
   it "should validate current state of the object" do
-    model = Age.deserialize %({"yrs":5})
+    model = Age.from_json %({"yrs":5})
     model.validator.valid?.should be_true
     model.yrs.should eq 5
 
@@ -42,7 +42,7 @@ describe CrSerializer::Validator do
 
   describe "#assertions" do
     it "should return an array of assertions on the class's instance variables" do
-      model = InvalidPropertiesTest.deserialize %({"name":"bar","number": 88,"boolean": true})
+      model = InvalidPropertiesTest.from_json %({"name":"bar","number": 88,"boolean": true})
       model.validator.assertions.size.should eq 3
 
       name_assertion = model.validator.assertions[0]
@@ -67,7 +67,7 @@ describe CrSerializer::Validator do
 
   describe "#errors" do
     it "should return an array of errors" do
-      model = InvalidPropertiesTest.deserialize %({"name":"bar","number": 88,"boolean": true})
+      model = InvalidPropertiesTest.from_json %({"name":"bar","number": 88,"boolean": true})
       model.validator.errors.size.should eq 2
       model.validator.errors.should eq ["'name' should be equal to foo", "'number' should be equal to 22"]
     end
@@ -75,7 +75,7 @@ describe CrSerializer::Validator do
 
   describe "#invalid_properties" do
     it "should return an array of properties that failed their assertions" do
-      model = InvalidPropertiesTest.deserialize %({"name":"bar","number": 88,"boolean": true})
+      model = InvalidPropertiesTest.from_json %({"name":"bar","number": 88,"boolean": true})
       model.validator.invalid_properties.should eq %w(name number)
     end
   end

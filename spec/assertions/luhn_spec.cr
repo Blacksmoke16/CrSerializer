@@ -40,7 +40,7 @@ describe Assert::Luhn do
   describe "with valid numbers" do
     it "should all be valid" do
       VALID_NUMBERS.each do |cc|
-        LuhnTest.deserialize(%({"cc_number": "#{cc}"})).validator.valid?.should be_true
+        LuhnTest.from_json(%({"cc_number": "#{cc}"})).validator.valid?.should be_true
       end
     end
   end
@@ -48,7 +48,7 @@ describe Assert::Luhn do
   describe "with invalid numbers" do
     it "should all be invalid" do
       INVALID_NUMBERS.each do |cc|
-        model = LuhnTest.deserialize(%({"cc_number": "#{cc}"}))
+        model = LuhnTest.from_json(%({"cc_number": "#{cc}"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors.first.should eq "'cc_number' is an invalid credit card number"

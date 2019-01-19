@@ -133,7 +133,7 @@ describe Assert::Uuid do
     context "invalid UUIDs" do
       it "should all be invalid" do
         INVALID_NON_STRICT_UUID.each do |uuid|
-          model = StrictUUIDTest.deserialize(%({"uuid": "#{uuid}"}))
+          model = StrictUUIDTest.from_json(%({"uuid": "#{uuid}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'uuid' is not a valid UUID"
@@ -144,7 +144,7 @@ describe Assert::Uuid do
     context "valid UUIDs" do
       it "should all be valid" do
         VALID_NON_STRICT_UUID.each do |uuid|
-          NonStrictUUIDTest.deserialize(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
+          NonStrictUUIDTest.from_json(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
         end
       end
     end
@@ -154,7 +154,7 @@ describe Assert::Uuid do
     context "invalid UUIDs" do
       it "should all be invalid" do
         INVALID_STRICT_UUID.each do |uuid|
-          model = StrictUUIDTest.deserialize(%({"uuid": "#{uuid}"}))
+          model = StrictUUIDTest.from_json(%({"uuid": "#{uuid}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'uuid' is not a valid UUID"
@@ -165,7 +165,7 @@ describe Assert::Uuid do
     context "valid UUIDs" do
       it "should all be valid" do
         VALID_STRICT_UUID.each do |uuid|
-          StrictUUIDTest.deserialize(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
+          StrictUUIDTest.from_json(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
         end
       end
     end
@@ -175,7 +175,7 @@ describe Assert::Uuid do
     context "invalid UUIDs" do
       it "should all be invalid" do
         VALID_V1_UUID.each do |uuid|
-          model = VersionUUIDTest.deserialize(%({"uuid": "#{uuid}"}))
+          model = VersionUUIDTest.from_json(%({"uuid": "#{uuid}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'uuid' is not a valid UUID"
@@ -186,7 +186,7 @@ describe Assert::Uuid do
     context "valid UUIDs" do
       it "should all be valid" do
         VALID_V4_UUID.each do |uuid|
-          VersionUUIDTest.deserialize(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
+          VersionUUIDTest.from_json(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
         end
       end
     end
@@ -196,7 +196,7 @@ describe Assert::Uuid do
     context "invalid UUIDs" do
       it "should all be invalid" do
         INVALID_OTHER_VARIANT_UUID.each do |uuid|
-          model = VariantUUIDTest.deserialize(%({"uuid": "#{uuid}"}))
+          model = VariantUUIDTest.from_json(%({"uuid": "#{uuid}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'uuid' is not a valid UUID"
@@ -207,7 +207,7 @@ describe Assert::Uuid do
     context "valid UUIDs" do
       it "should all be valid" do
         VALID_OTHER_VARIANT_UUID.each do |uuid|
-          VariantUUIDTest.deserialize(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
+          VariantUUIDTest.from_json(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
         end
       end
     end
@@ -217,7 +217,7 @@ describe Assert::Uuid do
     context "with valid UUIDs" do
       it "should all be valid" do
         VALID_NON_STRICT_UUID.each do |uuid|
-          DefaultUUIDTest.deserialize(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
+          DefaultUUIDTest.from_json(%({"uuid": "#{uuid}"})).validator.valid?.should be_true
         end
       end
     end
@@ -226,7 +226,7 @@ describe Assert::Uuid do
       context "without a custom message" do
         it "should all be invalid" do
           INVALID_NON_STRICT_UUID.each do |uuid|
-            model = DefaultUUIDTest.deserialize(%({"uuid": "#{uuid}"}))
+            model = DefaultUUIDTest.from_json(%({"uuid": "#{uuid}"}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "'uuid' is not a valid UUID"
@@ -237,7 +237,7 @@ describe Assert::Uuid do
       context "with a custom message" do
         it "should return proper error message" do
           INVALID_NON_STRICT_UUID.each do |uuid|
-            model = DefaultUUIDTestMessage.deserialize(%({"uuid": "#{uuid}"}))
+            model = DefaultUUIDTestMessage.from_json(%({"uuid": "#{uuid}"}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "#{uuid} is not a valid UUID"
@@ -248,7 +248,7 @@ describe Assert::Uuid do
 
     context "with null urls" do
       it "should be valid" do
-        DefaultUUIDTest.deserialize(%({"uuid": null})).validator.valid?.should be_true
+        DefaultUUIDTest.from_json(%({"uuid": null})).validator.valid?.should be_true
       end
     end
   end

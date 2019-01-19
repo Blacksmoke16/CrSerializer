@@ -77,7 +77,7 @@ describe Assert::Email do
     context "with valid emails" do
       it "should all be valid" do
         VALID_HTML5_EMAILS.each do |email|
-          EmailHTML5Test.deserialize(%({"email": "#{email}"})).validator.valid?.should be_true
+          EmailHTML5Test.from_json(%({"email": "#{email}"})).validator.valid?.should be_true
         end
       end
     end
@@ -85,7 +85,7 @@ describe Assert::Email do
     context "with invalid emails" do
       it "should all be invalid" do
         INVALID_HTML5_EMAILS.each do |email|
-          model = EmailHTML5Test.deserialize(%({"email": "#{email}"}))
+          model = EmailHTML5Test.from_json(%({"email": "#{email}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'email' is not a valid email address"
@@ -95,7 +95,7 @@ describe Assert::Email do
 
     context "with null email" do
       it "should be valid" do
-        EmailHTML5Test.deserialize(%({"email": null})).validator.valid?.should be_true
+        EmailHTML5Test.from_json(%({"email": null})).validator.valid?.should be_true
       end
     end
   end
@@ -104,7 +104,7 @@ describe Assert::Email do
     context "with valid emails" do
       it "should all be valid" do
         VALID_LOOSE_EMAILS.each do |email|
-          EmailLOOSETest.deserialize(%({"email": "#{email}"})).validator.valid?.should be_true
+          EmailLOOSETest.from_json(%({"email": "#{email}"})).validator.valid?.should be_true
         end
       end
     end
@@ -112,7 +112,7 @@ describe Assert::Email do
     context "with invalid emails" do
       it "should all be invalid" do
         INVALID_LOOSE_EMAILS.each do |email|
-          model = EmailLOOSETest.deserialize(%({"email": "#{email}"}))
+          model = EmailLOOSETest.from_json(%({"email": "#{email}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'email' is not a valid email address"
@@ -122,7 +122,7 @@ describe Assert::Email do
 
     context "with null email" do
       it "should be valid" do
-        EmailLOOSETest.deserialize(%({"email": null})).validator.valid?.should be_true
+        EmailLOOSETest.from_json(%({"email": null})).validator.valid?.should be_true
       end
     end
   end
@@ -131,7 +131,7 @@ describe Assert::Email do
     context "with valid emails" do
       it "should all be valid" do
         VALID_LOOSE_EMAILS.each do |email|
-          EmailDefaultTest.deserialize(%({"email": "#{email}"})).validator.valid?.should be_true
+          EmailDefaultTest.from_json(%({"email": "#{email}"})).validator.valid?.should be_true
         end
       end
     end
@@ -140,7 +140,7 @@ describe Assert::Email do
       context "without a custom message" do
         it "should all be invalid" do
           INVALID_LOOSE_EMAILS.each do |email|
-            model = EmailDefaultTest.deserialize(%({"email": "#{email}"}))
+            model = EmailDefaultTest.from_json(%({"email": "#{email}"}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "'email' is not a valid email address"
@@ -151,7 +151,7 @@ describe Assert::Email do
       context "with a custom message" do
         it "should return proper error message" do
           INVALID_LOOSE_EMAILS.each do |email|
-            model = EmailDefaultTestMessage.deserialize(%({"email": "#{email}"}))
+            model = EmailDefaultTestMessage.from_json(%({"email": "#{email}"}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "Invalid Email"
@@ -162,7 +162,7 @@ describe Assert::Email do
 
     context "with null email" do
       it "should be valid" do
-        EmailDefaultTest.deserialize(%({"email": null})).validator.valid?.should be_true
+        EmailDefaultTest.from_json(%({"email": null})).validator.valid?.should be_true
       end
     end
   end

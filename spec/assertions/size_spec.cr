@@ -25,7 +25,7 @@ describe Assert::Size do
   context "with an array" do
     describe "with an in range size" do
       it "should be valid" do
-        model = SizeArrayTest.deserialize(%({"fav_numbers": [1,2]}))
+        model = SizeArrayTest.from_json(%({"fav_numbers": [1,2]}))
         model.validator.valid?.should be_true
       end
     end
@@ -34,7 +34,7 @@ describe Assert::Size do
       context "with an array" do
         describe "that is too long" do
           it "should be invalid" do
-            model = SizeArrayTest.deserialize(%({"fav_numbers": [1,2,3,4]}))
+            model = SizeArrayTest.from_json(%({"fav_numbers": [1,2,3,4]}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "'fav_numbers' is too long.  It should have 3.0 elements or less"
@@ -43,7 +43,7 @@ describe Assert::Size do
 
         describe "that is too short" do
           it "should be invalid" do
-            model = SizeArrayTest.deserialize(%({"fav_numbers": [1]}))
+            model = SizeArrayTest.from_json(%({"fav_numbers": [1]}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "'fav_numbers' is too short.  It should have 2.0 elements or more"
@@ -54,7 +54,7 @@ describe Assert::Size do
 
     describe "with a nil property" do
       it "should be valid" do
-        model = SizeArrayTest.deserialize(%({"fav_numbers": null}))
+        model = SizeArrayTest.from_json(%({"fav_numbers": null}))
         model.validator.valid?.should be_true
       end
     end
@@ -63,14 +63,14 @@ describe Assert::Size do
   context "with a string" do
     describe "with an in range size" do
       it "should be valid" do
-        model = SizeStringTest.deserialize(%({"password": "aPassword"}))
+        model = SizeStringTest.from_json(%({"password": "aPassword"}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "that is too long" do
       it "should be invalid" do
-        model = SizeStringTest.deserialize(%({"password": "tooLongPassword"}))
+        model = SizeStringTest.from_json(%({"password": "tooLongPassword"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors.first.should eq "'password' is too long.  It should have 10.0 characters or less"
@@ -79,7 +79,7 @@ describe Assert::Size do
 
     describe "that is too short" do
       it "should be invalid" do
-        model = SizeStringTest.deserialize(%({"password": "1"}))
+        model = SizeStringTest.from_json(%({"password": "1"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors.first.should eq "'password' is too short.  It should have 2.0 characters or more"
@@ -88,7 +88,7 @@ describe Assert::Size do
 
     describe "with a nil property" do
       it "should be valid" do
-        model = SizeStringTest.deserialize(%({"password": null}))
+        model = SizeStringTest.from_json(%({"password": null}))
         model.validator.valid?.should be_true
       end
     end
@@ -96,14 +96,14 @@ describe Assert::Size do
 
   describe "with a custom message" do
     it "should use correct min_message" do
-      model = SizeTestMessage.deserialize(%({"password": "shrt"}))
+      model = SizeTestMessage.from_json(%({"password": "shrt"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Password should be at least 5 characters"
     end
 
     it "should use correct max_message" do
-      model = SizeTestMessage.deserialize(%({"password": "toooooooLong"}))
+      model = SizeTestMessage.from_json(%({"password": "toooooooLong"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Password cannot be more than 10 characters"

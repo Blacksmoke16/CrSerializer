@@ -68,21 +68,21 @@ describe Assert::GreaterThanOrEqual do
   describe "integer" do
     describe "with valid values" do
       it "should be valid" do
-        model = GreaterThanOrEqualIntegerTest.deserialize(%({"int8": 50,"int16": 19,"int32": 0,"int64": -10}))
+        model = GreaterThanOrEqualIntegerTest.from_json(%({"int8": 50,"int16": 19,"int32": 0,"int64": -10}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = GreaterThanOrEqualIntegerTest.deserialize(%({"int8": null,"int16": null,"int32": null,"int64": null}))
+        model = GreaterThanOrEqualIntegerTest.from_json(%({"int8": null,"int16": null,"int32": null,"int64": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = GreaterThanOrEqualIntegerTest.deserialize(%({"int8": 1,"int16": 6,"int32": -1,"int64": -11}))
+        model = GreaterThanOrEqualIntegerTest.from_json(%({"int8": 1,"int16": 6,"int32": -1,"int64": -11}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 4
         model.validator.errors[0].should eq "'int8' should be greater than or equal to 6"
@@ -96,21 +96,21 @@ describe Assert::GreaterThanOrEqual do
   describe "float" do
     describe "with valid values" do
       it "should be valid" do
-        model = GreaterThanOrEqualFloatTest.deserialize(%({"float32": 6.123,"float64": 0.1}))
+        model = GreaterThanOrEqualFloatTest.from_json(%({"float32": 6.123,"float64": 0.1}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = GreaterThanOrEqualFloatTest.deserialize(%({"float32": null,"float64": null}))
+        model = GreaterThanOrEqualFloatTest.from_json(%({"float32": null,"float64": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = GreaterThanOrEqualFloatTest.deserialize(%({"float32": 5.99,"float64": 0.000099}))
+        model = GreaterThanOrEqualFloatTest.from_json(%({"float32": 5.99,"float64": 0.000099}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 2
         model.validator.errors[0].should eq "'float32' should be greater than or equal to 6.123"
@@ -122,21 +122,21 @@ describe Assert::GreaterThanOrEqual do
   describe "string" do
     describe "with valid values" do
       it "should be valid" do
-        model = GreaterThanOrEqualStringTest.deserialize(%({"str": "X"}))
+        model = GreaterThanOrEqualStringTest.from_json(%({"str": "X"}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = GreaterThanOrEqualStringTest.deserialize(%({"str": null}))
+        model = GreaterThanOrEqualStringTest.from_json(%({"str": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = GreaterThanOrEqualStringTest.deserialize(%({"str": "G"}))
+        model = GreaterThanOrEqualStringTest.from_json(%({"str": "G"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors[0].should eq "'str' should be greater than or equal to X"
@@ -147,21 +147,21 @@ describe Assert::GreaterThanOrEqual do
   describe "date" do
     describe "with valid values" do
       it "should be valid" do
-        model = GreaterThanOrEqualDateTest.deserialize(%({"startdate": "2017-06-06T00:00:00Z"}))
+        model = GreaterThanOrEqualDateTest.from_json(%({"startdate": "2017-06-06T00:00:00Z"}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = GreaterThanOrEqualDateTest.deserialize(%({"startdate": null}))
+        model = GreaterThanOrEqualDateTest.from_json(%({"startdate": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = GreaterThanOrEqualDateTest.deserialize(%({"startdate": "2001-06-06T13:12:32Z"}))
+        model = GreaterThanOrEqualDateTest.from_json(%({"startdate": "2001-06-06T13:12:32Z"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors[0].should eq "'startdate' should be greater than or equal to 2017-06-06 00:00:00 UTC"
@@ -170,7 +170,7 @@ describe Assert::GreaterThanOrEqual do
 
     describe "with enddate before startdate" do
       it "should be invalid" do
-        model = GreaterThanOrEqualDateTest.deserialize(%({"startdate": "2001-06-06T13:12:32Z", "enddate": "2000-06-06T13:12:32Z"}))
+        model = GreaterThanOrEqualDateTest.from_json(%({"startdate": "2001-06-06T13:12:32Z", "enddate": "2000-06-06T13:12:32Z"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 2
         model.validator.errors[0].should eq "'startdate' should be greater than or equal to 2017-06-06 00:00:00 UTC"
@@ -182,21 +182,21 @@ describe Assert::GreaterThanOrEqual do
   describe "array" do
     describe "with valid values" do
       it "should be valid" do
-        model = GreaterThanOrEqualArrayTest.deserialize(%({"arr": [1,2,3]}))
+        model = GreaterThanOrEqualArrayTest.from_json(%({"arr": [1,2,3]}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = GreaterThanOrEqualArrayTest.deserialize(%({"arr": null}))
+        model = GreaterThanOrEqualArrayTest.from_json(%({"arr": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = GreaterThanOrEqualArrayTest.deserialize(%({"arr": [1,1,2]}))
+        model = GreaterThanOrEqualArrayTest.from_json(%({"arr": [1,1,2]}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors[0].should eq "'arr' should be greater than or equal to [1, 2, 3]"
@@ -206,7 +206,7 @@ describe Assert::GreaterThanOrEqual do
 
   describe "with a custom message" do
     it "should use correct message" do
-      model = GreaterThanOrEqualTestMessage.deserialize(%({"age": 5}))
+      model = GreaterThanOrEqualTestMessage.from_json(%({"age": 5}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Expected age to be greater than or equal to 12 but got 5"

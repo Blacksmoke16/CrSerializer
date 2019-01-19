@@ -19,13 +19,13 @@ end
 
 describe Assert::RegexMatch do
   it "should be valid" do
-    model = RegexMatchTest.deserialize(%({"name_match": "foo==bar", "name_not_match": "foo..bar"}))
+    model = RegexMatchTest.from_json(%({"name_match": "foo==bar", "name_not_match": "foo..bar"}))
     model.validator.valid?.should be_true
   end
 
   describe "with invalid properties" do
     it "should be invalid" do
-      model = RegexMatchTest.deserialize(%({"name_match": "foo.=bar", "name_not_match": "foo==bar"}))
+      model = RegexMatchTest.from_json(%({"name_match": "foo.=bar", "name_not_match": "foo==bar"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 2
       model.validator.errors[0].should eq "'name_match' is not valid"
@@ -35,14 +35,14 @@ describe Assert::RegexMatch do
 
   describe "with null property" do
     it "should be valid" do
-      model = RegexMatchTest.deserialize(%({"name_match": null, "name_not_match": "foo..bar"}))
+      model = RegexMatchTest.from_json(%({"name_match": null, "name_not_match": "foo..bar"}))
       model.validator.valid?.should be_true
     end
   end
 
   describe "with a custom message" do
     it "should use correct message" do
-      model = RegexMatchTestMessage.deserialize(%({"name":"Joe"}))
+      model = RegexMatchTestMessage.from_json(%({"name":"Joe"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Expected name to match (?-imsx:foo==bar)"

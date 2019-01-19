@@ -94,7 +94,7 @@ describe Assert::IP do
     context "with valid IPV4 addresses" do
       it "should all be valid" do
         VALID_IPV4.each do |ip|
-          IPV4Test.deserialize(%({"ip": "#{ip}"})).validator.valid?.should be_true
+          IPV4Test.from_json(%({"ip": "#{ip}"})).validator.valid?.should be_true
         end
       end
     end
@@ -102,7 +102,7 @@ describe Assert::IP do
     context "with invalid IPV4 addresses" do
       it "should all be invalid" do
         INVALID_IPV4.each do |ip|
-          model = IPV4Test.deserialize(%({"ip": "#{ip}"}))
+          model = IPV4Test.from_json(%({"ip": "#{ip}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'ip' is not a valid IP address"
@@ -115,7 +115,7 @@ describe Assert::IP do
     context "with valid IPV6 addresses" do
       it "should all be valid" do
         VALID_IPV6.each do |ip|
-          IPV6Test.deserialize(%({"ip": "#{ip}"})).validator.valid?.should be_true
+          IPV6Test.from_json(%({"ip": "#{ip}"})).validator.valid?.should be_true
         end
       end
     end
@@ -123,7 +123,7 @@ describe Assert::IP do
     context "with invalid IPV6 addresses" do
       it "should all be invalid" do
         INVALID_IPV6.each do |ip|
-          model = IPV6Test.deserialize(%({"ip": "#{ip}"}))
+          model = IPV6Test.from_json(%({"ip": "#{ip}"}))
           model.validator.valid?.should be_false
           model.validator.errors.size.should eq 1
           model.validator.errors.first.should eq "'ip' is not a valid IP address"
@@ -136,7 +136,7 @@ describe Assert::IP do
     context "with valid IPV4 addresses" do
       it "should all be valid" do
         VALID_IPV4.each do |ip|
-          IPDefaultTest.deserialize(%({"ip": "#{ip}"})).validator.valid?.should be_true
+          IPDefaultTest.from_json(%({"ip": "#{ip}"})).validator.valid?.should be_true
         end
       end
     end
@@ -145,7 +145,7 @@ describe Assert::IP do
       context "without a custom message" do
         it "should all be invalid" do
           INVALID_IPV4.each do |ip|
-            model = IPDefaultTest.deserialize(%({"ip": "#{ip}"}))
+            model = IPDefaultTest.from_json(%({"ip": "#{ip}"}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "'ip' is not a valid IP address"
@@ -156,7 +156,7 @@ describe Assert::IP do
       context "with a custom message" do
         it "should return proper error message" do
           INVALID_IPV4.each do |ip|
-            model = IPDefaultMessageTest.deserialize(%({"ip": "#{ip}"}))
+            model = IPDefaultMessageTest.from_json(%({"ip": "#{ip}"}))
             model.validator.valid?.should be_false
             model.validator.errors.size.should eq 1
             model.validator.errors.first.should eq "#{ip} is not a valid IP address"
@@ -167,7 +167,7 @@ describe Assert::IP do
 
     context "with null email" do
       it "should be valid" do
-        IPDefaultTest.deserialize(%({"email": null})).validator.valid?.should be_true
+        IPDefaultTest.from_json(%({"email": null})).validator.valid?.should be_true
       end
     end
   end

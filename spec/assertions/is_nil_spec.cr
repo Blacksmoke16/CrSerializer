@@ -26,21 +26,21 @@ end
 describe Assert::IsNil do
   describe "with null property" do
     it "should be valid" do
-      model = IsNilTest.deserialize(%({"age": null,"attending":null,"cash":null,"name":null}))
+      model = IsNilTest.from_json(%({"age": null,"attending":null,"cash":null,"name":null}))
       model.validator.valid?.should be_true
     end
   end
 
   describe "with missing property" do
     it "should be valid" do
-      model = IsNilTest.deserialize(%({}))
+      model = IsNilTest.from_json(%({}))
       model.validator.valid?.should be_true
     end
   end
 
   describe "with non-nil property" do
     it "should be invalid" do
-      model = IsNilTest.deserialize(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
+      model = IsNilTest.from_json(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 4
       model.validator.errors.first.should eq "'age' should be null"
@@ -52,7 +52,7 @@ describe Assert::IsNil do
 
   describe "with a custom message" do
     it "should use correct message" do
-      model = IsNilTestMessage.deserialize(%({"age": 123}))
+      model = IsNilTestMessage.from_json(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Expected age to be nil but got 123"

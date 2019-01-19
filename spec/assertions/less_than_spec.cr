@@ -61,21 +61,21 @@ describe Assert::LessThan do
   describe "integer" do
     describe "with valid values" do
       it "should be valid" do
-        model = LessThanIntegerTest.deserialize(%({"int8": 0,"int16": 18,"int32": -1,"int64": -11}))
+        model = LessThanIntegerTest.from_json(%({"int8": 0,"int16": 18,"int32": -1,"int64": -11}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = LessThanIntegerTest.deserialize(%({"int8": null,"int16": null,"int32": null,"int64": null}))
+        model = LessThanIntegerTest.from_json(%({"int8": null,"int16": null,"int32": null,"int64": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = LessThanIntegerTest.deserialize(%({"int8": 90,"int16": 666,"int32": 10,"int64": -9}))
+        model = LessThanIntegerTest.from_json(%({"int8": 90,"int16": 666,"int32": 10,"int64": -9}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 4
         model.validator.errors[0].should eq "'int8' should be less than 6"
@@ -89,21 +89,21 @@ describe Assert::LessThan do
   describe "float" do
     describe "with valid values" do
       it "should be valid" do
-        model = LessThanFloatTest.deserialize(%({"float32": 6.122,"float64": 0.0}))
+        model = LessThanFloatTest.from_json(%({"float32": 6.122,"float64": 0.0}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = LessThanFloatTest.deserialize(%({"float32": null,"float64": null}))
+        model = LessThanFloatTest.from_json(%({"float32": null,"float64": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = LessThanFloatTest.deserialize(%({"float32": 7.99,"float64": 2.000099}))
+        model = LessThanFloatTest.from_json(%({"float32": 7.99,"float64": 2.000099}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 2
         model.validator.errors[0].should eq "'float32' should be less than 6.123"
@@ -115,21 +115,21 @@ describe Assert::LessThan do
   describe "string" do
     describe "with valid values" do
       it "should be valid" do
-        model = LessThanStringTest.deserialize(%({"str": "F"}))
+        model = LessThanStringTest.from_json(%({"str": "F"}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = LessThanStringTest.deserialize(%({"str": null}))
+        model = LessThanStringTest.from_json(%({"str": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = LessThanStringTest.deserialize(%({"str": "Z"}))
+        model = LessThanStringTest.from_json(%({"str": "Z"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors[0].should eq "'str' should be less than X"
@@ -140,21 +140,21 @@ describe Assert::LessThan do
   describe "date" do
     describe "with valid values" do
       it "should be valid" do
-        model = LessThanDateTest.deserialize(%({"startdate": "2000-06-06T13:12:32Z"}))
+        model = LessThanDateTest.from_json(%({"startdate": "2000-06-06T13:12:32Z"}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = LessThanDateTest.deserialize(%({"startdate": null}))
+        model = LessThanDateTest.from_json(%({"startdate": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = LessThanDateTest.deserialize(%({"startdate": "2020-06-06T13:12:32Z"}))
+        model = LessThanDateTest.from_json(%({"startdate": "2020-06-06T13:12:32Z"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors[0].should eq "'startdate' should be less than 2010-01-01 00:00:00 UTC"
@@ -163,7 +163,7 @@ describe Assert::LessThan do
 
     describe "with enddate before startdate" do
       it "should be invalid" do
-        model = LessThanDateTest.deserialize(%({"startdate": "2021-06-06T13:12:32Z", "enddate": "2025-06-06T13:12:32Z"}))
+        model = LessThanDateTest.from_json(%({"startdate": "2021-06-06T13:12:32Z", "enddate": "2025-06-06T13:12:32Z"}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 2
         model.validator.errors[0].should eq "'startdate' should be less than 2010-01-01 00:00:00 UTC"
@@ -175,21 +175,21 @@ describe Assert::LessThan do
   describe "array" do
     describe "with valid values" do
       it "should be valid" do
-        model = LessThanArrayTest.deserialize(%({"arr": [1,1,1]}))
+        model = LessThanArrayTest.from_json(%({"arr": [1,1,1]}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with null values" do
       it "should be valid" do
-        model = LessThanArrayTest.deserialize(%({"arr": null}))
+        model = LessThanArrayTest.from_json(%({"arr": null}))
         model.validator.valid?.should be_true
       end
     end
 
     describe "with invalid values" do
       it "should be invalid" do
-        model = LessThanArrayTest.deserialize(%({"arr": [3,4,5]}))
+        model = LessThanArrayTest.from_json(%({"arr": [3,4,5]}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors[0].should eq "'arr' should be less than [1, 2, 3]"
@@ -199,7 +199,7 @@ describe Assert::LessThan do
 
   describe "with a custom message" do
     it "should use correct message" do
-      model = LessThanTestMessage.deserialize(%({"age": 111}))
+      model = LessThanTestMessage.from_json(%({"age": 111}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Age should be less than 12 but got 111"

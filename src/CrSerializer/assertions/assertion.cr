@@ -35,7 +35,7 @@ module CrSerializer::Assertions
 
   # Base class of all assertions
   #
-  # Sets the field ivar and message if no message was provided
+  # Sets the field instance variable name, and message if no message was provided
   abstract class Assertion
     # :nodoc:
     getter message : String = "The #{{{@type.name.split("::").last.split('(').first}}} has failed."

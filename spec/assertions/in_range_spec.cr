@@ -16,14 +16,14 @@ end
 
 describe Assert::InRange do
   it "should be valid" do
-    model = InRangeTest.deserialize(%({"age": 12}))
+    model = InRangeTest.from_json(%({"age": 12}))
     model.validator.valid?.should be_true
   end
 
   describe "with out of range property" do
     context "that is too big" do
       it "should be invalid" do
-        model = InRangeTest.deserialize(%({"age": 150}))
+        model = InRangeTest.from_json(%({"age": 150}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors.first.should eq "'age' should be 100.0 or less"
@@ -32,7 +32,7 @@ describe Assert::InRange do
 
     context "that is too small" do
       it "should be invalid" do
-        model = InRangeTest.deserialize(%({"age": -10}))
+        model = InRangeTest.from_json(%({"age": -10}))
         model.validator.valid?.should be_false
         model.validator.errors.size.should eq 1
         model.validator.errors.first.should eq "'age' should be 0.0 or more"
@@ -42,21 +42,21 @@ describe Assert::InRange do
 
   describe "with a nil property" do
     it "should be valid" do
-      model = InRangeTest.deserialize(%({"age": null}))
+      model = InRangeTest.from_json(%({"age": null}))
       model.validator.valid?.should be_true
     end
   end
 
   describe "with a custom message" do
     it "should use correct min_message" do
-      model = InRangeTestMessage.deserialize(%({"age": -50}))
+      model = InRangeTestMessage.from_json(%({"age": -50}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Age cannot be negative"
     end
 
     it "should use correct max_message" do
-      model = InRangeTestMessage.deserialize(%({"age": 150}))
+      model = InRangeTestMessage.from_json(%({"age": 150}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "You cannot live more than 100 years"

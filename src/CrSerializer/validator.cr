@@ -6,7 +6,7 @@ module CrSerializer
     # Array of assertions defined on `self`
     getter assertions : Array(CrSerializer::Assertions::Assertion)
 
-    # Runs the given array of assertions upon initalization.  Errors are cached to prevent assertions running multiple times
+    # Runs the given array of assertions upon initialization.  Errors are cached to prevent assertions running multiple times
     def initialize(@assertions : Array(CrSerializer::Assertions::Assertion) = [] of CrSerializer::Assertions::Assertion) : Nil
       @errors = @assertions.reject(&.valid?).map(&.error_message)
     end

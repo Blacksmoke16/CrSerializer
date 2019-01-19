@@ -45,13 +45,13 @@ end
 
 describe Assert::EqualTo do
   it "should be valid" do
-    model = EqualToTest.deserialize(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
+    model = EqualToTest.from_json(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
     model.validator.valid?.should be_true
   end
 
   describe "with not equal property" do
     it "should be invalid" do
-      model = EqualToTest.deserialize(%({"age": 13,"attending":false,"cash":99.90,"name":"Fred"}))
+      model = EqualToTest.from_json(%({"age": 13,"attending":false,"cash":99.90,"name":"Fred"}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 4
       model.validator.errors[0].should eq "'age' should be equal to 12"
@@ -63,7 +63,7 @@ describe Assert::EqualTo do
 
   describe "with a custom message" do
     it "should use correct message" do
-      model = EqualToTestMessage.deserialize(%({"age": 123}))
+      model = EqualToTestMessage.from_json(%({"age": 123}))
       model.validator.valid?.should be_false
       model.validator.errors.size.should eq 1
       model.validator.errors.first.should eq "Expected age to equal 12 but got 123"
@@ -72,14 +72,14 @@ describe Assert::EqualTo do
 
   describe "with a property" do
     it "should use the property's value" do
-      model = EqualToTestProperty.deserialize(%({"age": 12}))
+      model = EqualToTestProperty.from_json(%({"age": 12}))
       model.validator.valid?.should be_true
     end
   end
 
   describe "with a method as the value" do
     it "should use the method's value" do
-      model = EqualToTestMethod.deserialize(%({"age": 12}))
+      model = EqualToTestMethod.from_json(%({"age": 12}))
       model.validator.valid?.should be_true
     end
   end
