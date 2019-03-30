@@ -3,7 +3,7 @@ name: CrSerializer
 description: |
   Extensible annotation based serialization/deserialization/validation library for Crystal.
 
-version: 0.6.1
+version: 0.6.2
 
 authors:
   - Blacksmoke16 <Blacksmoke16@eve.tools>

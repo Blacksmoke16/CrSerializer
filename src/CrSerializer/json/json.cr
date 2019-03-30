@@ -9,7 +9,7 @@ module JSON::Serializable
         {% cr_ann = ivar.annotation(CrSerializer::Options) %}
         {% expansion_ann = ivar.annotation(CrSerializer::Expandable) %}
         {% json_ann = ivar.annotation(JSON::Field) %}
-        {% unless (cann && cann[:exclusion_policy].resolve == CrSerializer::ExclusionPolicy::ExcludeAll) && (!cr_ann || cr_ann[:expose] != true) %}
+        {% unless (cann && cann[:exclusion_policy] && cann[:exclusion_policy].resolve == CrSerializer::ExclusionPolicy::ExcludeAll) && (!cr_ann || cr_ann[:expose] != true) %}
           {% if (!cr_ann || (cr_ann && (cr_ann[:expose] == true || cr_ann[:expose] == nil))) && (!json_ann || (json_ann && (json_ann[:ignore] == false || json_ann[:ignore] == nil))) %}
             {%
               properties[ivar.id] = {

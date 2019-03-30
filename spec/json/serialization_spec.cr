@@ -274,5 +274,11 @@ describe "JSON" do
         end
       end
     end
+
+    describe "with a struct" do
+      it "should serialize correctly" do
+        Config.new.to_json.should eq %({"routing":{"cors":{"enabled":false,"strategy":"blacklist"}}})
+      end
+    end
   end
 end

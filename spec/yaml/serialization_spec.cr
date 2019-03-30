@@ -208,5 +208,11 @@ describe "YAML" do
         end
       end
     end
+
+    describe "with a struct" do
+      it "should serialize correctly" do
+        Config.new.to_yaml.should eq %(---\nrouting:\n  cors:\n    enabled: false\n    strategy: blacklist\n)
+      end
+    end
   end
 end
