@@ -35,6 +35,7 @@ module CrSerializer::Assertions
       super field, message
     end
 
+    # ameba:disable Metrics/CyclomaticComplexity
     def valid? : Bool
       return true if @actual.nil?
       if (actual = @actual).is_a?(Array)

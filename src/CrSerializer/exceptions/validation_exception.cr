@@ -24,5 +24,18 @@ module CrSerializer::Exceptions
         errors:  @validator.errors,
       }.to_json
     end
+
+    # Returns failed valications as a string.
+    #
+    # ```
+    # Validation tests failed:  `'password' should not be blank`, `'age' should be greater than 1`.
+    # ```
+    def to_s : String
+      String.build do |str|
+        str << "Validation tests failed: "
+        @validator.errors.join(str) { |v| str << '`' << v << '`' }
+        str << '.'
+      end
+    end
   end
 end

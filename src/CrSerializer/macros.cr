@@ -18,8 +18,3 @@ module Assert
       annotation {{t}}; end
   {% end %}
 end
-
-# Dummy function to get `Top Level Namespace` to render
-#
-# TODO: Remove once [this issue](https://github.com/crystal-lang/crystal/issues/6637) is resolved.
-def foo; end

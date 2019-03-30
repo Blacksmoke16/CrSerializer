@@ -251,13 +251,13 @@ class ExpandableTest
   property name : String = "Foo"
 
   @[CrSerializer::Expandable]
-  property customer : Customer
+  property customer : Customer?
 
   @[CrSerializer::Expandable(name: "bar")]
   property setting : Setting?
 
   @[CrSerializer::Expandable(getter: my_function)]
-  property custom : Int32
+  property custom : Int32?
 
   def customer : Customer
     Customer.new
@@ -270,4 +270,32 @@ class ExpandableTest
   def my_function
     123
   end
+end
+
+struct Config
+  include CrSerializer
+
+  def initialize; end
+
+  getter routing : RoutingConfig = RoutingConfig.new
+end
+
+struct RoutingConfig
+  include CrSerializer
+
+  def initialize; end
+
+  getter cors : CorsConfig = CorsConfig.new
+end
+
+@[CrSerializer::ClassOptions(raise_on_invalid: true)]
+struct CorsConfig
+  include CrSerializer
+
+  def initialize; end
+
+  getter enabled : Bool = false
+
+  @[Assert::Choice(choices: ["blacklist", "whitelist"], message: "'{{actual}}' is not a valid strategy. Valid strategies are: {{choices}}")]
+  getter strategy : String = "blacklist"
 end

@@ -1,5 +1,6 @@
 # CrSerializer
 [![Build Status](https://travis-ci.org/Blacksmoke16/CrSerializer.svg?branch=master)](https://travis-ci.org/Blacksmoke16/CrSerializer)
+[![Latest release](https://img.shields.io/github/release/Blacksmoke16/rest.svg?style=flat-square)](https://github.com/Blacksmoke16/CrSerializer/releases)
 
 JSON/YAML serializer and validator inspired by [JMS Serializer Annotations](https://jmsyst.com/libs/serializer/master/reference/annotations) and [Symfony Validation Constraint Annotations](https://symfony.com/doc/current/reference/constraints.html).
 

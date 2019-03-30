@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 describe "YAML" do
-  describe ",from_yaml" do
+  describe ".from_yaml" do
     describe "readonly" do
       it "should deserialize correctly" do
         model = ReadOnlyTest.from_yaml %(---\nname: Secret\nage: 22\npassword: money)
@@ -167,6 +167,7 @@ describe "YAML" do
           rescue ex : CrSerializer::Exceptions::ValidationException
             ex.message.should eq "Validation tests failed"
             ex.to_json.should eq %({"code":400,"message":"Validation tests failed","errors":["'age' should be equal to 10"]})
+            ex.to_s.should eq %(Validation tests failed: `'age' should be equal to 10`.)
           end
         end
       end
@@ -177,6 +178,15 @@ describe "YAML" do
           model.validator.valid?.should be_true
           model.age.should eq 22
         end
+      end
+    end
+
+    describe "when using a struct" do
+      it "should raise on invalid" do
+        yaml = %(---\nrouting:\n  cors:\n    enabled: true\n    strategy: Foo)
+        ex = expect_raises CrSerializer::Exceptions::ValidationException, "Validation tests failed" { Config.from_yaml yaml }
+        ex.to_json.should eq %({"code":400,"message":"Validation tests failed","errors":["'Foo' is not a valid strategy. Valid strategies are: [\\"blacklist\\", \\"whitelist\\"]"]})
+        ex.to_s.should eq %(Validation tests failed: `'Foo' is not a valid strategy. Valid strategies are: ["blacklist", "whitelist"]`.)
       end
     end
   end

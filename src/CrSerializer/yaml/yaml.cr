@@ -1,4 +1,5 @@
 module YAML::Serializable
+  # ameba:disable Metrics/CyclomaticComplexity
   def to_yaml(yaml : ::YAML::Nodes::Builder, groups : Array(String), expand : Array(String))
     {% begin %}
       {% properties = {} of Nil => Nil %}
