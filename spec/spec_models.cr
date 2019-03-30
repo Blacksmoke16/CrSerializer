@@ -298,4 +298,12 @@ struct CorsConfig
 
   @[Assert::Choice(choices: ["blacklist", "whitelist"], message: "'{{actual}}' is not a valid strategy. Valid strategies are: {{choices}}")]
   getter strategy : String = "blacklist"
+
+  getter groups : Hash(String, CorsOptions) = {} of String => CorsOptions
+end
+
+struct CorsOptions
+  include CrSerializer
+
+  def initialize; end
 end

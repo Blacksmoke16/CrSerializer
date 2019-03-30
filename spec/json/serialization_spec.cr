@@ -215,7 +215,7 @@ describe "JSON" do
       OtherTypesTest.new.to_pretty_json.should eq %({\n  \"bool\": true,\n  \"float\": 3.14,\n  \"symbol\": \"foo\",\n  \"hash\": {\n    \"foo\": \"bar\"\n  },\n  \"tuple\": [\n    \"foo\",\n    999,\n    4.321\n  ],\n  \"time\": \"1985-04-12T23:20:50Z\",\n  \"set\": [\n    1,\n    2\n  ],\n  \"named_tuple\": {\n    \"str\": \"foo\",\n    \"int\": 999,\n    \"float\": -4.321\n  },\n  \"enum_type\": 0\n})
     end
 
-    describe "groups" do
+    describe "serialization_groups" do
       describe "default group" do
         it "should serialize correctly" do
           GroupsTest.new.to_pretty_json.should eq %({\n  "user_id": 999,\n  "other_id": 7777\n})
@@ -224,20 +224,20 @@ describe "JSON" do
 
       describe "admin group" do
         it "should serialize correctly" do
-          GroupsTest.new.to_pretty_json(groups: ["admin"]).should eq %({\n  "admin_id": 123,\n  "other_id": 7777\n})
+          GroupsTest.new.to_pretty_json(serialization_groups: ["admin"]).should eq %({\n  "admin_id": 123,\n  "other_id": 7777\n})
         end
       end
 
       describe "admin + default" do
         it "should serialize correctly" do
-          GroupsTest.new.to_pretty_json(groups: ["admin", "default"]).should eq %({\n  "user_id": 999,\n  "admin_id": 123,\n  "other_id": 7777\n})
+          GroupsTest.new.to_pretty_json(serialization_groups: ["admin", "default"]).should eq %({\n  "user_id": 999,\n  "admin_id": 123,\n  "other_id": 7777\n})
         end
       end
 
       describe "with an array" do
         describe "admin group" do
           it "should serialize correctly" do
-            [GroupsTest.new, GroupsTest.new].to_pretty_json(groups: ["admin"]).should eq %([\n  {\n    \"admin_id\": 123,\n    \"other_id\": 7777\n  },\n  {\n    \"admin_id\": 123,\n    \"other_id\": 7777\n  }\n])
+            [GroupsTest.new, GroupsTest.new].to_pretty_json(serialization_groups: ["admin"]).should eq %([\n  {\n    \"admin_id\": 123,\n    \"other_id\": 7777\n  },\n  {\n    \"admin_id\": 123,\n    \"other_id\": 7777\n  }\n])
           end
         end
       end
@@ -277,7 +277,7 @@ describe "JSON" do
 
     describe "with a struct" do
       it "should serialize correctly" do
-        Config.new.to_json.should eq %({"routing":{"cors":{"enabled":false,"strategy":"blacklist"}}})
+        Config.new.to_json.should eq %({"routing":{"cors":{"enabled":false,"strategy":"blacklist","groups":{}}}})
       end
     end
   end

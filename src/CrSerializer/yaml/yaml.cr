@@ -1,6 +1,6 @@
 module YAML::Serializable
   # ameba:disable Metrics/CyclomaticComplexity
-  def to_yaml(yaml : ::YAML::Nodes::Builder, groups : Array(String), expand : Array(String))
+  def to_yaml(yaml : ::YAML::Nodes::Builder, serialization_groups : Array(String), expand : Array(String))
     {% begin %}
       {% properties = {} of Nil => Nil %}
       {% cann = @type.annotation(CrSerializer::ClassOptions) %}
@@ -34,15 +34,15 @@ module YAML::Serializable
               if !CrSerializer.version.nil? && SemanticVersion.parse(CrSerializer.version.not_nil!) {% if value[:since] %} >= (SemanticVersion.parse({{value[:since]}})) {% else %} < (SemanticVersion.parse({{value[:until]}})) {% end %}
             {% end %}
 
-            if {{value[:groups]}}.any? { |g| groups.includes? g}
+            if {{value[:groups]}}.any? { |g| serialization_groups.includes? g}
               {% if value[:expansion] %}
                 if expand.includes? {{value[:expansion_name]}}
-                  {{value[:key]}}.to_yaml yaml, groups, expand
-                  {{value[:expansion_method]}}.to_yaml yaml, groups, expand
+                  {{value[:key]}}.to_yaml yaml, serialization_groups, expand
+                  {{value[:expansion_method]}}.to_yaml yaml, serialization_groups, expand
                 end
               {% else %}
-                {{value[:key]}}.to_yaml yaml, groups, expand
-                {{value[:value]}}.to_yaml yaml, groups, expand
+                {{value[:key]}}.to_yaml yaml, serialization_groups, expand
+                {{value[:value]}}.to_yaml yaml, serialization_groups, expand
               {% end %}
             end
             {% if value[:since] != nil || value[:until] != nil %} end {% end %}

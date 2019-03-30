@@ -1,7 +1,7 @@
 # :nodoc:
 module JSON::Serializable
   # ameba:disable Metrics/CyclomaticComplexity
-  def to_json(json : ::JSON::Builder, groups : Array(String), expand : Array(String))
+  def to_json(json : ::JSON::Builder, serialization_groups : Array(String), expand : Array(String))
     {% begin %}
       {% properties = {} of Nil => Nil %}
       {% cann = @type.annotation(CrSerializer::ClassOptions) %}
@@ -34,11 +34,11 @@ module JSON::Serializable
               {% if value[:since] != nil || value[:until] != nil %}
                 if !CrSerializer.version.nil? && SemanticVersion.parse(CrSerializer.version.not_nil!) {% if value[:since] %} >= (SemanticVersion.parse({{value[:since]}})) {% else %} < (SemanticVersion.parse({{value[:until]}})) {% end %}
               {% end %}
-                if {{value[:groups]}}.any? { |g| groups.includes? g}
+                if {{value[:groups]}}.any? { |g| serialization_groups.includes? g}
                   {% if value[:expansion] %}
-                    json.field {{value[:key]}} { {{value[:expansion_method]}}.to_json json, groups, expand } if expand.includes? {{value[:expansion_name]}}
+                    json.field {{value[:key]}} { {{value[:expansion_method]}}.to_json json, serialization_groups, expand } if expand.includes? {{value[:expansion_name]}}
                   {% else %}
-                    json.field {{value[:key]}} { {{value[:value]}}.to_json json, groups, expand }
+                    json.field {{value[:key]}} { {{value[:value]}}.to_json json, serialization_groups, expand }
                   {% end %}
                 end
               {% if value[:since] != nil || value[:until] != nil %} end {% end %}
