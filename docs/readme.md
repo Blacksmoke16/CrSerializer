@@ -16,7 +16,7 @@ If you wish to use validations but not include a serialization format, include `
 
 ```crystal
 class Example
-  include CrSerialize(Nil)
+  include CrSerializer(Nil)
     
   def initialize(@age : Int32)
     validate
