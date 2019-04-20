@@ -6,6 +6,33 @@ CrSerializer has two main focuses:  serialization/deserialization and validation
 
 CrSerializer enables finer control of object serialization and deserialization, with support for  both YAML and JSON.  Some options are applied at the class level while others are at the instance variable level.
 
+### Usage
+
+Simply  `include CrSerializer(T)` into your class/struct, where `T` is the serialization format you wish to use.  Either `JSON`, `YAML`, or `JSON | YAML`.
+
+### Without Serialization
+
+If you wish to use validations but not include a serialization format, include `CrSerializer` with a generic type of `Nil`.  Then just be sure to call `validate` in the initializer(s) to validate the initial state of the object.
+
+```crystal
+class Example
+  include CrSerialize(Nil)
+    
+  def initialize(@age : Int32)
+    validate
+  end
+
+  @[Assert::GreaterThanOrEqual(value: 0)]
+  property age : Int32
+end
+
+model = Example.new 10
+model.valid? # => true
+
+model = Example.new -100
+model.valid? # => false
+```
+
 ### Class Options
 
 The class level annotation controls how all instance variables in the class behave on serialization and deserialization. 
@@ -13,7 +40,7 @@ The class level annotation controls how all instance variables in the class beha
 ```crystal
 @[CrSerializer::ClassOptions(raise_on_invalid: false, validate: false)]
 class Example
-  include CrSerializer
+  include CrSerializer(JSON)
 
   property name : String = "John"
 end
@@ -25,7 +52,7 @@ The instance variable annotation controls how that instance variables behave on 
 
 ```crystal
 class Example
-  include CrSerializer
+  include CrSerializer(JSON)
 
   @[CrSerializer::Options(expose: false, readonly: true)]
   property password : String
@@ -38,9 +65,7 @@ end
 
 CrSerializer enables assertions to be set on instance variables that will run on demand and on deserialization.  Multiple assertions can be defined on an instance variable.  Custom assertions can also be registered. 
 
-By default validations will run on deserialization, unless the class annotation `validate` is set to false.  An exception can be raised if the object is invalid by setting the class annotation `raise_on_invalid` to true.   
-
-CrSerializer defines an instance variable `validator` when including the module.  See the  [API docs](https://blacksmoke16.github.io/CrSerializer/CrSerializer/Validator.html) for more info.
+By default validations will run on deserialization, unless the class annotation `validate` is set to false.  An exception can be raised if the object is invalid by setting the class annotation `raise_on_invalid` to true.  CrSerializer defines some methods related to validations when included, see the  [API docs](https://blacksmoke16.github.io/CrSerializer/CrSerializer/Validator.html) for more info.
 
 A model can be manually validated by calling `validate` on it.  This will rerun all the assertions on the current state of the object.
 
@@ -48,7 +73,7 @@ A model can be manually validated by calling `validate` on it.  This will rerun 
 
 ```crystal
 class Example
-  include CrSerializer
+  include CrSerializer(JSON)
 
   # Validates on that age is >= 0 AND not nil
   @[Assert::NotNil] 
@@ -57,11 +82,11 @@ class Example
 end
 
 model = Example.from_json %({"age": 10})
-model.validator.valid? # => true
+model.valid? # => true
 model.age = -1
-model.validator.valid? # => true
+model.valid? # => true
 model.validate
-model.validator.valid? # => false
+model.valid? # => false
 model.to_json # => {"age": -1}
 ```
 - [Validations](./validations.md)
@@ -75,7 +100,7 @@ require "CrSerializer"
 # Raise an exception if a validation test fails
 @[CrSerializer::ClassOptions(raise_on_invalid: true)]
 class Example
-  include CrSerializer
+  include CrSerializer(JSON)
 
   property name : String
   

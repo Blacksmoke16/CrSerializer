@@ -21,7 +21,7 @@ module CrSerializer::Assertions
     end
 
     def valid? : Bool
-      (actual = @actual).is_a?(Array) ? actual.all? { |i| i.validator.valid? } : actual.validator.valid?
+      (actual = @actual).is_a?(Array) ? actual.all? { |i| i.valid? } : actual.valid?
     end
   end
 end

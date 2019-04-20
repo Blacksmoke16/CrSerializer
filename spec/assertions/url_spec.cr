@@ -1,35 +1,35 @@
 require "../../spec_helper"
 
 class UrlTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Url]
   property url : String?
 end
 
 class UrlProtocolTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Url(protocols: %w(ftp file git))]
   property url : String?
 end
 
 class UrlRelativeProtocolTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Url(relative_protocol: true)]
   property url : String?
 end
 
 class UrlDefaultTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Url]
   property url : String?
 end
 
 class UrlDefaultTestMessage
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Url(message: "{{actual}} is not a valid URL")]
   property url : String?
@@ -159,7 +159,7 @@ describe Assert::Url do
     context "valid urls" do
       it "should all be valid" do
         VALID_URLS.each do |url|
-          UrlTest.from_json(%({"url": "#{url}"})).validator.valid?.should be_true
+          UrlTest.from_json(%({"url": "#{url}"})).valid?.should be_true
         end
       end
     end
@@ -168,9 +168,9 @@ describe Assert::Url do
       it "should all be invalid" do
         INVALID_URLS.each do |url|
           model = UrlTest.from_json(%({"url": "#{url}"}))
-          model.validator.valid?.should be_false
-          model.validator.errors.size.should eq 1
-          model.validator.errors.first.should eq "'url' is not a valid URL"
+          model.valid?.should be_false
+          model.errors.size.should eq 1
+          model.errors.first.should eq "'url' is not a valid URL"
         end
       end
     end
@@ -180,7 +180,7 @@ describe Assert::Url do
     context "valid urls" do
       it "should all be valid" do
         VALID_CUSTOM_PROTOCOLS.each do |url|
-          UrlProtocolTest.from_json(%({"url": "#{url}"})).validator.valid?.should be_true
+          UrlProtocolTest.from_json(%({"url": "#{url}"})).valid?.should be_true
         end
       end
     end
@@ -190,7 +190,7 @@ describe Assert::Url do
     context "with valid urls" do
       it "should all be valid" do
         VALID_RELATIVE_URLS.each do |url|
-          UrlRelativeProtocolTest.from_json(%({"url": "#{url}"})).validator.valid?.should be_true
+          UrlRelativeProtocolTest.from_json(%({"url": "#{url}"})).valid?.should be_true
         end
       end
     end
@@ -199,9 +199,9 @@ describe Assert::Url do
       it "should all be invalid" do
         INVALID_RELATIVE_URLS.each do |url|
           model = UrlRelativeProtocolTest.from_json(%({"url": "#{url}"}))
-          model.validator.valid?.should be_false
-          model.validator.errors.size.should eq 1
-          model.validator.errors.first.should eq "'url' is not a valid URL"
+          model.valid?.should be_false
+          model.errors.size.should eq 1
+          model.errors.first.should eq "'url' is not a valid URL"
         end
       end
     end
@@ -211,7 +211,7 @@ describe Assert::Url do
     context "with valid urls" do
       it "should all be valid" do
         VALID_URLS.each do |url|
-          UrlDefaultTest.from_json(%({"url": "#{url}"})).validator.valid?.should be_true
+          UrlDefaultTest.from_json(%({"url": "#{url}"})).valid?.should be_true
         end
       end
     end
@@ -221,9 +221,9 @@ describe Assert::Url do
         it "should all be invalid" do
           INVALID_URLS.each do |url|
             model = UrlDefaultTest.from_json(%({"url": "#{url}"}))
-            model.validator.valid?.should be_false
-            model.validator.errors.size.should eq 1
-            model.validator.errors.first.should eq "'url' is not a valid URL"
+            model.valid?.should be_false
+            model.errors.size.should eq 1
+            model.errors.first.should eq "'url' is not a valid URL"
           end
         end
       end
@@ -232,9 +232,9 @@ describe Assert::Url do
         it "should return proper error message" do
           INVALID_URLS.each do |url|
             model = UrlDefaultTestMessage.from_json(%({"url": "#{url}"}))
-            model.validator.valid?.should be_false
-            model.validator.errors.size.should eq 1
-            model.validator.errors.first.should eq "#{url} is not a valid URL"
+            model.valid?.should be_false
+            model.errors.size.should eq 1
+            model.errors.first.should eq "#{url} is not a valid URL"
           end
         end
       end
@@ -242,7 +242,7 @@ describe Assert::Url do
 
     context "with null urls" do
       it "should be valid" do
-        UrlDefaultTest.from_json(%({"url": null})).validator.valid?.should be_true
+        UrlDefaultTest.from_json(%({"url": null})).valid?.should be_true
       end
     end
   end

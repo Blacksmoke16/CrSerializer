@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class LuhnTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Luhn]
   property cc_number : String?
@@ -40,7 +40,7 @@ describe Assert::Luhn do
   describe "with valid numbers" do
     it "should all be valid" do
       VALID_NUMBERS.each do |cc|
-        LuhnTest.from_json(%({"cc_number": "#{cc}"})).validator.valid?.should be_true
+        LuhnTest.from_json(%({"cc_number": "#{cc}"})).valid?.should be_true
       end
     end
   end
@@ -49,9 +49,9 @@ describe Assert::Luhn do
     it "should all be invalid" do
       INVALID_NUMBERS.each do |cc|
         model = LuhnTest.from_json(%({"cc_number": "#{cc}"}))
-        model.validator.valid?.should be_false
-        model.validator.errors.size.should eq 1
-        model.validator.errors.first.should eq "'cc_number' is an invalid credit card number"
+        model.valid?.should be_false
+        model.errors.size.should eq 1
+        model.errors.first.should eq "'cc_number' is an invalid credit card number"
       end
     end
   end

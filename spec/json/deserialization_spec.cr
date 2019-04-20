@@ -40,10 +40,10 @@ describe "JSON" do
             it "should deserialize correctly" do
               model = NestedTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5}})
               model.age.should be_a Age
-              model.age.validator.valid?.should be_true
+              model.age.valid?.should be_true
               model.age.yrs.should eq 5
               model.name.should be_a Name
-              model.name.validator.valid?.should be_true
+              model.name.valid?.should be_true
               model.name.n.should eq "foo"
             end
           end
@@ -51,11 +51,11 @@ describe "JSON" do
           describe "when a proeprty subclass is invalid" do
             it "should not invalidate parent object" do
               model = NestedTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15}})
-              model.validator.valid?.should be_true
-              model.age.validator.valid?.should be_false
-              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
-              model.name.validator.valid?.should be_false
-              model.name.validator.errors.first.should eq "'n' should be equal to foo"
+              model.valid?.should be_true
+              model.age.valid?.should be_false
+              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.name.valid?.should be_false
+              model.name.errors.first.should eq "'n' should be equal to foo"
             end
           end
         end
@@ -64,17 +64,17 @@ describe "JSON" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedArrayTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":[{"n":"Jim"},{"n":"Jim"}]})
-              model.validator.valid?.should be_true
+              model.valid?.should be_true
               model.age.should be_a Age
-              model.age.validator.valid?.should be_true
+              model.age.valid?.should be_true
               model.age.yrs.should eq 5
               model.name.should be_a Name
-              model.name.validator.valid?.should be_true
+              model.name.valid?.should be_true
               model.name.n.should eq "foo"
               model.friends.should be_a Array(Friend)
-              model.friends[0].validator.valid?.should be_true
+              model.friends[0].valid?.should be_true
               model.friends[0].n.should eq "Jim"
-              model.friends[1].validator.valid?.should be_true
+              model.friends[1].valid?.should be_true
               model.friends[1].n.should eq "Jim"
             end
           end
@@ -82,14 +82,14 @@ describe "JSON" do
           describe "when a proeprty subclass is invalid" do
             it "should not invalidate parent object" do
               model = NestedArrayTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":[{"n":"Bob"},{"n":"Jim"}]})
-              model.validator.valid?.should be_true
-              model.age.validator.valid?.should be_false
-              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
-              model.name.validator.valid?.should be_false
-              model.name.validator.errors.first.should eq "'n' should be equal to foo"
-              model.friends[0].validator.valid?.should be_false
-              model.friends[0].validator.errors.first.should eq "'n' should be equal to Jim"
-              model.friends[1].validator.valid?.should be_true
+              model.valid?.should be_true
+              model.age.valid?.should be_false
+              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.name.valid?.should be_false
+              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.friends[0].valid?.should be_false
+              model.friends[0].errors.first.should eq "'n' should be equal to Jim"
+              model.friends[1].valid?.should be_true
             end
           end
         end
@@ -110,11 +110,11 @@ describe "JSON" do
           describe "when a proeprty subclass is invalid" do
             it "should invalidate the parent object" do
               model = NestedValidTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15}})
-              model.validator.valid?.should be_false
-              model.age.validator.valid?.should be_false
-              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
-              model.name.validator.valid?.should be_false
-              model.name.validator.errors.first.should eq "'n' should be equal to foo"
+              model.valid?.should be_false
+              model.age.valid?.should be_false
+              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.name.valid?.should be_false
+              model.name.errors.first.should eq "'n' should be equal to foo"
             end
           end
         end
@@ -123,17 +123,17 @@ describe "JSON" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedArrayValidTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":[{"n":"Jim"},{"n":"Jim"}]})
-              model.validator.valid?.should be_true
+              model.valid?.should be_true
               model.age.should be_a Age
-              model.age.validator.valid?.should be_true
+              model.age.valid?.should be_true
               model.age.yrs.should eq 5
               model.name.should be_a Name
-              model.name.validator.valid?.should be_true
+              model.name.valid?.should be_true
               model.name.n.should eq "foo"
               model.friends.should be_a Array(Friend)
-              model.friends[0].validator.valid?.should be_true
+              model.friends[0].valid?.should be_true
               model.friends[0].n.should eq "Jim"
-              model.friends[1].validator.valid?.should be_true
+              model.friends[1].valid?.should be_true
               model.friends[1].n.should eq "Jim"
             end
           end
@@ -141,14 +141,14 @@ describe "JSON" do
           describe "when a proeprty subclass is invalid" do
             it "should invalidate parent object" do
               model = NestedArrayValidTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":[{"n":"Bob"},{"n":"Jim"}]})
-              model.validator.valid?.should be_false
-              model.age.validator.valid?.should be_false
-              model.age.validator.errors.first.should eq "'yrs' should be less than 10"
-              model.name.validator.valid?.should be_false
-              model.name.validator.errors.first.should eq "'n' should be equal to foo"
-              model.friends[0].validator.valid?.should be_false
-              model.friends[0].validator.errors.first.should eq "'n' should be equal to Jim"
-              model.friends[1].validator.valid?.should be_true
+              model.valid?.should be_false
+              model.age.valid?.should be_false
+              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.name.valid?.should be_false
+              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.friends[0].valid?.should be_false
+              model.friends[0].errors.first.should eq "'n' should be equal to Jim"
+              model.friends[1].valid?.should be_true
             end
           end
         end
@@ -175,7 +175,7 @@ describe "JSON" do
       describe "validate" do
         it "should not run validations when validate is set to false" do
           model = ValidateTest.from_json %({"age":22})
-          model.validator.valid?.should be_true
+          model.valid?.should be_true
           model.age.should eq 22
         end
       end

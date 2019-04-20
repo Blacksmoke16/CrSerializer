@@ -1,4 +1,4 @@
-module CrSerializer
+module CrSerializer(T)
   class Validator
     # Array of errors as to why the object is not valid
     getter errors : Array(String) = [] of String

@@ -13,7 +13,7 @@ A method can be defined that will run **after** the object has been deserialized
 
 ```crystal
 class Klass
-  include CrSerializer
+  include CrSerializer(JSON)
 
   property name : String
 

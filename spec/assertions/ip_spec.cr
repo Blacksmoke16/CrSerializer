@@ -1,28 +1,28 @@
 require "../../spec_helper"
 
 class IPV4Test
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::IP(version: CrSerializer::Assertions::IPVersion::IPV4)]
   property ip : String?
 end
 
 class IPV6Test
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::IP(version: CrSerializer::Assertions::IPVersion::IPV6)]
   property ip : String?
 end
 
 class IPDefaultTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::IP]
   property ip : String?
 end
 
 class IPDefaultMessageTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::IP(message: "{{actual}} is not a valid IP address")]
   property ip : String?
@@ -94,7 +94,7 @@ describe Assert::IP do
     context "with valid IPV4 addresses" do
       it "should all be valid" do
         VALID_IPV4.each do |ip|
-          IPV4Test.from_json(%({"ip": "#{ip}"})).validator.valid?.should be_true
+          IPV4Test.from_json(%({"ip": "#{ip}"})).valid?.should be_true
         end
       end
     end
@@ -103,9 +103,9 @@ describe Assert::IP do
       it "should all be invalid" do
         INVALID_IPV4.each do |ip|
           model = IPV4Test.from_json(%({"ip": "#{ip}"}))
-          model.validator.valid?.should be_false
-          model.validator.errors.size.should eq 1
-          model.validator.errors.first.should eq "'ip' is not a valid IP address"
+          model.valid?.should be_false
+          model.errors.size.should eq 1
+          model.errors.first.should eq "'ip' is not a valid IP address"
         end
       end
     end
@@ -115,7 +115,7 @@ describe Assert::IP do
     context "with valid IPV6 addresses" do
       it "should all be valid" do
         VALID_IPV6.each do |ip|
-          IPV6Test.from_json(%({"ip": "#{ip}"})).validator.valid?.should be_true
+          IPV6Test.from_json(%({"ip": "#{ip}"})).valid?.should be_true
         end
       end
     end
@@ -124,9 +124,9 @@ describe Assert::IP do
       it "should all be invalid" do
         INVALID_IPV6.each do |ip|
           model = IPV6Test.from_json(%({"ip": "#{ip}"}))
-          model.validator.valid?.should be_false
-          model.validator.errors.size.should eq 1
-          model.validator.errors.first.should eq "'ip' is not a valid IP address"
+          model.valid?.should be_false
+          model.errors.size.should eq 1
+          model.errors.first.should eq "'ip' is not a valid IP address"
         end
       end
     end
@@ -136,7 +136,7 @@ describe Assert::IP do
     context "with valid IPV4 addresses" do
       it "should all be valid" do
         VALID_IPV4.each do |ip|
-          IPDefaultTest.from_json(%({"ip": "#{ip}"})).validator.valid?.should be_true
+          IPDefaultTest.from_json(%({"ip": "#{ip}"})).valid?.should be_true
         end
       end
     end
@@ -146,9 +146,9 @@ describe Assert::IP do
         it "should all be invalid" do
           INVALID_IPV4.each do |ip|
             model = IPDefaultTest.from_json(%({"ip": "#{ip}"}))
-            model.validator.valid?.should be_false
-            model.validator.errors.size.should eq 1
-            model.validator.errors.first.should eq "'ip' is not a valid IP address"
+            model.valid?.should be_false
+            model.errors.size.should eq 1
+            model.errors.first.should eq "'ip' is not a valid IP address"
           end
         end
       end
@@ -157,9 +157,9 @@ describe Assert::IP do
         it "should return proper error message" do
           INVALID_IPV4.each do |ip|
             model = IPDefaultMessageTest.from_json(%({"ip": "#{ip}"}))
-            model.validator.valid?.should be_false
-            model.validator.errors.size.should eq 1
-            model.validator.errors.first.should eq "#{ip} is not a valid IP address"
+            model.valid?.should be_false
+            model.errors.size.should eq 1
+            model.errors.first.should eq "#{ip} is not a valid IP address"
           end
         end
       end
@@ -167,7 +167,7 @@ describe Assert::IP do
 
     context "with null email" do
       it "should be valid" do
-        IPDefaultTest.from_json(%({"email": null})).validator.valid?.should be_true
+        IPDefaultTest.from_json(%({"email": null})).valid?.should be_true
       end
     end
   end

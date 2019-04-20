@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 class IsNilTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::IsNil]
   property age : Int64?
@@ -17,7 +17,7 @@ class IsNilTest
 end
 
 class IsNilTestMessage
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::IsNil(message: "Expected {{field}} to be nil but got {{actual}}")]
   property age : Int32?
@@ -27,35 +27,35 @@ describe Assert::IsNil do
   describe "with null property" do
     it "should be valid" do
       model = IsNilTest.from_json(%({"age": null,"attending":null,"cash":null,"name":null}))
-      model.validator.valid?.should be_true
+      model.valid?.should be_true
     end
   end
 
   describe "with missing property" do
     it "should be valid" do
       model = IsNilTest.from_json(%({}))
-      model.validator.valid?.should be_true
+      model.valid?.should be_true
     end
   end
 
   describe "with non-nil property" do
     it "should be invalid" do
       model = IsNilTest.from_json(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
-      model.validator.valid?.should be_false
-      model.validator.errors.size.should eq 4
-      model.validator.errors.first.should eq "'age' should be null"
-      model.validator.errors[1].should eq "'attending' should be null"
-      model.validator.errors[2].should eq "'cash' should be null"
-      model.validator.errors[3].should eq "'name' should be null"
+      model.valid?.should be_false
+      model.errors.size.should eq 4
+      model.errors.first.should eq "'age' should be null"
+      model.errors[1].should eq "'attending' should be null"
+      model.errors[2].should eq "'cash' should be null"
+      model.errors[3].should eq "'name' should be null"
     end
   end
 
   describe "with a custom message" do
     it "should use correct message" do
       model = IsNilTestMessage.from_json(%({"age": 123}))
-      model.validator.valid?.should be_false
-      model.validator.errors.size.should eq 1
-      model.validator.errors.first.should eq "Expected age to be nil but got 123"
+      model.valid?.should be_false
+      model.errors.size.should eq 1
+      model.errors.first.should eq "Expected age to be nil but got 123"
     end
   end
 end

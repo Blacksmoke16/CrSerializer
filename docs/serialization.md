@@ -17,7 +17,7 @@
 ## Accessor
 ```crystal
 class AccessorTest
-  include CrSerializer
+  include CrSerializer(JSON)
 
   @[CrSerializer::Json::Options(accessor: get_name)]
   property name : String
@@ -42,7 +42,7 @@ The version to compare against is set by `CrSerializer.version = "1.2.3"`.  The 
 
 ```crystal
 class VersionsTest
-  include CrSerializer
+  include CrSerializer(JSON)
 
   @[CrSerializer::Options(since: "1.0.0")]
   property new_name : String = "Bob"
@@ -77,7 +77,7 @@ The `#to_*` method can take an optional array of group names that will only seri
 
 ```Crystal
 class GroupTest
-  include CrSerializer
+  include CrSerializer(JSON)
 
   property user_id : Int32 = 999
 
@@ -101,14 +101,14 @@ Expansion is similar to serialization groups in some regards, but with some key 
 require "CrSerializer"
 
 class Customer
-  include CrSerializer
+  include CrSerializer(JSON)
 
   property name = "String"
   property id = 1
 end
 
 class User
-  include CrSerializer
+  include CrSerializer(JSON)
 
   property name = "Jim"
   property age = 22

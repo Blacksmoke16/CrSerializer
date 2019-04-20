@@ -1,28 +1,28 @@
 require "../../spec_helper"
 
 class EmailHTML5Test
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Email(mode: CrSerializer::Assertions::EmailValidationMode::HTML5)]
   property email : String?
 end
 
 class EmailLOOSETest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Email(mode: CrSerializer::Assertions::EmailValidationMode::LOOSE)]
   property email : String?
 end
 
 class EmailDefaultTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Email]
   property email : String?
 end
 
 class EmailDefaultTestMessage
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Email(message: "Invalid Email")]
   property email : String?
@@ -77,7 +77,7 @@ describe Assert::Email do
     context "with valid emails" do
       it "should all be valid" do
         VALID_HTML5_EMAILS.each do |email|
-          EmailHTML5Test.from_json(%({"email": "#{email}"})).validator.valid?.should be_true
+          EmailHTML5Test.from_json(%({"email": "#{email}"})).valid?.should be_true
         end
       end
     end
@@ -86,16 +86,16 @@ describe Assert::Email do
       it "should all be invalid" do
         INVALID_HTML5_EMAILS.each do |email|
           model = EmailHTML5Test.from_json(%({"email": "#{email}"}))
-          model.validator.valid?.should be_false
-          model.validator.errors.size.should eq 1
-          model.validator.errors.first.should eq "'email' is not a valid email address"
+          model.valid?.should be_false
+          model.errors.size.should eq 1
+          model.errors.first.should eq "'email' is not a valid email address"
         end
       end
     end
 
     context "with null email" do
       it "should be valid" do
-        EmailHTML5Test.from_json(%({"email": null})).validator.valid?.should be_true
+        EmailHTML5Test.from_json(%({"email": null})).valid?.should be_true
       end
     end
   end
@@ -104,7 +104,7 @@ describe Assert::Email do
     context "with valid emails" do
       it "should all be valid" do
         VALID_LOOSE_EMAILS.each do |email|
-          EmailLOOSETest.from_json(%({"email": "#{email}"})).validator.valid?.should be_true
+          EmailLOOSETest.from_json(%({"email": "#{email}"})).valid?.should be_true
         end
       end
     end
@@ -113,16 +113,16 @@ describe Assert::Email do
       it "should all be invalid" do
         INVALID_LOOSE_EMAILS.each do |email|
           model = EmailLOOSETest.from_json(%({"email": "#{email}"}))
-          model.validator.valid?.should be_false
-          model.validator.errors.size.should eq 1
-          model.validator.errors.first.should eq "'email' is not a valid email address"
+          model.valid?.should be_false
+          model.errors.size.should eq 1
+          model.errors.first.should eq "'email' is not a valid email address"
         end
       end
     end
 
     context "with null email" do
       it "should be valid" do
-        EmailLOOSETest.from_json(%({"email": null})).validator.valid?.should be_true
+        EmailLOOSETest.from_json(%({"email": null})).valid?.should be_true
       end
     end
   end
@@ -131,7 +131,7 @@ describe Assert::Email do
     context "with valid emails" do
       it "should all be valid" do
         VALID_LOOSE_EMAILS.each do |email|
-          EmailDefaultTest.from_json(%({"email": "#{email}"})).validator.valid?.should be_true
+          EmailDefaultTest.from_json(%({"email": "#{email}"})).valid?.should be_true
         end
       end
     end
@@ -141,9 +141,9 @@ describe Assert::Email do
         it "should all be invalid" do
           INVALID_LOOSE_EMAILS.each do |email|
             model = EmailDefaultTest.from_json(%({"email": "#{email}"}))
-            model.validator.valid?.should be_false
-            model.validator.errors.size.should eq 1
-            model.validator.errors.first.should eq "'email' is not a valid email address"
+            model.valid?.should be_false
+            model.errors.size.should eq 1
+            model.errors.first.should eq "'email' is not a valid email address"
           end
         end
       end
@@ -152,9 +152,9 @@ describe Assert::Email do
         it "should return proper error message" do
           INVALID_LOOSE_EMAILS.each do |email|
             model = EmailDefaultTestMessage.from_json(%({"email": "#{email}"}))
-            model.validator.valid?.should be_false
-            model.validator.errors.size.should eq 1
-            model.validator.errors.first.should eq "Invalid Email"
+            model.valid?.should be_false
+            model.errors.size.should eq 1
+            model.errors.first.should eq "Invalid Email"
           end
         end
       end
@@ -162,7 +162,7 @@ describe Assert::Email do
 
     context "with null email" do
       it "should be valid" do
-        EmailDefaultTest.from_json(%({"email": null})).validator.valid?.should be_true
+        EmailDefaultTest.from_json(%({"email": null})).valid?.should be_true
       end
     end
   end

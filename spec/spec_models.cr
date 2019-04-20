@@ -1,5 +1,5 @@
 class ReadOnlyTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property age : Int32
 
@@ -11,7 +11,7 @@ class ReadOnlyTest
 end
 
 class NoAnnotationsTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property age : Int32
   property name : String
@@ -19,7 +19,7 @@ class NoAnnotationsTest
 end
 
 class NestedTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property name : Name
 
@@ -27,7 +27,7 @@ class NestedTest
 end
 
 class NestedArrayTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property name : Name
 
@@ -37,7 +37,7 @@ class NestedArrayTest
 end
 
 class NestedValidTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::Valid]
   property name : Name
@@ -46,7 +46,7 @@ class NestedValidTest
 end
 
 class NestedArrayValidTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property name : Name
 
@@ -57,21 +57,21 @@ class NestedArrayValidTest
 end
 
 class Age
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::LessThan(value: 10)]
   property yrs : Int32?
 end
 
 class Name
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::EqualTo(value: "foo")]
   property n : String
 end
 
 class Friend
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::EqualTo(value: "Jim")]
   property n : String
@@ -79,7 +79,7 @@ end
 
 @[CrSerializer::ClassOptions(raise_on_invalid: true)]
 class RaiseTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::EqualTo(value: 10)]
   property age : Int32
@@ -87,14 +87,14 @@ end
 
 @[CrSerializer::ClassOptions(validate: false)]
 class ValidateTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::EqualTo(value: 10)]
   property age : Int32
 end
 
 class DefaultValue
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[Assert::GreaterThan(value: 0)]
   @[Assert::NotNil]
@@ -102,14 +102,14 @@ class DefaultValue
 end
 
 class SerializedNameTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[CrSerializer::Options(serialized_name: "years_young")]
   property age : Int32 = 77
 end
 
 class ExposeTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[CrSerializer::Options(expose: false)]
   property age : Int32 = 66
@@ -118,7 +118,7 @@ class ExposeTest
 end
 
 class JsonFieldTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[JSON::Field(ignore: true)]
   property age : Int32 = 66
@@ -127,7 +127,7 @@ class JsonFieldTest
 end
 
 class YamlFieldTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[YAML::Field(ignore: true)]
   property age : Int32 = 66
@@ -136,7 +136,7 @@ class YamlFieldTest
 end
 
 class EmitNullTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[CrSerializer::Options(emit_null: true)]
   property age : Int32?
@@ -147,7 +147,7 @@ class EmitNullTest
 end
 
 class AccessorTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[CrSerializer::Options(accessor: get_name)]
   property name : String = "John"
@@ -158,7 +158,7 @@ class AccessorTest
 end
 
 class GroupsTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property user_id : Int32 = 999
 
@@ -170,7 +170,7 @@ class GroupsTest
 end
 
 class VersionsTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[CrSerializer::Options(since: "1.0.0")]
   property new_name : String = "Bob"
@@ -186,7 +186,7 @@ end
 
 @[CrSerializer::ClassOptions(exclusion_policy: CrSerializer::ExclusionPolicy::ExcludeAll)]
 class ExcludeAlltest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property age : Int32 = 22
   property name : String = "Joe"
@@ -196,7 +196,7 @@ class ExcludeAlltest
 end
 
 class SubclassTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property age : Int32 = 22
   property name : String = "Joe"
@@ -205,20 +205,20 @@ class SubclassTest
 end
 
 class Foo
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   @[CrSerializer::Options(serialized_name: "bar")]
   property sub_class : String = "bar"
 end
 
 class ArrayTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property numbers : Array(Int32) = [1, 2, 3]
 end
 
 class OtherTypesTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property bool : Bool = true
   property float : Float64 = 3.14
@@ -232,21 +232,21 @@ class OtherTypesTest
 end
 
 class Customer
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property name : String = "MyCust"
   property id : Int32 = 1
 end
 
 class Setting
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property name : String = "Settings"
   property id : Int32 = 2
 end
 
 class ExpandableTest
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   property name : String = "Foo"
 
@@ -273,7 +273,7 @@ class ExpandableTest
 end
 
 struct Config
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   def initialize; end
 
@@ -281,7 +281,7 @@ struct Config
 end
 
 struct RoutingConfig
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   def initialize; end
 
@@ -290,7 +290,7 @@ end
 
 @[CrSerializer::ClassOptions(raise_on_invalid: true)]
 struct CorsConfig
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   def initialize; end
 
@@ -303,7 +303,7 @@ struct CorsConfig
 end
 
 struct CorsOptions
-  include CrSerializer
+  include CrSerializer(JSON | YAML)
 
   def initialize; end
 end
