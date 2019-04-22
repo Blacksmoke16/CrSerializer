@@ -24,8 +24,8 @@ describe Assert::NotNil do
     it "should be invalid" do
       model = NotNilTest.from_json(%({"age": null}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "'age' should not be null"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "'age' should not be null"
     end
   end
 
@@ -33,8 +33,8 @@ describe Assert::NotNil do
     it "should be invalid" do
       model = NotNilTest.from_json(%({}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "'age' should not be null"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "'age' should not be null"
     end
   end
 
@@ -42,8 +42,8 @@ describe Assert::NotNil do
     it "should use correct message" do
       model = NotNilTestMessage.from_json(%({}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Expected age to not be null but got \"\""
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Expected age to not be null but got \"\""
     end
   end
 end

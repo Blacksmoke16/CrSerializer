@@ -53,9 +53,9 @@ describe "JSON" do
               model = NestedTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15}})
               model.valid?.should be_true
               model.age.valid?.should be_false
-              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.age.validation_errors.first.should eq "'yrs' should be less than 10"
               model.name.valid?.should be_false
-              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.name.validation_errors.first.should eq "'n' should be equal to foo"
             end
           end
         end
@@ -84,11 +84,11 @@ describe "JSON" do
               model = NestedArrayTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":[{"n":"Bob"},{"n":"Jim"}]})
               model.valid?.should be_true
               model.age.valid?.should be_false
-              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.age.validation_errors.first.should eq "'yrs' should be less than 10"
               model.name.valid?.should be_false
-              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.name.validation_errors.first.should eq "'n' should be equal to foo"
               model.friends[0].valid?.should be_false
-              model.friends[0].errors.first.should eq "'n' should be equal to Jim"
+              model.friends[0].validation_errors.first.should eq "'n' should be equal to Jim"
               model.friends[1].valid?.should be_true
             end
           end
@@ -112,9 +112,9 @@ describe "JSON" do
               model = NestedValidTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15}})
               model.valid?.should be_false
               model.age.valid?.should be_false
-              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.age.validation_errors.first.should eq "'yrs' should be less than 10"
               model.name.valid?.should be_false
-              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.name.validation_errors.first.should eq "'n' should be equal to foo"
             end
           end
         end
@@ -143,11 +143,11 @@ describe "JSON" do
               model = NestedArrayValidTest.from_json %({"name":{"n": "bar"},"age":{"yrs": 15},"friends":[{"n":"Bob"},{"n":"Jim"}]})
               model.valid?.should be_false
               model.age.valid?.should be_false
-              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.age.validation_errors.first.should eq "'yrs' should be less than 10"
               model.name.valid?.should be_false
-              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.name.validation_errors.first.should eq "'n' should be equal to foo"
               model.friends[0].valid?.should be_false
-              model.friends[0].errors.first.should eq "'n' should be equal to Jim"
+              model.friends[0].validation_errors.first.should eq "'n' should be equal to Jim"
               model.friends[1].valid?.should be_true
             end
           end

@@ -34,8 +34,8 @@ describe "Assertions::Custom" do
     it "should be invalid" do
       model = CustomTest.from_json(%({"name":"bar"}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "The FooAssertion has failed."
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "The FooAssertion has failed."
     end
   end
 
@@ -43,8 +43,8 @@ describe "Assertions::Custom" do
     it "should be invalid since assertion doesn't allow for that" do
       model = CustomTest.from_json(%({"name":null}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "The FooAssertion has failed."
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "The FooAssertion has failed."
     end
   end
 end

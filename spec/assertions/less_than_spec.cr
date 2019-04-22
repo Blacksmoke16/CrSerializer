@@ -77,11 +77,11 @@ describe Assert::LessThan do
       it "should be invalid" do
         model = LessThanIntegerTest.from_json(%({"int8": 90,"int16": 666,"int32": 10,"int64": -9}))
         model.valid?.should be_false
-        model.errors.size.should eq 4
-        model.errors[0].should eq "'int8' should be less than 6"
-        model.errors[1].should eq "'int16' should be less than 19"
-        model.errors[2].should eq "'int32' should be less than 0"
-        model.errors[3].should eq "'int64' should be less than -10"
+        model.validation_errors.size.should eq 4
+        model.validation_errors[0].should eq "'int8' should be less than 6"
+        model.validation_errors[1].should eq "'int16' should be less than 19"
+        model.validation_errors[2].should eq "'int32' should be less than 0"
+        model.validation_errors[3].should eq "'int64' should be less than -10"
       end
     end
   end
@@ -105,9 +105,9 @@ describe Assert::LessThan do
       it "should be invalid" do
         model = LessThanFloatTest.from_json(%({"float32": 7.99,"float64": 2.000099}))
         model.valid?.should be_false
-        model.errors.size.should eq 2
-        model.errors[0].should eq "'float32' should be less than 6.123"
-        model.errors[1].should eq "'float64' should be less than 0.0001"
+        model.validation_errors.size.should eq 2
+        model.validation_errors[0].should eq "'float32' should be less than 6.123"
+        model.validation_errors[1].should eq "'float64' should be less than 0.0001"
       end
     end
   end
@@ -131,8 +131,8 @@ describe Assert::LessThan do
       it "should be invalid" do
         model = LessThanStringTest.from_json(%({"str": "Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'str' should be less than X"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'str' should be less than X"
       end
     end
   end
@@ -156,8 +156,8 @@ describe Assert::LessThan do
       it "should be invalid" do
         model = LessThanDateTest.from_json(%({"startdate": "2020-06-06T13:12:32Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'startdate' should be less than 2010-01-01 00:00:00 UTC"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'startdate' should be less than 2010-01-01 00:00:00 UTC"
       end
     end
 
@@ -165,9 +165,9 @@ describe Assert::LessThan do
       it "should be invalid" do
         model = LessThanDateTest.from_json(%({"startdate": "2021-06-06T13:12:32Z", "enddate": "2025-06-06T13:12:32Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 2
-        model.errors[0].should eq "'startdate' should be less than 2010-01-01 00:00:00 UTC"
-        model.errors[1].should eq "'enddate' should be less than 2021-06-06 13:12:32 UTC"
+        model.validation_errors.size.should eq 2
+        model.validation_errors[0].should eq "'startdate' should be less than 2010-01-01 00:00:00 UTC"
+        model.validation_errors[1].should eq "'enddate' should be less than 2021-06-06 13:12:32 UTC"
       end
     end
   end
@@ -191,8 +191,8 @@ describe Assert::LessThan do
       it "should be invalid" do
         model = LessThanArrayTest.from_json(%({"arr": [3,4,5]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'arr' should be less than [1, 2, 3]"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'arr' should be less than [1, 2, 3]"
       end
     end
   end
@@ -201,8 +201,8 @@ describe Assert::LessThan do
     it "should use correct message" do
       model = LessThanTestMessage.from_json(%({"age": 111}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Age should be less than 12 but got 111"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Age should be less than 12 but got 111"
     end
   end
 end

@@ -53,11 +53,11 @@ describe Assert::EqualTo do
     it "should be invalid" do
       model = EqualToTest.from_json(%({"age": 13,"attending":false,"cash":99.90,"name":"Fred"}))
       model.valid?.should be_false
-      model.errors.size.should eq 4
-      model.errors[0].should eq "'age' should be equal to 12"
-      model.errors[1].should eq "'attending' should be equal to true"
-      model.errors[2].should eq "'cash' should be equal to 99.99"
-      model.errors[3].should eq "'name' should be equal to John"
+      model.validation_errors.size.should eq 4
+      model.validation_errors[0].should eq "'age' should be equal to 12"
+      model.validation_errors[1].should eq "'attending' should be equal to true"
+      model.validation_errors[2].should eq "'cash' should be equal to 99.99"
+      model.validation_errors[3].should eq "'name' should be equal to John"
     end
   end
 
@@ -65,8 +65,8 @@ describe Assert::EqualTo do
     it "should use correct message" do
       model = EqualToTestMessage.from_json(%({"age": 123}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Expected age to equal 12 but got 123"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Expected age to equal 12 but got 123"
     end
   end
 

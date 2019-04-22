@@ -84,11 +84,11 @@ describe Assert::GreaterThanOrEqual do
       it "should be invalid" do
         model = GreaterThanOrEqualIntegerTest.from_json(%({"int8": 1,"int16": 6,"int32": -1,"int64": -11}))
         model.valid?.should be_false
-        model.errors.size.should eq 4
-        model.errors[0].should eq "'int8' should be greater than or equal to 6"
-        model.errors[1].should eq "'int16' should be greater than or equal to 19"
-        model.errors[2].should eq "'int32' should be greater than or equal to 0"
-        model.errors[3].should eq "'int64' should be greater than or equal to -10"
+        model.validation_errors.size.should eq 4
+        model.validation_errors[0].should eq "'int8' should be greater than or equal to 6"
+        model.validation_errors[1].should eq "'int16' should be greater than or equal to 19"
+        model.validation_errors[2].should eq "'int32' should be greater than or equal to 0"
+        model.validation_errors[3].should eq "'int64' should be greater than or equal to -10"
       end
     end
   end
@@ -112,9 +112,9 @@ describe Assert::GreaterThanOrEqual do
       it "should be invalid" do
         model = GreaterThanOrEqualFloatTest.from_json(%({"float32": 5.99,"float64": 0.000099}))
         model.valid?.should be_false
-        model.errors.size.should eq 2
-        model.errors[0].should eq "'float32' should be greater than or equal to 6.123"
-        model.errors[1].should eq "'float64' should be greater than or equal to 0.0001"
+        model.validation_errors.size.should eq 2
+        model.validation_errors[0].should eq "'float32' should be greater than or equal to 6.123"
+        model.validation_errors[1].should eq "'float64' should be greater than or equal to 0.0001"
       end
     end
   end
@@ -138,8 +138,8 @@ describe Assert::GreaterThanOrEqual do
       it "should be invalid" do
         model = GreaterThanOrEqualStringTest.from_json(%({"str": "G"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'str' should be greater than or equal to X"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'str' should be greater than or equal to X"
       end
     end
   end
@@ -163,8 +163,8 @@ describe Assert::GreaterThanOrEqual do
       it "should be invalid" do
         model = GreaterThanOrEqualDateTest.from_json(%({"startdate": "2001-06-06T13:12:32Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'startdate' should be greater than or equal to 2017-06-06 00:00:00 UTC"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'startdate' should be greater than or equal to 2017-06-06 00:00:00 UTC"
       end
     end
 
@@ -172,9 +172,9 @@ describe Assert::GreaterThanOrEqual do
       it "should be invalid" do
         model = GreaterThanOrEqualDateTest.from_json(%({"startdate": "2001-06-06T13:12:32Z", "enddate": "2000-06-06T13:12:32Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 2
-        model.errors[0].should eq "'startdate' should be greater than or equal to 2017-06-06 00:00:00 UTC"
-        model.errors[1].should eq "'enddate' should be greater than or equal to 2001-06-06 13:12:32 UTC"
+        model.validation_errors.size.should eq 2
+        model.validation_errors[0].should eq "'startdate' should be greater than or equal to 2017-06-06 00:00:00 UTC"
+        model.validation_errors[1].should eq "'enddate' should be greater than or equal to 2001-06-06 13:12:32 UTC"
       end
     end
   end
@@ -198,8 +198,8 @@ describe Assert::GreaterThanOrEqual do
       it "should be invalid" do
         model = GreaterThanOrEqualArrayTest.from_json(%({"arr": [1,1,2]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'arr' should be greater than or equal to [1, 2, 3]"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'arr' should be greater than or equal to [1, 2, 3]"
       end
     end
   end
@@ -208,8 +208,8 @@ describe Assert::GreaterThanOrEqual do
     it "should use correct message" do
       model = GreaterThanOrEqualTestMessage.from_json(%({"age": 5}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Expected age to be greater than or equal to 12 but got 5"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Expected age to be greater than or equal to 12 but got 5"
     end
   end
 end

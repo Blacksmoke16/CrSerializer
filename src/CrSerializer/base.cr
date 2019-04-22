@@ -7,7 +7,7 @@ require "semantic_version"
 module CrSerializer(T)
   include CrSerializer::Assertions
 
-  delegate assertions, errors, invalid_properties, valid?, validate, to: @validator
+  delegate assertions, validation_errors, invalid_properties, valid?, validate, to: @validator
 
   @[CrSerializer::Options(expose: false)]
   @[JSON::Field(ignore: true)]

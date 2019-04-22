@@ -50,8 +50,8 @@ describe Assert::Luhn do
       INVALID_NUMBERS.each do |cc|
         model = LuhnTest.from_json(%({"cc_number": "#{cc}"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "'cc_number' is an invalid credit card number"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "'cc_number' is an invalid credit card number"
       end
     end
   end

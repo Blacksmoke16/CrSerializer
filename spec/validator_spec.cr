@@ -36,8 +36,8 @@ describe CrSerializer::Validator do
     model.yrs = 100
     model.validate
     model.valid?.should be_false
-    model.errors.size.should eq 1
-    model.errors.first.should eq "'yrs' should be less than 10"
+    model.validation_errors.size.should eq 1
+    model.validation_errors.first.should eq "'yrs' should be less than 10"
   end
 
   describe "#assertions" do
@@ -68,8 +68,8 @@ describe CrSerializer::Validator do
   describe "#errors" do
     it "should return an array of errors" do
       model = InvalidPropertiesTest.from_json %({"name":"bar","number": 88,"boolean": true})
-      model.errors.size.should eq 2
-      model.errors.should eq ["'name' should be equal to foo", "'number' should be equal to 22"]
+      model.validation_errors.size.should eq 2
+      model.validation_errors.should eq ["'name' should be equal to foo", "'number' should be equal to 22"]
     end
   end
 

@@ -36,8 +36,8 @@ describe Assert::Size do
           it "should be invalid" do
             model = SizeArrayTest.from_json(%({"fav_numbers": [1,2,3,4]}))
             model.valid?.should be_false
-            model.errors.size.should eq 1
-            model.errors.first.should eq "'fav_numbers' is too long.  It should have 3.0 elements or less"
+            model.validation_errors.size.should eq 1
+            model.validation_errors.first.should eq "'fav_numbers' is too long.  It should have 3.0 elements or less"
           end
         end
 
@@ -45,8 +45,8 @@ describe Assert::Size do
           it "should be invalid" do
             model = SizeArrayTest.from_json(%({"fav_numbers": [1]}))
             model.valid?.should be_false
-            model.errors.size.should eq 1
-            model.errors.first.should eq "'fav_numbers' is too short.  It should have 2.0 elements or more"
+            model.validation_errors.size.should eq 1
+            model.validation_errors.first.should eq "'fav_numbers' is too short.  It should have 2.0 elements or more"
           end
         end
       end
@@ -72,8 +72,8 @@ describe Assert::Size do
       it "should be invalid" do
         model = SizeStringTest.from_json(%({"password": "tooLongPassword"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "'password' is too long.  It should have 10.0 characters or less"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "'password' is too long.  It should have 10.0 characters or less"
       end
     end
 
@@ -81,8 +81,8 @@ describe Assert::Size do
       it "should be invalid" do
         model = SizeStringTest.from_json(%({"password": "1"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "'password' is too short.  It should have 2.0 characters or more"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "'password' is too short.  It should have 2.0 characters or more"
       end
     end
 
@@ -98,15 +98,15 @@ describe Assert::Size do
     it "should use correct min_message" do
       model = SizeTestMessage.from_json(%({"password": "shrt"}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Password should be at least 5 characters"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Password should be at least 5 characters"
     end
 
     it "should use correct max_message" do
       model = SizeTestMessage.from_json(%({"password": "toooooooLong"}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Password cannot be more than 10 characters"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Password cannot be more than 10 characters"
     end
   end
 end

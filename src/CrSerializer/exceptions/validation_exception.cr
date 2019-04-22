@@ -21,7 +21,7 @@ module CrSerializer::Exceptions
       {
         code:    400,
         message: @message,
-        errors:  @validator.errors,
+        errors:  @validator.validation_errors,
       }.to_json
     end
 
@@ -33,7 +33,7 @@ module CrSerializer::Exceptions
     def to_s : String
       String.build do |str|
         str << "Validation tests failed: "
-        @validator.errors.join(str) { |v| str << '`' << v << '`' }
+        @validator.validation_errors.join(str) { |v| str << '`' << v << '`' }
         str << '.'
       end
     end

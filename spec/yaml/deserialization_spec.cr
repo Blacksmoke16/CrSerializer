@@ -53,9 +53,9 @@ describe "YAML" do
               model = NestedTest.from_yaml %(---\nname:\n  n: bar\nage:\n  yrs: 15\n)
               model.valid?.should be_true
               model.age.valid?.should be_false
-              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.age.validation_errors.first.should eq "'yrs' should be less than 10"
               model.name.valid?.should be_false
-              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.name.validation_errors.first.should eq "'n' should be equal to foo"
             end
           end
         end
@@ -84,11 +84,11 @@ describe "YAML" do
               model = NestedArrayTest.from_yaml %(---\nname:\n  n: bar\nage:\n  yrs: 15\nfriends:\n  - n: Bob\n  - n: Jim)
               model.valid?.should be_true
               model.age.valid?.should be_false
-              model.age.errors.first.should eq "'yrs' should be less than 10"
+              model.age.validation_errors.first.should eq "'yrs' should be less than 10"
               model.name.valid?.should be_false
-              model.name.errors.first.should eq "'n' should be equal to foo"
+              model.name.validation_errors.first.should eq "'n' should be equal to foo"
               model.friends[0].valid?.should be_false
-              model.friends[0].errors.first.should eq "'n' should be equal to Jim"
+              model.friends[0].validation_errors.first.should eq "'n' should be equal to Jim"
               model.friends[1].valid?.should be_true
             end
           end
@@ -113,9 +113,9 @@ describe "YAML" do
             model = NestedValidTest.from_yaml %(---\nname:\n  n: bar\nage:\n  yrs: 15\n)
             model.valid?.should be_false
             model.age.valid?.should be_false
-            model.age.errors.first.should eq "'yrs' should be less than 10"
+            model.age.validation_errors.first.should eq "'yrs' should be less than 10"
             model.name.valid?.should be_false
-            model.name.errors.first.should eq "'n' should be equal to foo"
+            model.name.validation_errors.first.should eq "'n' should be equal to foo"
           end
         end
 
@@ -144,11 +144,11 @@ describe "YAML" do
             model = NestedArrayValidTest.from_yaml %(---\nname:\n  n: bar\nage:\n  yrs: 15\nfriends:\n  - n: Bob\n  - n: Jim)
             model.valid?.should be_false
             model.age.valid?.should be_false
-            model.age.errors.first.should eq "'yrs' should be less than 10"
+            model.age.validation_errors.first.should eq "'yrs' should be less than 10"
             model.name.valid?.should be_false
-            model.name.errors.first.should eq "'n' should be equal to foo"
+            model.name.validation_errors.first.should eq "'n' should be equal to foo"
             model.friends[0].valid?.should be_false
-            model.friends[0].errors.first.should eq "'n' should be equal to Jim"
+            model.friends[0].validation_errors.first.should eq "'n' should be equal to Jim"
             model.friends[1].valid?.should be_true
           end
         end

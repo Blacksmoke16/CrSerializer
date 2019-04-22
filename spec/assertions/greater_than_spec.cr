@@ -77,11 +77,11 @@ describe Assert::GreaterThan do
       it "should be invalid" do
         model = GreaterThanIntegerTest.from_json(%({"int8": 1,"int16": 6,"int32": 0,"int64": -11}))
         model.valid?.should be_false
-        model.errors.size.should eq 4
-        model.errors[0].should eq "'int8' should be greater than 6"
-        model.errors[1].should eq "'int16' should be greater than 19"
-        model.errors[2].should eq "'int32' should be greater than 0"
-        model.errors[3].should eq "'int64' should be greater than -10"
+        model.validation_errors.size.should eq 4
+        model.validation_errors[0].should eq "'int8' should be greater than 6"
+        model.validation_errors[1].should eq "'int16' should be greater than 19"
+        model.validation_errors[2].should eq "'int32' should be greater than 0"
+        model.validation_errors[3].should eq "'int64' should be greater than -10"
       end
     end
   end
@@ -105,9 +105,9 @@ describe Assert::GreaterThan do
       it "should be invalid" do
         model = GreaterThanFloatTest.from_json(%({"float32": 5.99,"float64": 0.000099}))
         model.valid?.should be_false
-        model.errors.size.should eq 2
-        model.errors[0].should eq "'float32' should be greater than 6.123"
-        model.errors[1].should eq "'float64' should be greater than 0.0001"
+        model.validation_errors.size.should eq 2
+        model.validation_errors[0].should eq "'float32' should be greater than 6.123"
+        model.validation_errors[1].should eq "'float64' should be greater than 0.0001"
       end
     end
   end
@@ -131,8 +131,8 @@ describe Assert::GreaterThan do
       it "should be invalid" do
         model = GreaterThanStringTest.from_json(%({"str": "G"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'str' should be greater than X"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'str' should be greater than X"
       end
     end
   end
@@ -156,8 +156,8 @@ describe Assert::GreaterThan do
       it "should be invalid" do
         model = GreaterThanDateTest.from_json(%({"startdate": "2001-06-06T13:12:32Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'startdate' should be greater than 2010-01-01 00:00:00 UTC"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'startdate' should be greater than 2010-01-01 00:00:00 UTC"
       end
     end
 
@@ -165,9 +165,9 @@ describe Assert::GreaterThan do
       it "should be invalid" do
         model = GreaterThanDateTest.from_json(%({"startdate": "2001-06-06T13:12:32Z", "enddate": "2000-06-06T13:12:32Z"}))
         model.valid?.should be_false
-        model.errors.size.should eq 2
-        model.errors[0].should eq "'startdate' should be greater than 2010-01-01 00:00:00 UTC"
-        model.errors[1].should eq "'enddate' should be greater than 2001-06-06 13:12:32 UTC"
+        model.validation_errors.size.should eq 2
+        model.validation_errors[0].should eq "'startdate' should be greater than 2010-01-01 00:00:00 UTC"
+        model.validation_errors[1].should eq "'enddate' should be greater than 2001-06-06 13:12:32 UTC"
       end
     end
   end
@@ -191,8 +191,8 @@ describe Assert::GreaterThan do
       it "should be invalid" do
         model = GreaterThanArrayTest.from_json(%({"arr": [1,1,2]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors[0].should eq "'arr' should be greater than [1, 2, 3]"
+        model.validation_errors.size.should eq 1
+        model.validation_errors[0].should eq "'arr' should be greater than [1, 2, 3]"
       end
     end
   end
@@ -201,8 +201,8 @@ describe Assert::GreaterThan do
     it "should use correct message" do
       model = GreaterThanTestMessage.from_json(%({"age": 5}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Age should be greater than 12 but got 5"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Age should be greater than 12 but got 5"
     end
   end
 end

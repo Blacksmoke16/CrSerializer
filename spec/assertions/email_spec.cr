@@ -87,8 +87,8 @@ describe Assert::Email do
         INVALID_HTML5_EMAILS.each do |email|
           model = EmailHTML5Test.from_json(%({"email": "#{email}"}))
           model.valid?.should be_false
-          model.errors.size.should eq 1
-          model.errors.first.should eq "'email' is not a valid email address"
+          model.validation_errors.size.should eq 1
+          model.validation_errors.first.should eq "'email' is not a valid email address"
         end
       end
     end
@@ -114,8 +114,8 @@ describe Assert::Email do
         INVALID_LOOSE_EMAILS.each do |email|
           model = EmailLOOSETest.from_json(%({"email": "#{email}"}))
           model.valid?.should be_false
-          model.errors.size.should eq 1
-          model.errors.first.should eq "'email' is not a valid email address"
+          model.validation_errors.size.should eq 1
+          model.validation_errors.first.should eq "'email' is not a valid email address"
         end
       end
     end
@@ -142,8 +142,8 @@ describe Assert::Email do
           INVALID_LOOSE_EMAILS.each do |email|
             model = EmailDefaultTest.from_json(%({"email": "#{email}"}))
             model.valid?.should be_false
-            model.errors.size.should eq 1
-            model.errors.first.should eq "'email' is not a valid email address"
+            model.validation_errors.size.should eq 1
+            model.validation_errors.first.should eq "'email' is not a valid email address"
           end
         end
       end
@@ -153,8 +153,8 @@ describe Assert::Email do
           INVALID_LOOSE_EMAILS.each do |email|
             model = EmailDefaultTestMessage.from_json(%({"email": "#{email}"}))
             model.valid?.should be_false
-            model.errors.size.should eq 1
-            model.errors.first.should eq "Invalid Email"
+            model.validation_errors.size.should eq 1
+            model.validation_errors.first.should eq "Invalid Email"
           end
         end
       end

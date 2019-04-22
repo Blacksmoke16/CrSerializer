@@ -42,11 +42,11 @@ describe Assert::IsNil do
     it "should be invalid" do
       model = IsNilTest.from_json(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
       model.valid?.should be_false
-      model.errors.size.should eq 4
-      model.errors.first.should eq "'age' should be null"
-      model.errors[1].should eq "'attending' should be null"
-      model.errors[2].should eq "'cash' should be null"
-      model.errors[3].should eq "'name' should be null"
+      model.validation_errors.size.should eq 4
+      model.validation_errors.first.should eq "'age' should be null"
+      model.validation_errors[1].should eq "'attending' should be null"
+      model.validation_errors[2].should eq "'cash' should be null"
+      model.validation_errors[3].should eq "'name' should be null"
     end
   end
 
@@ -54,8 +54,8 @@ describe Assert::IsNil do
     it "should use correct message" do
       model = IsNilTestMessage.from_json(%({"age": 123}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Expected age to be nil but got 123"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Expected age to be nil but got 123"
     end
   end
 end

@@ -71,12 +71,12 @@ describe Assert::Choice do
     it "should be invalid" do
       model = ChoiceTest.from_json(%({"age": 2,"size":2,"attending":true,"name":"Phill","cash":3.16}))
       model.valid?.should be_false
-      model.errors.size.should eq 5
-      model.errors.first.should eq "'age' you selected is not a valid choice"
-      model.errors[1].should eq "'size' you selected is not a valid choice"
-      model.errors[2].should eq "'attending' you selected is not a valid choice"
-      model.errors[3].should eq "'name' you selected is not a valid choice"
-      model.errors[4].should eq "'cash' you selected is not a valid choice"
+      model.validation_errors.size.should eq 5
+      model.validation_errors.first.should eq "'age' you selected is not a valid choice"
+      model.validation_errors[1].should eq "'size' you selected is not a valid choice"
+      model.validation_errors[2].should eq "'attending' you selected is not a valid choice"
+      model.validation_errors[3].should eq "'name' you selected is not a valid choice"
+      model.validation_errors[4].should eq "'cash' you selected is not a valid choice"
     end
   end
 
@@ -91,8 +91,8 @@ describe Assert::Choice do
     it "should use correct message" do
       model = ChoiceTestMessage.from_json(%({"name":"Kim"}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Name is not a valid choice"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Name is not a valid choice"
     end
   end
 
@@ -111,15 +111,15 @@ describe Assert::Choice do
       it "should be invalid if number of matches is less than min_matches" do
         model = ChoiceMultipleTestMin.from_json(%({"fav_letters": ["a", "e", "d"]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "You must have at least 2 choices"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "You must have at least 2 choices"
       end
 
       describe "with the default message" do
         model = ChoiceMultipleTestMinMessage.from_json(%({"fav_letters": ["a", "e", "d"]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "fav_letters: You must select at least 2 choices"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "fav_letters: You must select at least 2 choices"
       end
     end
 
@@ -132,8 +132,8 @@ describe Assert::Choice do
       it "should be invalid if number of matches is greater than max_matches" do
         model = ChoiceMultipleTestMax.from_json(%({"fav_letters": ["a", "b", "c"]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "You must have at most 2 choices"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "You must have at most 2 choices"
       end
 
       it "should be valid if number of matches is less than max_matches" do
@@ -144,8 +144,8 @@ describe Assert::Choice do
       describe "with the default message" do
         model = ChoiceMultipleTestMaxMessage.from_json(%({"fav_letters": ["a", "b", "c"]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "fav_letters: You must select at most 2 choices"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "fav_letters: You must select at most 2 choices"
       end
     end
 
@@ -158,15 +158,15 @@ describe Assert::Choice do
       it "should be invalid if one value is not a valid choice" do
         model = ChoiceMultipleTest.from_json(%({"fav_numbers": [2,4,5]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "One ore more value is invalid"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "One ore more value is invalid"
       end
 
       it "should be invalid if more than one value is not a valid choice" do
         model = ChoiceMultipleTest.from_json(%({"fav_numbers": [2,3,7]}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "One ore more value is invalid"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "One ore more value is invalid"
       end
     end
   end

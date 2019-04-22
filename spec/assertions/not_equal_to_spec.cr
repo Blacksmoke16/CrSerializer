@@ -53,11 +53,11 @@ describe Assert::NotEqualTo do
     it "should be invalid" do
       model = NotEqualToTest.from_json(%({"age": 12,"attending":true,"cash":99.99,"name":"John"}))
       model.valid?.should be_false
-      model.errors.size.should eq 4
-      model.errors[0].should eq "'age' should be not equal to 12"
-      model.errors[1].should eq "'attending' should be not equal to true"
-      model.errors[2].should eq "'cash' should be not equal to 99.99"
-      model.errors[3].should eq "'name' should be not equal to John"
+      model.validation_errors.size.should eq 4
+      model.validation_errors[0].should eq "'age' should be not equal to 12"
+      model.validation_errors[1].should eq "'attending' should be not equal to true"
+      model.validation_errors[2].should eq "'cash' should be not equal to 99.99"
+      model.validation_errors[3].should eq "'name' should be not equal to John"
     end
   end
 
@@ -65,8 +65,8 @@ describe Assert::NotEqualTo do
     it "should use correct message" do
       model = NotEqualToTestMessage.from_json(%({"age": 12}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Expected age to not equal 12 but got 12"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Expected age to not equal 12 but got 12"
     end
   end
 

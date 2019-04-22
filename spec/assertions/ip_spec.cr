@@ -104,8 +104,8 @@ describe Assert::IP do
         INVALID_IPV4.each do |ip|
           model = IPV4Test.from_json(%({"ip": "#{ip}"}))
           model.valid?.should be_false
-          model.errors.size.should eq 1
-          model.errors.first.should eq "'ip' is not a valid IP address"
+          model.validation_errors.size.should eq 1
+          model.validation_errors.first.should eq "'ip' is not a valid IP address"
         end
       end
     end
@@ -125,8 +125,8 @@ describe Assert::IP do
         INVALID_IPV6.each do |ip|
           model = IPV6Test.from_json(%({"ip": "#{ip}"}))
           model.valid?.should be_false
-          model.errors.size.should eq 1
-          model.errors.first.should eq "'ip' is not a valid IP address"
+          model.validation_errors.size.should eq 1
+          model.validation_errors.first.should eq "'ip' is not a valid IP address"
         end
       end
     end
@@ -147,8 +147,8 @@ describe Assert::IP do
           INVALID_IPV4.each do |ip|
             model = IPDefaultTest.from_json(%({"ip": "#{ip}"}))
             model.valid?.should be_false
-            model.errors.size.should eq 1
-            model.errors.first.should eq "'ip' is not a valid IP address"
+            model.validation_errors.size.should eq 1
+            model.validation_errors.first.should eq "'ip' is not a valid IP address"
           end
         end
       end
@@ -158,8 +158,8 @@ describe Assert::IP do
           INVALID_IPV4.each do |ip|
             model = IPDefaultMessageTest.from_json(%({"ip": "#{ip}"}))
             model.valid?.should be_false
-            model.errors.size.should eq 1
-            model.errors.first.should eq "#{ip} is not a valid IP address"
+            model.validation_errors.size.should eq 1
+            model.validation_errors.first.should eq "#{ip} is not a valid IP address"
           end
         end
       end

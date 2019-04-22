@@ -25,8 +25,8 @@ describe Assert::InRange do
       it "should be invalid" do
         model = InRangeTest.from_json(%({"age": 150}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "'age' should be 100.0 or less"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "'age' should be 100.0 or less"
       end
     end
 
@@ -34,8 +34,8 @@ describe Assert::InRange do
       it "should be invalid" do
         model = InRangeTest.from_json(%({"age": -10}))
         model.valid?.should be_false
-        model.errors.size.should eq 1
-        model.errors.first.should eq "'age' should be 0.0 or more"
+        model.validation_errors.size.should eq 1
+        model.validation_errors.first.should eq "'age' should be 0.0 or more"
       end
     end
   end
@@ -51,15 +51,15 @@ describe Assert::InRange do
     it "should use correct min_message" do
       model = InRangeTestMessage.from_json(%({"age": -50}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Age cannot be negative"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Age cannot be negative"
     end
 
     it "should use correct max_message" do
       model = InRangeTestMessage.from_json(%({"age": 150}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "You cannot live more than 100 years"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "You cannot live more than 100 years"
     end
   end
 end

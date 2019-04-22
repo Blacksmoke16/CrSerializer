@@ -24,8 +24,8 @@ describe Assert::NotBlank do
     it "should be invalid" do
       model = NotBlankTest.from_json(%({"name": ""}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "'name' should not be blank"
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "'name' should not be blank"
     end
   end
 
@@ -40,8 +40,8 @@ describe Assert::NotBlank do
     it "should use correct message" do
       model = NotBlankTestMessage.from_json(%({"name":""}))
       model.valid?.should be_false
-      model.errors.size.should eq 1
-      model.errors.first.should eq "Expected name to not be blank but got \"\""
+      model.validation_errors.size.should eq 1
+      model.validation_errors.first.should eq "Expected name to not be blank but got \"\""
     end
   end
 end
