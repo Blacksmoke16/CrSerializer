@@ -34,8 +34,8 @@ describe "YAML" do
     end
 
     describe "nested classes" do
-      context "without valid assertion" do
-        context "with single objects" do
+      describe "without valid assertion" do
+        describe "with single objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedTest.from_yaml %(---\nname:\n  n: foo\nage:\n  yrs: 5\n)
@@ -60,7 +60,7 @@ describe "YAML" do
           end
         end
 
-        context "with an array of objects" do
+        describe "with an array of objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedArrayTest.from_yaml %(---\nname:\n  n: foo\nage:\n  yrs: 5\nfriends:\n  - n: Jim\n  - n: Jim)
@@ -96,8 +96,8 @@ describe "YAML" do
       end
     end
 
-    context "with valid assertion" do
-      context "with single objects" do
+    describe "with valid assertion" do
+      describe "with single objects" do
         describe "when all properties are valid" do
           it "should deserialize correctly and be valid" do
             model = NestedValidTest.from_yaml %(---\nname:\n  n: foo\nage:\n  yrs: 5\n)
@@ -119,7 +119,7 @@ describe "YAML" do
           end
         end
 
-        context "with an array of objects" do
+        describe "with an array of objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedArrayValidTest.from_yaml %(---\nname:\n  n: foo\nage:\n  yrs: 5\nfriends:\n  - n: Jim\n  - n: Jim)

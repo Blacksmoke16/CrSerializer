@@ -9,7 +9,9 @@ module CrSerializer::Assertions
   # @[Assert::IsNil]
   # property name : String
   # ```
-  class IsNilAssertion(ActualValueType) < Assertion
+  class IsNilAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' should be null"
 
     def initialize(field : String, message : String?, @actual : ActualValueType)

@@ -26,7 +26,9 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: Nil values are considered valid
-  class EmailAssertion(ActualValueType) < Assertion
+  class EmailAssertion(ActualValueType)
+    include Assertion
+
     LOOSE = /^.+\@\S+\.\S+$/
     HTML5 = /^[a-zA-Z0-9.!\#$\%&\'*+\\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/
     @message : String = "'{{field}}' is not a valid email address"

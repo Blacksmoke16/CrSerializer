@@ -42,21 +42,18 @@ describe "JSON" do
     describe "emit_null" do
       it "should serialize correctly" do
         model = EmitNullTest.new
-        model.name = "John"
         model.im_null = "foo"
         model.to_json.should eq %({"age":null,"name":"John","im_null":"foo"})
       end
 
       it "should not emit_null by default" do
         model = EmitNullTest.new
-        model.name = "John"
         model.to_json.should eq %({"age":null,"name":"John"})
       end
 
       describe "with an array" do
         it "should serialize correctly" do
           model = EmitNullTest.new
-          model.name = "John"
           model.im_null = "foo"
           [model, model].to_json.should eq %([{"age":null,"name":"John","im_null":"foo"},{"age":null,"name":"John","im_null":"foo"}])
         end
@@ -134,7 +131,7 @@ describe "JSON" do
     end
 
     describe "since/until" do
-      context "with no version set" do
+      describe "with no version set" do
         it "should serialize properties without annotation or nil annotation" do
           VersionsTest.new.to_json.should eq %({"none":"None","null":"null"})
         end
@@ -146,7 +143,7 @@ describe "JSON" do
         end
       end
 
-      context "with a version set" do
+      describe "with a version set" do
         describe "that is less than the since version" do
           it "should serialize the old name and not the new name" do
             CrSerializer.version = "0.5.0"

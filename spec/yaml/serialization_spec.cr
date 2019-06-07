@@ -134,7 +134,7 @@ describe "YAML" do
     end
 
     describe "since/until" do
-      context "with no version set" do
+      describe "with no version set" do
         it "should serialize properties without annotation or nil annotation" do
           VersionsTest.new.to_yaml.should eq %(---\nnone: None\n"null": "null"\n)
         end
@@ -146,7 +146,7 @@ describe "YAML" do
         end
       end
 
-      context "with a version set" do
+      describe "with a version set" do
         describe "that is less than the since version" do
           it "should serialize the old name and not the new name" do
             CrSerializer.version = "0.5.0"

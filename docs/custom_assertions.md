@@ -15,12 +15,13 @@ This would allow the annotation to be used like:
 property age : Int32
 ```
 
-2. Define an assertion class, with generics, that inherits from the `CrSerializer::Assertions::Assertion` class.  The assertion class must be the annotation name + `Assertion`. 
+2. Define an assertion class, with generics, that includes `CrSerializer::Assertions::Assertion`.  The assertion class must be the annotation name + `Assertion`. 
 
 A custom failed assertion message can be defined by adding an `@message : String` instance variable in the class.  The same placeholder values are also usable in custom assertions.
 ```crystal
+class MyCustomAssertion(ActualValueType)
+  include CrSerialize::Assertions::Assertion
 
-class MyCustomAssertion(ActualValueType) < CrSerialize::Assertions::Assertion
   @message : String = "'{{field}}' does not equal foo"
 end
 ```
@@ -55,7 +56,9 @@ end
 
 The final class would be:
 ```crystal
-class MyCustomAssertion(ActualValueType) < CrSerialize::Assertions::Assertion
+class MyCustomAssertion(ActualValueType)
+  include CrSerialize::Assertions::Assertion
+
   @message : String = "'{{field}}' does not equal foo"
 
   def initialize(

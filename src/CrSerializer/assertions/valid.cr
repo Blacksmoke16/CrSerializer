@@ -9,7 +9,9 @@ module CrSerializer::Assertions
   # @[Assert::Valid]
   # property sub_class : MyClass
   # ```
-  class ValidAssertion(ActualValueType) < Assertion
+  class ValidAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "{{field}} should be valid"
 
     def initialize(

@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class NonStrictUUIDTest
   include CrSerializer(JSON | YAML)
@@ -130,7 +130,7 @@ VALID_OTHER_VARIANT_UUID = [
 
 describe Assert::Uuid do
   describe "non strict" do
-    context "invalid UUIDs" do
+    describe "invalid UUIDs" do
       it "should all be invalid" do
         INVALID_NON_STRICT_UUID.each do |uuid|
           model = StrictUUIDTest.from_json(%({"uuid": "#{uuid}"}))
@@ -141,7 +141,7 @@ describe Assert::Uuid do
       end
     end
 
-    context "valid UUIDs" do
+    describe "valid UUIDs" do
       it "should all be valid" do
         VALID_NON_STRICT_UUID.each do |uuid|
           NonStrictUUIDTest.from_json(%({"uuid": "#{uuid}"})).valid?.should be_true
@@ -151,7 +151,7 @@ describe Assert::Uuid do
   end
 
   describe "strict" do
-    context "invalid UUIDs" do
+    describe "invalid UUIDs" do
       it "should all be invalid" do
         INVALID_STRICT_UUID.each do |uuid|
           model = StrictUUIDTest.from_json(%({"uuid": "#{uuid}"}))
@@ -162,7 +162,7 @@ describe Assert::Uuid do
       end
     end
 
-    context "valid UUIDs" do
+    describe "valid UUIDs" do
       it "should all be valid" do
         VALID_STRICT_UUID.each do |uuid|
           StrictUUIDTest.from_json(%({"uuid": "#{uuid}"})).valid?.should be_true
@@ -172,7 +172,7 @@ describe Assert::Uuid do
   end
 
   describe "custom versions" do
-    context "invalid UUIDs" do
+    describe "invalid UUIDs" do
       it "should all be invalid" do
         VALID_V1_UUID.each do |uuid|
           model = VersionUUIDTest.from_json(%({"uuid": "#{uuid}"}))
@@ -183,7 +183,7 @@ describe Assert::Uuid do
       end
     end
 
-    context "valid UUIDs" do
+    describe "valid UUIDs" do
       it "should all be valid" do
         VALID_V4_UUID.each do |uuid|
           VersionUUIDTest.from_json(%({"uuid": "#{uuid}"})).valid?.should be_true
@@ -193,7 +193,7 @@ describe Assert::Uuid do
   end
 
   describe "custom variants" do
-    context "invalid UUIDs" do
+    describe "invalid UUIDs" do
       it "should all be invalid" do
         INVALID_OTHER_VARIANT_UUID.each do |uuid|
           model = VariantUUIDTest.from_json(%({"uuid": "#{uuid}"}))
@@ -204,7 +204,7 @@ describe Assert::Uuid do
       end
     end
 
-    context "valid UUIDs" do
+    describe "valid UUIDs" do
       it "should all be valid" do
         VALID_OTHER_VARIANT_UUID.each do |uuid|
           VariantUUIDTest.from_json(%({"uuid": "#{uuid}"})).valid?.should be_true
@@ -214,7 +214,7 @@ describe Assert::Uuid do
   end
 
   describe "default" do
-    context "with valid UUIDs" do
+    describe "with valid UUIDs" do
       it "should all be valid" do
         VALID_NON_STRICT_UUID.each do |uuid|
           DefaultUUIDTest.from_json(%({"uuid": "#{uuid}"})).valid?.should be_true
@@ -222,8 +222,8 @@ describe Assert::Uuid do
       end
     end
 
-    context "with invalid urls" do
-      context "without a custom message" do
+    describe "with invalid urls" do
+      describe "without a custom message" do
         it "should all be invalid" do
           INVALID_NON_STRICT_UUID.each do |uuid|
             model = DefaultUUIDTest.from_json(%({"uuid": "#{uuid}"}))
@@ -234,7 +234,7 @@ describe Assert::Uuid do
         end
       end
 
-      context "with a custom message" do
+      describe "with a custom message" do
         it "should return proper error message" do
           INVALID_NON_STRICT_UUID.each do |uuid|
             model = DefaultUUIDTestMessage.from_json(%({"uuid": "#{uuid}"}))
@@ -246,7 +246,7 @@ describe Assert::Uuid do
       end
     end
 
-    context "with null urls" do
+    describe "with null urls" do
       it "should be valid" do
         DefaultUUIDTest.from_json(%({"uuid": null})).valid?.should be_true
       end

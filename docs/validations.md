@@ -31,7 +31,7 @@ Custom assertions can also be defined for more use case specific cases.  See the
 
 Each assertion has an auto defined `message` field that can be used to override the default error message.  
 
-```
+```crystal
 @[Assert::EqualTo(value: "Jim", message: "name is not equal")]
 property name : String
 ```
@@ -46,7 +46,6 @@ property name : String
 
 # Assuming the property is invalid, it would return the message
 "Expected name to equal Jim but got foo"
-
 ```
 
 #### Placeholder Patterns

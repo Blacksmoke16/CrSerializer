@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class InRangeTest
   include CrSerializer(JSON | YAML)
@@ -21,7 +21,7 @@ describe Assert::InRange do
   end
 
   describe "with out of range property" do
-    context "that is too big" do
+    describe "that is too big" do
       it "should be invalid" do
         model = InRangeTest.from_json(%({"age": 150}))
         model.valid?.should be_false
@@ -30,7 +30,7 @@ describe Assert::InRange do
       end
     end
 
-    context "that is too small" do
+    describe "that is too small" do
       it "should be invalid" do
         model = InRangeTest.from_json(%({"age": -10}))
         model.valid?.should be_false

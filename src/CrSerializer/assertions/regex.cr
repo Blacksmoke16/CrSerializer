@@ -14,7 +14,9 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: Nil values are considered valid
-  class RegexMatchAssertion(ActualValueType) < Assertion
+  class RegexMatchAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' is not valid"
 
     def initialize(

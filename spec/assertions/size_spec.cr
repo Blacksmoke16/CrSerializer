@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class SizeArrayTest
   include CrSerializer(JSON | YAML)
@@ -22,7 +22,7 @@ class SizeTestMessage
 end
 
 describe Assert::Size do
-  context "with an array" do
+  describe "with an array" do
     describe "with an in range size" do
       it "should be valid" do
         model = SizeArrayTest.from_json(%({"fav_numbers": [1,2]}))
@@ -31,7 +31,7 @@ describe Assert::Size do
     end
 
     describe "with an out of range size" do
-      context "with an array" do
+      describe "with an array" do
         describe "that is too long" do
           it "should be invalid" do
             model = SizeArrayTest.from_json(%({"fav_numbers": [1,2,3,4]}))
@@ -60,7 +60,7 @@ describe Assert::Size do
     end
   end
 
-  context "with a string" do
+  describe "with a string" do
     describe "with an in range size" do
       it "should be valid" do
         model = SizeStringTest.from_json(%({"password": "aPassword"}))

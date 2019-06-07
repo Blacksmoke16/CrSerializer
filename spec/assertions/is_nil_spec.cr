@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class IsNilTest
   include CrSerializer(JSON | YAML)

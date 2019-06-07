@@ -15,7 +15,7 @@ module CrSerializer(T)
   # See `Validator`
   @validator : CrSerializer::Validator = CrSerializer::Validator.new
 
-  # Rerun all assertions on the current state of the object
+  # Rerun all assertions on the current state of the object.
   def validate : Nil
     assertions = [] of CrSerializer::Assertions::Assertion
     {% for ivar in @type.instance_vars %}

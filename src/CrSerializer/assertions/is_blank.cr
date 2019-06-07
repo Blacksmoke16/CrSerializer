@@ -9,7 +9,9 @@ module CrSerializer::Assertions
   # @[Assert::IsBlank]
   # property name : String
   # ```
-  class IsBlankAssertion(ActualValueType) < Assertion
+  class IsBlankAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' should be blank"
 
     def initialize(field : String, message : String?, @actual : String?)

@@ -12,7 +12,9 @@ module CrSerializer::Assertions
   #
   # NOTE: value can be: a hardcoded value like `10`, the name of another property, or the name of a method
   # NOTE: Nil values are considered valid
-  class GreaterThanAssertion(ActualValueType) < Assertion
+  class GreaterThanAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' should be greater than {{value}}"
 
     def initialize(field : String, message : String?, @actual : ActualValueType, @value : ActualValueType)

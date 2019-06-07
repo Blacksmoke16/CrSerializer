@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class EmailHTML5Test
   include CrSerializer(JSON | YAML)
@@ -74,7 +74,7 @@ INVALID_HTML5_EMAILS = [
 
 describe Assert::Email do
   describe CrSerializer::Assertions::EmailValidationMode::HTML5 do
-    context "with valid emails" do
+    describe "with valid emails" do
       it "should all be valid" do
         VALID_HTML5_EMAILS.each do |email|
           EmailHTML5Test.from_json(%({"email": "#{email}"})).valid?.should be_true
@@ -82,7 +82,7 @@ describe Assert::Email do
       end
     end
 
-    context "with invalid emails" do
+    describe "with invalid emails" do
       it "should all be invalid" do
         INVALID_HTML5_EMAILS.each do |email|
           model = EmailHTML5Test.from_json(%({"email": "#{email}"}))
@@ -93,7 +93,7 @@ describe Assert::Email do
       end
     end
 
-    context "with null email" do
+    describe "with null email" do
       it "should be valid" do
         EmailHTML5Test.from_json(%({"email": null})).valid?.should be_true
       end
@@ -101,7 +101,7 @@ describe Assert::Email do
   end
 
   describe CrSerializer::Assertions::EmailValidationMode::LOOSE do
-    context "with valid emails" do
+    describe "with valid emails" do
       it "should all be valid" do
         VALID_LOOSE_EMAILS.each do |email|
           EmailLOOSETest.from_json(%({"email": "#{email}"})).valid?.should be_true
@@ -109,7 +109,7 @@ describe Assert::Email do
       end
     end
 
-    context "with invalid emails" do
+    describe "with invalid emails" do
       it "should all be invalid" do
         INVALID_LOOSE_EMAILS.each do |email|
           model = EmailLOOSETest.from_json(%({"email": "#{email}"}))
@@ -120,7 +120,7 @@ describe Assert::Email do
       end
     end
 
-    context "with null email" do
+    describe "with null email" do
       it "should be valid" do
         EmailLOOSETest.from_json(%({"email": null})).valid?.should be_true
       end
@@ -128,7 +128,7 @@ describe Assert::Email do
   end
 
   describe "default" do
-    context "with valid emails" do
+    describe "with valid emails" do
       it "should all be valid" do
         VALID_LOOSE_EMAILS.each do |email|
           EmailDefaultTest.from_json(%({"email": "#{email}"})).valid?.should be_true
@@ -136,8 +136,8 @@ describe Assert::Email do
       end
     end
 
-    context "with invalid emails" do
-      context "without a custom message" do
+    describe "with invalid emails" do
+      describe "without a custom message" do
         it "should all be invalid" do
           INVALID_LOOSE_EMAILS.each do |email|
             model = EmailDefaultTest.from_json(%({"email": "#{email}"}))
@@ -148,7 +148,7 @@ describe Assert::Email do
         end
       end
 
-      context "with a custom message" do
+      describe "with a custom message" do
         it "should return proper error message" do
           INVALID_LOOSE_EMAILS.each do |email|
             model = EmailDefaultTestMessage.from_json(%({"email": "#{email}"}))
@@ -160,7 +160,7 @@ describe Assert::Email do
       end
     end
 
-    context "with null email" do
+    describe "with null email" do
       it "should be valid" do
         EmailDefaultTest.from_json(%({"email": null})).valid?.should be_true
       end

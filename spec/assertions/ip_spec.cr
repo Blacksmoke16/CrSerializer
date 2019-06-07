@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class IPV4Test
   include CrSerializer(JSON | YAML)
@@ -91,7 +91,7 @@ INVALID_IPV6 = [
 
 describe Assert::IP do
   describe CrSerializer::Assertions::IPVersion::IPV4 do
-    context "with valid IPV4 addresses" do
+    describe "with valid IPV4 addresses" do
       it "should all be valid" do
         VALID_IPV4.each do |ip|
           IPV4Test.from_json(%({"ip": "#{ip}"})).valid?.should be_true
@@ -99,7 +99,7 @@ describe Assert::IP do
       end
     end
 
-    context "with invalid IPV4 addresses" do
+    describe "with invalid IPV4 addresses" do
       it "should all be invalid" do
         INVALID_IPV4.each do |ip|
           model = IPV4Test.from_json(%({"ip": "#{ip}"}))
@@ -112,7 +112,7 @@ describe Assert::IP do
   end
 
   describe CrSerializer::Assertions::IPVersion::IPV6 do
-    context "with valid IPV6 addresses" do
+    describe "with valid IPV6 addresses" do
       it "should all be valid" do
         VALID_IPV6.each do |ip|
           IPV6Test.from_json(%({"ip": "#{ip}"})).valid?.should be_true
@@ -120,7 +120,7 @@ describe Assert::IP do
       end
     end
 
-    context "with invalid IPV6 addresses" do
+    describe "with invalid IPV6 addresses" do
       it "should all be invalid" do
         INVALID_IPV6.each do |ip|
           model = IPV6Test.from_json(%({"ip": "#{ip}"}))
@@ -133,7 +133,7 @@ describe Assert::IP do
   end
 
   describe "default" do
-    context "with valid IPV4 addresses" do
+    describe "with valid IPV4 addresses" do
       it "should all be valid" do
         VALID_IPV4.each do |ip|
           IPDefaultTest.from_json(%({"ip": "#{ip}"})).valid?.should be_true
@@ -141,8 +141,8 @@ describe Assert::IP do
       end
     end
 
-    context "with invalid emails" do
-      context "without a custom message" do
+    describe "with invalid emails" do
+      describe "without a custom message" do
         it "should all be invalid" do
           INVALID_IPV4.each do |ip|
             model = IPDefaultTest.from_json(%({"ip": "#{ip}"}))
@@ -153,7 +153,7 @@ describe Assert::IP do
         end
       end
 
-      context "with a custom message" do
+      describe "with a custom message" do
         it "should return proper error message" do
           INVALID_IPV4.each do |ip|
             model = IPDefaultMessageTest.from_json(%({"ip": "#{ip}"}))
@@ -165,7 +165,7 @@ describe Assert::IP do
       end
     end
 
-    context "with null email" do
+    describe "with null email" do
       it "should be valid" do
         IPDefaultTest.from_json(%({"email": null})).valid?.should be_true
       end

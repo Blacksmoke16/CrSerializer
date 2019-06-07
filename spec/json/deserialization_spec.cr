@@ -34,8 +34,8 @@ describe "JSON" do
     end
 
     describe "nested classes" do
-      context "without valid assertion" do
-        context "with single objects" do
+      describe "without valid assertion" do
+        describe "with single objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5}})
@@ -60,7 +60,7 @@ describe "JSON" do
           end
         end
 
-        context "with an array of objects" do
+        describe "with an array of objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedArrayTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":[{"n":"Jim"},{"n":"Jim"}]})
@@ -95,8 +95,8 @@ describe "JSON" do
         end
       end
 
-      context "with valid assertion" do
-        context "with single objects" do
+      describe "with valid assertion" do
+        describe "with single objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly and be valid" do
               model = NestedValidTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5}})
@@ -119,7 +119,7 @@ describe "JSON" do
           end
         end
 
-        context "with an array of objects" do
+        describe "with an array of objects" do
           describe "when all properties are valid" do
             it "should deserialize correctly" do
               model = NestedArrayValidTest.from_json %({"name":{"n": "foo"},"age":{"yrs": 5},"friends":[{"n":"Jim"},{"n":"Jim"}]})

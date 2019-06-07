@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class IsTrueTest
   include CrSerializer(JSON | YAML)

@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 # Test class
 class CustomTest
@@ -9,7 +9,9 @@ class CustomTest
 end
 
 # Define an assertion handler
-class FooAssertion(ActualValueType) < CrSerializer::Assertions::Assertion
+class FooAssertion(ActualValueType)
+  include CrSerializer::Assertions::Assertion
+
   def initialize(field : String, message : String?, @actual : ActualValueType, noop : Nil = nil)
     super field, message
   end

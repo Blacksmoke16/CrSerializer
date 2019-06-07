@@ -18,7 +18,9 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: choices array must be of same type as property
-  class ChoiceAssertion(ActualValueType) < Assertion
+  class ChoiceAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' you selected is not a valid choice"
 
     def initialize(

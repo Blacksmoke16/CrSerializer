@@ -11,7 +11,9 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: For nil assertion see `IsNilAssertion`
-  class EqualToAssertion(ActualValueType) < Assertion
+  class EqualToAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' should be equal to {{value}}"
 
     def initialize(field : String, message : String?, @actual : ActualValueType, @value : ActualValueType)

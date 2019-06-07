@@ -9,7 +9,9 @@ module CrSerializer::Assertions
   # @[Assert::Luhn]
   # property cc_number : String
   # ```
-  class LuhnAssertion(ActualValueType) < Assertion
+  class LuhnAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' is an invalid credit card number"
 
     def initialize(field : String, message : String?, @actual : String?)

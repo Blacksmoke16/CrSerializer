@@ -9,7 +9,9 @@ module CrSerializer::Assertions
   # @[Assert::IsFalse]
   # property is_attending : Bool
   # ```
-  class IsFalseAssertion(ActualValueType) < Assertion
+  class IsFalseAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' should be false"
 
     def initialize(field : String, message : String?, @actual : Bool?)

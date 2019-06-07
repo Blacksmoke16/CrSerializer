@@ -12,7 +12,9 @@ module CrSerializer::Assertions
   #
   # NOTE: value can be: a hard-coded value like `10`, the name of another property, or the name of a method
   # NOTE: For not nil assertion see `NotNilAssertion`
-  class NotEqualToAssertion(ActualValueType) < Assertion
+  class NotEqualToAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' should be not equal to {{value}}"
 
     def initialize(field : String, message : String?, @actual : ActualValueType, @value : ActualValueType)

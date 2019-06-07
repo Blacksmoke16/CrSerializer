@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class ChoiceTest
   include CrSerializer(JSON | YAML)
@@ -97,7 +97,7 @@ describe Assert::Choice do
   end
 
   describe "with multiple values" do
-    context "min" do
+    describe "min" do
       it "should be valid if number of matches is equal to min_matches" do
         model = ChoiceMultipleTestMin.from_json(%({"fav_letters": ["a", "b", "d"]}))
         model.valid?.should be_true
@@ -123,7 +123,7 @@ describe Assert::Choice do
       end
     end
 
-    context "max" do
+    describe "max" do
       it "should be valid if number of matches is equal to max_matches" do
         model = ChoiceMultipleTestMax.from_json(%({"fav_letters": ["a", "b", "d"]}))
         model.valid?.should be_true
@@ -149,7 +149,7 @@ describe Assert::Choice do
       end
     end
 
-    context "without min/max" do
+    describe "without min/max" do
       it "should be valid if all all values match" do
         model = ChoiceMultipleTest.from_json(%({"fav_numbers": [2,4,6]}))
         model.valid?.should be_true

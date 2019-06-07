@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class RegexMatchTest
   include CrSerializer(JSON | YAML)

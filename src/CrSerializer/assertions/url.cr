@@ -15,7 +15,9 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: Nil values are considered valid
-  class UrlAssertion(ActualValueType) < Assertion
+  class UrlAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' is not a valid URL"
 
     def initialize(

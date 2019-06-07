@@ -16,7 +16,9 @@ module CrSerializer::Assertions
   #
   # NOTE: Nil values are considered valid
   # NOTE: range must be of type `Range(Float64, Float64)`
-  class InRangeAssertion(ActualValueType) < Assertion
+  class InRangeAssertion(ActualValueType)
+    include Assertion
+
     def initialize(
       field : String,
       message : String?,

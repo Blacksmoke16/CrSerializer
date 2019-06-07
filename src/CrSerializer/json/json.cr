@@ -1,6 +1,5 @@
 # :nodoc:
 module JSON::Serializable
-  # ameba:disable Metrics/CyclomaticComplexity
   def to_json(json : ::JSON::Builder, serialization_groups : Array(String), expand : Array(String))
     {% begin %}
       {% properties = {} of Nil => Nil %}

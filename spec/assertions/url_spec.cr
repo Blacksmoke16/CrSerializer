@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class UrlTest
   include CrSerializer(JSON | YAML)
@@ -156,7 +156,7 @@ INVALID_RELATIVE_URLS = [
 
 describe Assert::Url do
   describe "normal" do
-    context "valid urls" do
+    describe "valid urls" do
       it "should all be valid" do
         VALID_URLS.each do |url|
           UrlTest.from_json(%({"url": "#{url}"})).valid?.should be_true
@@ -164,7 +164,7 @@ describe Assert::Url do
       end
     end
 
-    context "invalid urls" do
+    describe "invalid urls" do
       it "should all be invalid" do
         INVALID_URLS.each do |url|
           model = UrlTest.from_json(%({"url": "#{url}"}))
@@ -177,7 +177,7 @@ describe Assert::Url do
   end
 
   describe "custom protocols" do
-    context "valid urls" do
+    describe "valid urls" do
       it "should all be valid" do
         VALID_CUSTOM_PROTOCOLS.each do |url|
           UrlProtocolTest.from_json(%({"url": "#{url}"})).valid?.should be_true
@@ -187,7 +187,7 @@ describe Assert::Url do
   end
 
   describe "relative protocols" do
-    context "with valid urls" do
+    describe "with valid urls" do
       it "should all be valid" do
         VALID_RELATIVE_URLS.each do |url|
           UrlRelativeProtocolTest.from_json(%({"url": "#{url}"})).valid?.should be_true
@@ -195,7 +195,7 @@ describe Assert::Url do
       end
     end
 
-    context "with invalid urls" do
+    describe "with invalid urls" do
       it "should all be invalid" do
         INVALID_RELATIVE_URLS.each do |url|
           model = UrlRelativeProtocolTest.from_json(%({"url": "#{url}"}))
@@ -208,7 +208,7 @@ describe Assert::Url do
   end
 
   describe "default" do
-    context "with valid urls" do
+    describe "with valid urls" do
       it "should all be valid" do
         VALID_URLS.each do |url|
           UrlDefaultTest.from_json(%({"url": "#{url}"})).valid?.should be_true
@@ -216,8 +216,8 @@ describe Assert::Url do
       end
     end
 
-    context "with invalid urls" do
-      context "without a custom message" do
+    describe "with invalid urls" do
+      describe "without a custom message" do
         it "should all be invalid" do
           INVALID_URLS.each do |url|
             model = UrlDefaultTest.from_json(%({"url": "#{url}"}))
@@ -228,7 +228,7 @@ describe Assert::Url do
         end
       end
 
-      context "with a custom message" do
+      describe "with a custom message" do
         it "should return proper error message" do
           INVALID_URLS.each do |url|
             model = UrlDefaultTestMessage.from_json(%({"url": "#{url}"}))
@@ -240,7 +240,7 @@ describe Assert::Url do
       end
     end
 
-    context "with null urls" do
+    describe "with null urls" do
       it "should be valid" do
         UrlDefaultTest.from_json(%({"url": null})).valid?.should be_true
       end

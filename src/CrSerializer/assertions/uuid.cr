@@ -17,7 +17,9 @@ module CrSerializer::Assertions
   # ```
   #
   # NOTE: Nil values are considered valid
-  class UuidAssertion(ActualValueType) < Assertion
+  class UuidAssertion(ActualValueType)
+    include Assertion
+
     @message : String = "'{{field}}' is not a valid UUID"
 
     def initialize(

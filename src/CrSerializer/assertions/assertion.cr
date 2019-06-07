@@ -36,12 +36,15 @@ module CrSerializer::Assertions
   # Base class of all assertions
   #
   # Sets the field instance variable name, and message if no message was provided
-  abstract class Assertion
+  module Assertion
     # :nodoc:
     getter message : String = "The #{{{@type.name.split("::").last.split('(').first}}} has failed."
 
     # The property that the assertion is tested against
     getter field : String
+
+    # The current value of the property
+    getter actual
 
     def initialize(@field : String, message : String?)
       if msg = message
@@ -50,24 +53,10 @@ module CrSerializer::Assertions
     end
 
     # Returns true if the provided property passes the assertion, otherwise false.
-    #
-    # TODO make this abstract once [this issue](https://github.com/crystal-lang/crystal/issues/6996) is resolved.
-    def valid? : Bool
-      true
-    end
+    abstract def valid? : Bool
 
-    # Message to display when validation fails.
-    #
-    # TODO make this abstract once [this issue](https://github.com/crystal-lang/crystal/issues/6996) is resolved.
-    def error_message : String
-      ""
-    end
-
-    macro inherited
-
-      # The current value of the property
-      getter actual
-
+    macro included
+      # :nodoc:
       # The message that will be shown if the assertion is not valid
       def error_message : String
         {% for k, v in CrSerializer::Assertions::ASSERTIONS %}

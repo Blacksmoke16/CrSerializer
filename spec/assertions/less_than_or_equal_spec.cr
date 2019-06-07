@@ -1,4 +1,4 @@
-require "../../spec_helper"
+require "../spec_helper"
 
 class LessThanOrEqualIntegerTest
   include CrSerializer(JSON | YAML)
