@@ -36,7 +36,7 @@ end
 class LessThanDateTest
   include CrSerializer(JSON | YAML)
 
-  @[Assert::LessThan(value: Time.new(2010, 1, 1, location: Time::Location::UTC))]
+  @[Assert::LessThan(value: Time.utc(2010, 1, 1))]
   property startdate : Time?
 
   @[Assert::LessThan(value: startdate)]

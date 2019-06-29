@@ -36,7 +36,7 @@ end
 class GreaterThanOrEqualDateTest
   include CrSerializer(JSON | YAML)
 
-  @[Assert::GreaterThanOrEqual(value: Time.new(2017, 6, 6, location: Time::Location::UTC))]
+  @[Assert::GreaterThanOrEqual(value: Time.utc(2017, 6, 6))]
   property startdate : Time?
 
   @[Assert::GreaterThanOrEqual(value: startdate)]

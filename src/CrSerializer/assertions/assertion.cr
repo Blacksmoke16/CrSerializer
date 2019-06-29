@@ -1,13 +1,13 @@
 module CrSerializer::Assertions
   # :nodoc:
-  alias NUMERICDATATYPES = Float32 | Float64 | Int8 | Int16 | Int32 | Int64 | Int128 | UInt8 | UInt16 | UInt32 | UInt64 | UInt128
+  alias NUMERICDATATYPES = Float::Primitive | Int::Primitive
 
   # :nodoc:
   alias ALLDATATYPES = NUMERICDATATYPES | Bool | String | Nil
 
-  # Mapping of assertion name to fields used for it
+  # Mapping of assertion name to fields used for it.
   #
-  # Used to define annotation classes and keys that should be read off of it
+  # Used to define annotation classes and keys that should be read off of it.
   ASSERTIONS = {
     Assert::NotNil             => ([] of Symbol),
     Assert::IsNil              => ([] of Symbol),
@@ -33,9 +33,9 @@ module CrSerializer::Assertions
     Assert::Choice             => [:choices, :min_matches, :max_matches, :min_message, :max_message, :multiple_message],
   }
 
-  # Base class of all assertions
+  # Base class of all assertions.
   #
-  # Sets the field instance variable name, and message if no message was provided
+  # Sets the field instance variable name, and message if no message was provided.
   module Assertion
     # :nodoc:
     getter message : String = "The #{{{@type.name.split("::").last.split('(').first}}} has failed."
@@ -57,7 +57,7 @@ module CrSerializer::Assertions
 
     macro included
       # :nodoc:
-      # The message that will be shown if the assertion is not valid
+      # The message that will be shown if the assertion is not valid.
       def error_message : String
         {% for k, v in CrSerializer::Assertions::ASSERTIONS %}
           {% if @type.class.name.includes? k.stringify.split("::").last %}

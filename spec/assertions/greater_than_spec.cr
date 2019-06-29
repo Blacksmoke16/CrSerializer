@@ -36,7 +36,7 @@ end
 class GreaterThanDateTest
   include CrSerializer(JSON | YAML)
 
-  @[Assert::GreaterThan(value: Time.new(2010, 1, 1, location: Time::Location::UTC))]
+  @[Assert::GreaterThan(value: Time.utc(2010, 1, 1))]
   property startdate : Time?
 
   @[Assert::GreaterThan(value: startdate)]
