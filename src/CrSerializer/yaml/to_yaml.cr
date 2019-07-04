@@ -82,6 +82,21 @@ class Array
 end
 
 # :nodoc:
+struct YAML::Any
+  def to_yaml(io, serialization_groups : Array(String), expand : Array(String))
+    raw.to_yaml io, serialization_groups, expand
+  end
+
+  def to_json(json : JSON::Builder, serialization_groups : Array(String), expand : Array(String))
+    if (raw = self.raw).is_a?(Slice)
+      raise "Can't serialize #{raw.class} to JSON"
+    else
+      raw.to_json json, serialization_groups, expand
+    end
+  end
+end
+
+# :nodoc:
 struct Tuple
   def to_yaml(yaml : YAML::Nodes::Builder, serialization_groups : Array(String), expand : Array(String))
     yaml.sequence do
@@ -161,5 +176,16 @@ end
 struct Time
   def to_yaml(yaml : YAML::Nodes::Builder, serialization_groups : Array(String), expand : Array(String))
     yaml.scalar Time::Format::YAML_DATE.format(self)
+  end
+end
+
+# :nodoc:
+struct Slice
+  def to_yaml(yaml : YAML::Nodes::Builder, serialization_groups : Array(String), expand : Array(String))
+    {% if T != UInt8 %}
+      {% raise "Can only serialize Slice(UInt8), not #{@type}}" %}
+    {% end %}
+
+    yaml.scalar Base64.encode(self), tag: "tag:yaml.org,2002:binary"
   end
 end

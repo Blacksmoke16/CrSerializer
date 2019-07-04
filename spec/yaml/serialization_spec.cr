@@ -214,5 +214,49 @@ describe "YAML" do
         Config.new.to_yaml.should eq %(---\nrouting:\n  cors:\n    enabled: false\n    strategy: blacklist\n    groups: {}\n)
       end
     end
+
+    describe YAML::Any do
+      describe ".parse" do
+        describe "#to_yaml" do
+          it "should serialize correctly" do
+            YAML.parse("---\nname: 17").to_yaml.should eq "---\nname: 17\n"
+          end
+        end
+
+        describe "#to_json" do
+          it "should serialize correctly" do
+            YAML.parse("---\nname: 17").to_json.should eq %({"name":17})
+          end
+        end
+      end
+
+      describe ".new" do
+        describe "#to_yaml" do
+          it "should serialize correctly" do
+            expected = "--- a\n"
+
+            if YAML.libyaml_version < SemanticVersion.new(0, 2, 1)
+              expected += "...\n"
+            end
+
+            YAML::Any.new("a").to_yaml.should eq expected
+          end
+        end
+
+        describe "#to_json" do
+          it "should serialize correctly" do
+            YAML::Any.new("a").to_json.should eq "\"a\""
+          end
+        end
+      end
+    end
+
+    describe Slice do
+      describe Bytes do
+        it "should serialize correctly" do
+          Bytes[200, 150, 99].to_yaml.should eq "--- !!binary 'yJZj\n\n'\n"
+        end
+      end
+    end
   end
 end

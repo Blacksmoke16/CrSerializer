@@ -81,6 +81,17 @@ class Array
 end
 
 # :nodoc:
+struct JSON::Any
+  def to_json(json : JSON::Builder, serialization_groups : Array(String), expand : Array(String))
+    raw.to_json json, serialization_groups, expand
+  end
+
+  def to_yaml(yaml : YAML::Nodes::Builder, serialization_groups : Array(String), expand : Array(String))
+    raw.to_yaml yaml, serialization_groups, expand
+  end
+end
+
+# :nodoc:
 struct Set
   def to_json(json : JSON::Builder, serialization_groups : Array(String), expand : Array(String))
     json.array do

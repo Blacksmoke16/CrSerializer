@@ -277,5 +277,41 @@ describe "JSON" do
         Config.new.to_json.should eq %({"routing":{"cors":{"enabled":false,"strategy":"blacklist","groups":{}}}})
       end
     end
+
+    describe JSON::Any do
+      describe ".parse" do
+        describe "#to_json" do
+          it "should serialize correctly" do
+            JSON.parse(%({"name":17})).to_json.should eq %({"name":17})
+          end
+        end
+
+        describe "#to_yaml" do
+          it "should serialize correctly" do
+            JSON.parse(%({"name":17})).to_yaml.should eq "---\nname: 17\n"
+          end
+        end
+      end
+
+      describe ".new" do
+        describe "#to_json" do
+          it "should serialize correctly" do
+            JSON::Any.new("a").to_json.should eq "\"a\""
+          end
+        end
+
+        describe "#to_yaml" do
+          it "should serialize correctly" do
+            expected = "--- a\n"
+
+            if YAML.libyaml_version < SemanticVersion.new(0, 2, 1)
+              expected += "...\n"
+            end
+
+            JSON::Any.new("a").to_yaml.should eq expected
+          end
+        end
+      end
+    end
   end
 end
