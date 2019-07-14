@@ -7,14 +7,6 @@ require "semantic_version"
 module CrSerializer(T)
   include CrSerializer::Assertions
 
-  delegate assertions, validation_errors, invalid_properties, valid?, validate, to: @validator
-
-  @[CrSerializer::Options(expose: false)]
-  @[JSON::Field(ignore: true)]
-  @[YAML::Field(ignore: true)]
-  # See `Validator`
-  @validator : CrSerializer::Validator = CrSerializer::Validator.new
-
   # Rerun all assertions on the current state of the object.
   def validate : Nil
     assertions = [] of CrSerializer::Assertions::Assertion
@@ -39,6 +31,14 @@ module CrSerializer(T)
     {% elsif T == JSON %}
       include JSON::Serializable
     {% end %}
+
+    delegate assertions, validation_errors, invalid_properties, valid?, to: @validator
+
+    @[CrSerializer::Options(expose: false)]
+    @[JSON::Field(ignore: true)]
+    @[YAML::Field(ignore: true)]
+    # See `Validator`
+    @validator : CrSerializer::Validator = CrSerializer::Validator.new
 
     # :nodoc:
     def after_initialize : self
