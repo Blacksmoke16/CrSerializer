@@ -4,9 +4,11 @@ describe "JSON" do
   describe ".from_json" do
     describe "readonly" do
       it "should deserialize correctly" do
-        model = ReadOnlyTest.from_json %({"name":"Secret","age":22,"password":"monkey"})
+        model = ReadOnlyTest.from_json %({"name":"Secret","age":22,"password":"monkey","with_default":false,"no_default": "Foo"})
         model.age.should eq 22
         model.name.should be_nil
+        model.with_default.should be_true
+        model.no_default.should be_nil
         model.password.should eq "ADefaultPassword"
       end
     end

@@ -7,6 +7,12 @@ class ReadOnlyTest
   property name : String?
 
   @[CrSerializer::Options(readonly: true)]
+  property with_default : Bool = true
+
+  @[CrSerializer::Options(readonly: true)]
+  property no_default : String?
+
+  @[CrSerializer::Options(readonly: true)]
   property password : String = "ADefaultPassword"
 end
 

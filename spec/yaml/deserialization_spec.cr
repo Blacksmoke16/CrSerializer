@@ -4,9 +4,11 @@ describe "YAML" do
   describe ".from_yaml" do
     describe "readonly" do
       it "should deserialize correctly" do
-        model = ReadOnlyTest.from_yaml %(---\nname: Secret\nage: 22\npassword: money)
+        model = ReadOnlyTest.from_yaml %(---\nname: Secret\nage: 22\npassword: money\nwith_default: true\nno_default: foo)
         model.age.should eq 22
         model.name.should be_nil
+        model.with_default.should be_true
+        model.no_default.should be_nil
         model.password.should eq "ADefaultPassword"
       end
     end

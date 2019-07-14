@@ -47,7 +47,7 @@ module CrSerializer(T)
         \{% for ivar in @type.instance_vars %}
           \{% ann = ivar.annotation(CrSerializer::Options) %}
           \{% if ann && ann[:readonly] == true %}
-            self.\{{ivar.id}} = \{{ivar.default_value}}
+            @\{{ivar.id}} = \{{ivar.default_value}}
           \{% end %}
         \{% end %}
 
