@@ -1,18 +1,18 @@
 name: CrSerializer
 
 description: |
-  Extensible annotation based serialization/deserialization/validation library for Crystal.
+  Extensible annotation based serialization/deserialization library.
 
-version: 0.8.0
+version: 0.8.2
 
 authors:
   - Blacksmoke16 <Blacksmoke16@eve.tools>
 
-crystal: 0.27.2
+crystal: 0.31.0
 
 license: MIT
 
 development_dependencies:
   ameba:
-    github: veelenga/ameba
+    github: crystal-ameba/ameba
     version: ~> 0.10.0

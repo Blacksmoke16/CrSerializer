@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*/*'
+      -  '*'
+      - '!master'
+
+jobs:
+  check_format:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal
+    steps:
+      - uses: actions/checkout@v1
+      - name: Format
+        run: crystal tool format --check
+  coding_standards:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Dependencies
+        run: shards install
+      - name: Ameba
+        run: ./bin/ameba
+  test_latest:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal
+    steps:
+      - uses: actions/checkout@v1
+      - name: Specs
+        run: crystal spec --warnings all --error-on-warnings
+  test_nightly:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:nightly
+    steps:
+      - uses: actions/checkout@v1
+      - name: Specs
+        run: crystal spec --warnings all --error-on-warnings
