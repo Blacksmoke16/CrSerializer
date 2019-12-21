@@ -97,20 +97,15 @@ alias CRS = CrSerializer::Annotations
 # ```
 module CrSerializer
   macro included
-    def self.deserialize(format : CrSerializer::Format.class, string_or_io : String | IO, context : CrSerializer::DeserializationContext = CrSerializer::DeserializationContext.new) : self
-
-      # Initialize the context.  Currently just used to apply default exclusion strategies
-      context.init
-
-      properties = self.deserialization_properties
+    private def self.process_deserialization(context : CrSerializer::DeserializationContext, type = nil, & : Array(Metadata) -> self)
+      properties = type ? type.deserialization_properties : self.deserialization_properties
 
       # Apply exclusion strategies if one is defined
       if strategy = context.exclusion_strategy
         properties.reject! { |property| strategy.skip_property? property, context }
       end
 
-      # Get the serialized output for the set of properties
-      obj = format.deserialize \{{@type}}, properties , string_or_io, context
+      obj = yield properties
 
       # Run any post deserialization methods
       \{% for method in @type.methods.select { |m| m.annotation(CRS::PostDeserialize) } %}
@@ -118,6 +113,36 @@ module CrSerializer
       \{% end %}
 
       obj
+    end
+
+    def self.deserialize(format : CrSerializer::Format.class, string_or_io : String | IO, context : CrSerializer::DeserializationContext = CrSerializer::DeserializationContext.new) : self
+      {% verbatim do %}
+        {% begin %}
+          # Initialize the context.  Currently just used to apply default exclusion strategies
+          context.init
+
+          data = format.prepare string_or_io
+
+          {% if disc = @type.annotation(CRS::Discriminator) %}
+            {% discriminator_key = disc[:key] == nil ? "type" : disc[:key] %}
+
+            discriminator_key = format.discriminator_value(data, {{discriminator_key}})
+            type = case discriminator_key
+              {% for key, type in disc[:map] %}
+                when {{key}} then {{type}}
+              {% end %}
+            else
+              raise CrSerializer::Exceptions::ParseError.new "Missing discriminator field: '#{discriminator_key}'"
+            end
+          {% else %}
+            type = {{@type}}
+          {% end %}
+
+          process_deserialization(context) do |properties|
+            format.deserialize type, properties , data, context
+          end
+          {% end %}
+      {% end %}
     end
 
     def self.deserialization_properties : Array(CrSerializer::Metadata)
@@ -149,6 +174,40 @@ module CrSerializer
     end
   end
 
+  # Private helper method that can be used to run the format agnostic portion of serialization.
+  private def process_serialization(context : CrSerializer::SerializationContext, & : Array(Metadata) -> String?)
+    # Run any pre serialization methods
+    {% for method in @type.methods.select { |m| m.annotation(CRS::PreSerialize) } %}
+        {{method.name}}
+      {% end %}
+
+    properties = serialization_properties
+
+    # Apply exclusion strategies if one is defined
+    if strategy = context.exclusion_strategy
+      properties.reject! { |property| strategy.skip_property? property, context }
+    end
+
+    # Reject properties that should be skipped when empty
+    # or properties that should be skipped when nil
+    properties.reject! do |property|
+      val = property.value
+      skip_when_empty = property.skip_when_empty? && val.responds_to? :empty? && val.empty?
+      skip_nil = !context.emit_nil? && val.nil?
+
+      skip_when_empty || skip_nil
+    end
+
+    output = yield properties
+
+    # Run any post serialization methods
+    {% for method in @type.methods.select { |m| m.annotation(CRS::PostSerialize) } %}
+      {{method.name}}
+    {% end %}
+
+    output
+  end
+
   # Deserializes the given *string_or_io* into `self` from the given *format*, optionally with the given *context*.
   #
   # NOTE: This method is defined within a macro included hook.  This definition is simply for documentation.
@@ -157,44 +216,12 @@ module CrSerializer
 
   # Serializes `self` into the given *format*, optionally with the given *context*.
   def serialize(format : CrSerializer::Format.class, context : CrSerializer::SerializationContext = CrSerializer::SerializationContext.new) : String
-    {% begin %}
+    # Initialize the context.  Currently just used to apply default exclusion strategies
+    context.init
 
-      # Initialize the context.  Currently just used to apply default exclusion strategies
-      context.init
-
-      # Run any pre serialization methods
-      {% for method in @type.methods.select { |m| m.annotation(CRS::PreSerialize) } %}
-        {{method.name}}
-      {% end %}
-
-      properties = serialization_properties
-
-      # Apply exclusion strategies if one is defined
-      if strategy = context.exclusion_strategy
-        properties.reject! { |property| strategy.skip_property? property, context }
-      end
-
-      # Reject properties that shoud be skipped when empty
-      # or properties that should be skipped when nil
-      properties.reject! do |property|
-        val = property.value
-        skip_when_empty = property.skip_when_empty? && val.responds_to? :empty? && val.empty?
-        skip_nil = !context.emit_nil? && val.nil?
-
-        skip_when_empty || skip_nil
-      end
-
-      # Get the serialized output for the set of properties
-      output = format.serialize properties, context
-
-      # Run any post serialization methods
-      {% for method in @type.methods.select { |m| m.annotation(CRS::PostSerialize) } %}
-        {{method.name}}
-      {% end %}
-
-      # Return the serialized data
-      output
-    {% end %}
+    process_serialization(context) do |properties|
+      format.serialize properties, context
+    end
   end
 
   # The `PropertyMetadata` that makes up `self`'s properties.

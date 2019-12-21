@@ -2,8 +2,8 @@
 require "uuid"
 
 private macro define_methods
-  def self.deserialize(format : CrSerializer::Format.class, data : String | IO, context : CrSerializer::DeserializationContext? = nil)
-    format.deserialize \{{@type}}, data, context
+  def self.deserialize(format : CrSerializer::Format.class, input : String | IO, context : CrSerializer::DeserializationContext? = nil)
+    format.deserialize \{{@type}}, input, context
   end
 
   def serialize(format : CrSerializer::Format.class, context : CrSerializer::SerializationContext? = nil) : String

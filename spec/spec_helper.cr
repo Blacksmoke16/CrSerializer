@@ -12,6 +12,27 @@ end
 class SomeObj
 end
 
+class ParentObject
+  include CrSerializer
+
+  def initialize(@child_obj : TestObject); end
+
+  getter child_obj : TestObject
+
+  @[CRS::Skip]
+  getter parent_initialized : Bool = false
+
+  @[CRS::PostSerialize]
+  def set_initialized_serialize : Nil
+    @parent_initialized = true
+  end
+
+  @[CRS::PostDeserialize]
+  def set_initialized_deserialize : Nil
+    @parent_initialized = true
+  end
+end
+
 class TestObject
   include CrSerializer
 
@@ -24,8 +45,13 @@ class TestObject
   @[CRS::Skip]
   getter initialized : Bool = false
 
+  @[CRS::PostSerialize]
+  def set_initialized_serialize : Nil
+    @initialized = true
+  end
+
   @[CRS::PostDeserialize]
-  def set_initialized : Nil
+  def set_initialized_deserialize : Nil
     @initialized = true
   end
 end
@@ -43,8 +69,17 @@ module TEST
   include CrSerializer::Format
 
   class_setter assert_properties : Proc(Array(CrSerializer::Metadata), CrSerializer::Context, Nil) = DEFAULT_PROC
+  class_setter disc : String = "type"
 
-  def self.deserialize(type : _, properties : Array(CrSerializer::Metadata), string_or_io : String | IO, context : CrSerializer::Context)
+  def self.prepare(input : String | IO) : JSON::Any
+    JSON.parse input
+  end
+
+  def self.discriminator_value(data : JSON::Any, key : String) : String?
+    @@disc
+  end
+
+  def self.deserialize(type : _, properties : Array(CrSerializer::Metadata), data : JSON::Any, context : CrSerializer::Context)
     @@assert_properties.call properties, context
     type.new
   end

@@ -11,6 +11,16 @@ describe JSON do
       end
     end
 
+    describe "that has a nested type" do
+      it "deserializes the given JSON string into the type" do
+        obj = ParentObject.from_json %({"child_obj":{"some_name":"Bob"}})
+        obj.parent_initialized.should be_true
+        obj.child_obj.name.should eq "Bob"
+        obj.child_obj.age.should be_nil
+        obj.child_obj.initialized.should be_true
+      end
+    end
+
     describe "that is missing a non-nilable property that doesn't have a default" do
       it "should raise the proper exception" do
         expect_raises CrSerializer::Exceptions::JSONParseError, "Missing json attribute: 'name'" do
@@ -190,6 +200,18 @@ describe JSON do
   describe "#to_json" do
     it "deserializes the given JSON string into the type" do
       TestObject.new("Jim", 123).to_json.should eq %({"the_name":"Jim","age":123})
+    end
+
+    describe "that has a nested type" do
+      it "deserializes the given JSON string into the type" do
+        test_obj = TestObject.new("Jim", 123)
+        parent_obj = ParentObject.new test_obj
+
+        parent_obj.to_json.should eq %({"child_obj":{"the_name":"Jim","age":123}})
+
+        test_obj.initialized.should be_true
+        parent_obj.parent_initialized.should be_true
+      end
     end
   end
 
