@@ -91,8 +91,9 @@ module CrSerializer::Annotations
   # TODO: Implement this.
   annotation Discriminator; end
 
-  # Indicates that a property should not be serialized when used with `CrSerializer::ExclusionPolicy::None`.
+  # Indicates that a property should not be serialized/deserialized when used with `CrSerializer::ExclusionPolicy::None`.
   #
+  # Also see, `CRS::IgnoreOnDeserialize` and `CRS::IgnoreOnSerialize`.
   # ```
   # @[CRS::ExclusionPolicy(:none)]
   # class Example
@@ -117,7 +118,7 @@ module CrSerializer::Annotations
   # See`CrSerializer::ExclusionPolicy`.
   annotation ExclusionPolicy; end
 
-  # Indicates that a property should be serialized when used with `CrSerializer::ExclusionPolicy::All`.
+  # Indicates that a property should be serialized/deserialized when used with `CrSerializer::ExclusionPolicy::All`.
   #
   # ```
   # @[CRS::ExclusionPolicy(:all)]
@@ -141,6 +142,52 @@ module CrSerializer::Annotations
   #
   # See `CrSerializer::ExclusionStrategies::Groups`.
   annotation Groups; end
+
+  # Indicates that a property should not be set on deserialization, but should be serialized.
+  #
+  # ```
+  # class Example
+  #   include CrSerializer
+  #
+  #   def initialize; end
+  #
+  #   property name : String
+  #
+  #   @[CRS::IgnoreOnDeserialize]
+  #   property password : String?
+  # end
+  #
+  # obj = Example.deserialize %({"name":"Jim","password":"monkey123"})
+  #
+  # obj.password # => nil
+  #
+  # obj.password = "foobar"
+  #
+  # obj.to_json # => {"name":"Jim","password":"foobar"}
+  # ```
+  annotation IgnoreOnDeserialize; end
+
+  # Indicates that a property should be set on deserialization, but should not be serialized.
+  #
+  # ```
+  # class Example
+  #   include CrSerializer
+  #
+  #   def initialize; end
+  #
+  #   property name : String
+  #
+  #   @[CRS::IgnoreOnSerialize]
+  #   property password : String
+  # end
+  #
+  # obj = Example.from_json %({"name":"Jim","password":"monkey123"})
+  #
+  # obj.password # => "monkey123"
+  #
+  # obj.to_json # => {"name":"Jim"}
+  # ```
+  annotation IgnoreOnSerialize; end
 
   # Defines a callback method(s) that are ran directly before the object is serialized.
   #

@@ -131,6 +131,7 @@ module CrSerializer
               .reject { |ivar| (ann = ivar.annotation(CRS::ReadOnly)); ann && !ivar.has_default_value? && !ivar.type.nilable? ? raise "#{@type}##{ivar.name} is read-only but is not nilable nor has a default value" : ann }
               .reject { |ivar| (ann = @type.annotation(CRS::ExclusionPolicy)) && ann[0] == :all && !ivar.annotation(CRS::Expose) }  # ExclusionPolicy:ALL && ivar not Exposed
               .reject { |ivar| (ann = @type.annotation(CRS::ExclusionPolicy)) && ann[0] == :none && ivar.annotation(CRS::Exclude) } # ExclusionPolicy:NONE && ivar is Excluded
+              .reject { |ivar| ivar.annotation(CRS::IgnoreOnDeserialize) }
           %}
 
           {{ivars.map do |ivar|
@@ -207,6 +208,7 @@ module CrSerializer
           .reject { |ivar| ivar.annotation(CRS::Skip) }
           .reject { |ivar| (ann = @type.annotation(CRS::ExclusionPolicy)) && ann[0] == :all && !ivar.annotation(CRS::Expose) }  # ExclusionPolicy:ALL && ivar not Exposed
           .reject { |ivar| (ann = @type.annotation(CRS::ExclusionPolicy)) && ann[0] == :none && ivar.annotation(CRS::Exclude) } # ExclusionPolicy:NONE && ivar is Excluded
+          .reject { |ivar| ivar.annotation(CRS::IgnoreOnSerialize) }
       %}
 
       {% property_hash = {} of String => CrSerializer::PropertyMetadata %}

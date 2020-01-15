@@ -205,6 +205,18 @@ describe CRS do
         p.external_name.should eq "one"
       end
     end
+
+    describe CRS::IgnoreOnDeserialize do
+      it "should not include ignored properties" do
+        properties = IgnoreOnDeserialize.deserialization_properties
+        properties.size.should eq 1
+
+        p = properties[0]
+
+        p.name.should eq "name"
+        p.external_name.should eq "name"
+      end
+    end
   end
 
   describe "#serialize" do
@@ -563,6 +575,22 @@ describe CRS do
         p.skip_when_empty?.should be_false
         p.type.should eq String
         p.class.should eq Skip
+      end
+    end
+
+    describe CRS::IgnoreOnSerialize do
+      it "should not include ignored properties" do
+        properties = IgnoreOnSerialize.new.serialization_properties
+        properties.size.should eq 1
+
+        p = properties[0]
+
+        p.name.should eq "name"
+        p.external_name.should eq "name"
+        p.value.should eq "Fred"
+        p.skip_when_empty?.should be_false
+        p.type.should eq String
+        p.class.should eq IgnoreOnSerialize
       end
     end
 
