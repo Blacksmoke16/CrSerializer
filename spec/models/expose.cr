@@ -8,4 +8,10 @@ class Expose
   property name : String = "Jim"
 
   property password : String? = "monkey"
+
+  @[CRS::IgnoreOnSerialize]
+  property ignored_serialize : Bool = false
+
+  @[CRS::IgnoreOnDeserialize]
+  property ignored_deserialize : Bool = true
 end

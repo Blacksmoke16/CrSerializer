@@ -121,28 +121,38 @@ describe CRS do
     describe CRS::ExclusionPolicy do
       describe :all do
         describe CRS::Expose do
-          it "should only return properties that are exposed" do
+          it "should only return properties that are exposed or are IgnoreOnSerialize" do
             properties = Expose.deserialization_properties
-            properties.size.should eq 1
+            properties.size.should eq 2
 
             p = properties[0]
 
             p.name.should eq "name"
             p.external_name.should eq "name"
+
+            p = properties[1]
+
+            p.name.should eq "ignored_serialize"
+            p.external_name.should eq "ignored_serialize"
           end
         end
       end
 
       describe :none do
         describe CRS::Exclude do
-          it "should only return properties that are not excluded" do
+          it "should only return properties that are not excluded or are IgnoreOnSerialize" do
             properties = Exclude.deserialization_properties
-            properties.size.should eq 1
+            properties.size.should eq 2
 
             p = properties[0]
 
             p.name.should eq "name"
             p.external_name.should eq "name"
+
+            p = properties[1]
+
+            p.name.should eq "ignored_serialize"
+            p.external_name.should eq "ignored_serialize"
           end
         end
       end
@@ -597,9 +607,9 @@ describe CRS do
     describe CRS::ExclusionPolicy do
       describe :all do
         describe CRS::Expose do
-          it "should only return properties that are exposed" do
+          it "should only return properties that are exposed or IgnoreOnDeserialize" do
             properties = Expose.new.serialization_properties
-            properties.size.should eq 1
+            properties.size.should eq 2
 
             p = properties[0]
 
@@ -609,15 +619,24 @@ describe CRS do
             p.skip_when_empty?.should be_false
             p.type.should eq String
             p.class.should eq Expose
+
+            p = properties[1]
+
+            p.name.should eq "ignored_deserialize"
+            p.external_name.should eq "ignored_deserialize"
+            p.value.should eq true
+            p.skip_when_empty?.should be_false
+            p.type.should eq Bool
+            p.class.should eq Expose
           end
         end
       end
 
       describe :none do
         describe CRS::Exclude do
-          it "should only return properties that are not excluded" do
+          it "should only return properties that are not excluded or IgnoreOnDeserialize" do
             properties = Exclude.new.serialization_properties
-            properties.size.should eq 1
+            properties.size.should eq 2
 
             p = properties[0]
 
@@ -626,6 +645,15 @@ describe CRS do
             p.value.should eq "Jim"
             p.skip_when_empty?.should be_false
             p.type.should eq String
+            p.class.should eq Exclude
+
+            p = properties[1]
+
+            p.name.should eq "ignored_deserialize"
+            p.external_name.should eq "ignored_deserialize"
+            p.value.should eq true
+            p.skip_when_empty?.should be_false
+            p.type.should eq Bool
             p.class.should eq Exclude
           end
         end

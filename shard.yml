@@ -3,7 +3,7 @@ name: CrSerializer
 description: |
   Extensible annotation based serialization/deserialization library.
 
-version: 0.9.0
+version: 0.9.1
 
 authors:
   - Blacksmoke16 <Blacksmoke16@eve.tools>
