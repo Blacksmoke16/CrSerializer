@@ -211,7 +211,6 @@ module CrSerializer
             ivars = @type.instance_vars
               .reject { |ivar| ivar.annotation(CRS::Skip) }
               .reject { |ivar| ivar.annotation(CRS::IgnoreOnSerialize) }
-              .reject { |ivar| (ann = ivar.annotation(CRS::ReadOnly)); ann && !ivar.has_default_value? && !ivar.type.nilable? ? raise "#{@type}##{ivar.name} is read-only but is not nilable nor has a default value" : ann }
               .reject do |ivar|
                 not_exposed = (ann = @type.annotation(CRS::ExclusionPolicy)) && ann[0] == :all && !ivar.annotation(CRS::Expose)
                 excluded = (ann = @type.annotation(CRS::ExclusionPolicy)) && ann[0] == :none && ivar.annotation(CRS::Exclude)

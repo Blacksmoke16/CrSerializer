@@ -736,5 +736,22 @@ describe CRS do
         p.class.should eq VirtualProperty
       end
     end
+
+    describe CRS::ReadOnly do
+      it "should include ReadOnly properties" do
+        properties = ReadOnly.new.serialization_properties
+        properties.size.should eq 2
+
+        p = properties[0]
+
+        p.name.should eq "name"
+        p.external_name.should eq "name"
+
+        p = properties[1]
+
+        p.name.should eq "password"
+        p.external_name.should eq "password"
+      end
+    end
   end
 end

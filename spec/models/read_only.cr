@@ -1,8 +1,10 @@
 class ReadOnly
   include CrSerializer
 
-  property name : String
+  def initialize; end
+
+  property name : String = "name"
 
   @[CRS::ReadOnly]
-  property password : String?
+  property password : String? = nil
 end
