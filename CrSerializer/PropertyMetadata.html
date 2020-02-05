@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.31.1">
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/Blacksmoke16/CrSerializer">
+  <title>CrSerializer::PropertyMetadata(IvarType, ClassType) - github.com/Blacksmoke16/CrSerializer</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CRS" data-name="crs">
+      <a href="../CRS.html">CRS</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer" data-name="crserializer">
+      <a href="../CrSerializer.html">CrSerializer</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations" data-name="crserializer::annotations">
+      <a href="../CrSerializer/Annotations.html">Annotations</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Accessor" data-name="crserializer::annotations::accessor">
+      <a href="../CrSerializer/Annotations/Accessor.html">Accessor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/AccessorOrder" data-name="crserializer::annotations::accessororder">
+      <a href="../CrSerializer/Annotations/AccessorOrder.html">AccessorOrder</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Discriminator" data-name="crserializer::annotations::discriminator">
+      <a href="../CrSerializer/Annotations/Discriminator.html">Discriminator</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Exclude" data-name="crserializer::annotations::exclude">
+      <a href="../CrSerializer/Annotations/Exclude.html">Exclude</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/ExclusionPolicy" data-name="crserializer::annotations::exclusionpolicy">
+      <a href="../CrSerializer/Annotations/ExclusionPolicy.html">ExclusionPolicy</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Expose" data-name="crserializer::annotations::expose">
+      <a href="../CrSerializer/Annotations/Expose.html">Expose</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Groups" data-name="crserializer::annotations::groups">
+      <a href="../CrSerializer/Annotations/Groups.html">Groups</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/IgnoreOnDeserialize" data-name="crserializer::annotations::ignoreondeserialize">
+      <a href="../CrSerializer/Annotations/IgnoreOnDeserialize.html">IgnoreOnDeserialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/IgnoreOnSerialize" data-name="crserializer::annotations::ignoreonserialize">
+      <a href="../CrSerializer/Annotations/IgnoreOnSerialize.html">IgnoreOnSerialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Name" data-name="crserializer::annotations::name">
+      <a href="../CrSerializer/Annotations/Name.html">Name</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/PostDeserialize" data-name="crserializer::annotations::postdeserialize">
+      <a href="../CrSerializer/Annotations/PostDeserialize.html">PostDeserialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/PostSerialize" data-name="crserializer::annotations::postserialize">
+      <a href="../CrSerializer/Annotations/PostSerialize.html">PostSerialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/PreSerialize" data-name="crserializer::annotations::preserialize">
+      <a href="../CrSerializer/Annotations/PreSerialize.html">PreSerialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/ReadOnly" data-name="crserializer::annotations::readonly">
+      <a href="../CrSerializer/Annotations/ReadOnly.html">ReadOnly</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Since" data-name="crserializer::annotations::since">
+      <a href="../CrSerializer/Annotations/Since.html">Since</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Skip" data-name="crserializer::annotations::skip">
+      <a href="../CrSerializer/Annotations/Skip.html">Skip</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/SkipWhenEmpty" data-name="crserializer::annotations::skipwhenempty">
+      <a href="../CrSerializer/Annotations/SkipWhenEmpty.html">SkipWhenEmpty</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Until" data-name="crserializer::annotations::until">
+      <a href="../CrSerializer/Annotations/Until.html">Until</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/VirtualProperty" data-name="crserializer::annotations::virtualproperty">
+      <a href="../CrSerializer/Annotations/VirtualProperty.html">VirtualProperty</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Context" data-name="crserializer::context">
+      <a href="../CrSerializer/Context.html">Context</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/DeserializationContext" data-name="crserializer::deserializationcontext">
+      <a href="../CrSerializer/DeserializationContext.html">DeserializationContext</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions" data-name="crserializer::exceptions">
+      <a href="../CrSerializer/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions/JSONParseError" data-name="crserializer::exceptions::jsonparseerror">
+      <a href="../CrSerializer/Exceptions/JSONParseError.html">JSONParseError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions/LogicError" data-name="crserializer::exceptions::logicerror">
+      <a href="../CrSerializer/Exceptions/LogicError.html">LogicError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions/ParseError" data-name="crserializer::exceptions::parseerror">
+      <a href="../CrSerializer/Exceptions/ParseError.html">ParseError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionPolicy" data-name="crserializer::exclusionpolicy">
+      <a href="../CrSerializer/ExclusionPolicy.html">ExclusionPolicy</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies" data-name="crserializer::exclusionstrategies">
+      <a href="../CrSerializer/ExclusionStrategies.html">ExclusionStrategies</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/Disjunct" data-name="crserializer::exclusionstrategies::disjunct">
+      <a href="../CrSerializer/ExclusionStrategies/Disjunct.html">Disjunct</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/ExclusionStrategy" data-name="crserializer::exclusionstrategies::exclusionstrategy">
+      <a href="../CrSerializer/ExclusionStrategies/ExclusionStrategy.html">ExclusionStrategy</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/Groups" data-name="crserializer::exclusionstrategies::groups">
+      <a href="../CrSerializer/ExclusionStrategies/Groups.html">Groups</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/Version" data-name="crserializer::exclusionstrategies::version">
+      <a href="../CrSerializer/ExclusionStrategies/Version.html">Version</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Format" data-name="crserializer::format">
+      <a href="../CrSerializer/Format.html">Format</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/PropertyMetadata" data-name="crserializer::propertymetadata(ivartype, classtype)">
+      <a href="../CrSerializer/PropertyMetadata.html">PropertyMetadata</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/SerializationContext" data-name="crserializer::serializationcontext">
+      <a href="../CrSerializer/SerializationContext.html">SerializationContext</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> CrSerializer::PropertyMetadata(IvarType, ClassType)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../CrSerializer/PropertyMetadata.html">CrSerializer::PropertyMetadata(IvarType, ClassType)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Represents metadata associated with a property.</p>
+
+<p>All properties are defined via annotations applied to the property,
+or pulled directly from the ivar declaration.</p>
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">CrSerializer::Metadata</li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L9" target="_blank">
+        property_metadata.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(name:String,external_name:String,value:IvarType=nil,skip_when_empty:Bool=false,groups:Array(String)=[&quot;default&quot;],aliases:Array(String)=[]ofString,since_version:SemanticVersion?=nil,until_version:SemanticVersion?=nil,type:IvarType.class=IvarType,class__arg0:ClassType.class=ClassType)-class-method" class="signature"><strong>.new</strong>(name : String, external_name : String, value : IvarType = <span class="n">nil</span>, skip_when_empty : Bool = <span class="n">false</span>, groups : Array(String) = [<span class="s">&quot;default&quot;</span>], aliases : Array(String) = <span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>, since_version : SemanticVersion? = <span class="n">nil</span>, until_version : SemanticVersion? = <span class="n">nil</span>, type : <span class="t">IvarType</span>.<span class="k">class</span> = <span class="t">IvarType</span>, class __arg0 : <span class="t">ClassType</span>.<span class="k">class</span> = <span class="t">ClassType</span>)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#aliases:Array(String)-instance-method" class="signature"><strong>#aliases</strong> : Array(String)</a>
+        
+          <div class="summary"><p>Deserialize this property from the property's name or any name in <em>aliases</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#class:ClassType.class-instance-method" class="signature"><strong>#class</strong> : <span class="t">ClassType</span>.<span class="k">class</span></a>
+        
+          <div class="summary"><p>The class that the property is part of.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#external_name:String-instance-method" class="signature"><strong>#external_name</strong> : String</a>
+        
+          <div class="summary"><p>The name that should be used for serialization/deserialization.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#groups:Array(String)-instance-method" class="signature"><strong>#groups</strong> : Array(String)</a>
+        
+          <div class="summary"><p>The serialization groups this property belongs to.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name:String-instance-method" class="signature"><strong>#name</strong> : String</a>
+        
+          <div class="summary"><p>The name of the property.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#since_version:SemanticVersion?-instance-method" class="signature"><strong>#since_version</strong> : SemanticVersion?</a>
+        
+          <div class="summary"><p>Represents the first version this property is available.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#since_version=(since_version:SemanticVersion?)-instance-method" class="signature"><strong>#since_version=</strong>(since_version : SemanticVersion?)</a>
+        
+          <div class="summary"><p>Represents the first version this property is available.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#skip_when_empty?:Bool-instance-method" class="signature"><strong>#skip_when_empty?</strong> : Bool</a>
+        
+          <div class="summary"><p>If this property should not be serialized if it is empty.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#type:IvarType.class-instance-method" class="signature"><strong>#type</strong> : <span class="t">IvarType</span>.<span class="k">class</span></a>
+        
+          <div class="summary"><p>The type of the property.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#until_version:SemanticVersion?-instance-method" class="signature"><strong>#until_version</strong> : SemanticVersion?</a>
+        
+          <div class="summary"><p>Represents the last version this property was available.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#until_version=(until_version:SemanticVersion?)-instance-method" class="signature"><strong>#until_version=</strong>(until_version : SemanticVersion?)</a>
+        
+          <div class="summary"><p>Represents the last version this property was available.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#value:IvarType-instance-method" class="signature"><strong>#value</strong> : IvarType</a>
+        
+          <div class="summary"><p>The value of the property.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(name:String,external_name:String,value:IvarType=nil,skip_when_empty:Bool=false,groups:Array(String)=[&amp;quot;default&amp;quot;],aliases:Array(String)=[]ofString,since_version:SemanticVersion?=nil,until_version:SemanticVersion?=nil,type:IvarType.class=IvarType,class__arg0:ClassType.class=ClassType)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(name : String, external_name : String, value : IvarType = <span class="n">nil</span>, skip_when_empty : Bool = <span class="n">false</span>, groups : Array(String) = [<span class="s">&quot;default&quot;</span>], aliases : Array(String) = <span class="o">[]</span> <span class="k">of</span> <span class="t">String</span>, since_version : SemanticVersion? = <span class="n">nil</span>, until_version : SemanticVersion? = <span class="n">nil</span>, type : <span class="t">IvarType</span>.<span class="k">class</span> = <span class="t">IvarType</span>, class __arg0 : <span class="t">ClassType</span>.<span class="k">class</span> = <span class="t">ClassType</span>)
+
+        <a class="method-permalink" href="#new(name:String,external_name:String,value:IvarType=nil,skip_when_empty:Bool=false,groups:Array(String)=[&quot;default&quot;],aliases:Array(String)=[]ofString,since_version:SemanticVersion?=nil,until_version:SemanticVersion?=nil,type:IvarType.class=IvarType,class__arg0:ClassType.class=ClassType)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L52" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="aliases:Array(String)-instance-method">
+      <div class="signature">
+        
+        def <strong>aliases</strong> : Array(String)
+
+        <a class="method-permalink" href="#aliases:Array(String)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Deserialize this property from the property's name or any name in <em>aliases</em>.</p>
+
+<p>See <code><a href="../CrSerializer/Annotations/Name.html">CRS::Name</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L45" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="class:ClassType.class-instance-method">
+      <div class="signature">
+        
+        def <strong>class</strong> : <span class="t">ClassType</span>.<span class="k">class</span>
+
+        <a class="method-permalink" href="#class:ClassType.class-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The class that the property is part of.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="external_name:String-instance-method">
+      <div class="signature">
+        
+        def <strong>external_name</strong> : String
+
+        <a class="method-permalink" href="#external_name:String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The name that should be used for serialization/deserialization.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="groups:Array(String)-instance-method">
+      <div class="signature">
+        
+        def <strong>groups</strong> : Array(String)
+
+        <a class="method-permalink" href="#groups:Array(String)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The serialization groups this property belongs to.</p>
+
+<p>See <code><a href="../CrSerializer/ExclusionStrategies/Groups.html">CrSerializer::ExclusionStrategies::Groups</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name:String-instance-method">
+      <div class="signature">
+        
+        def <strong>name</strong> : String
+
+        <a class="method-permalink" href="#name:String-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The name of the property.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="since_version:SemanticVersion?-instance-method">
+      <div class="signature">
+        
+        def <strong>since_version</strong> : SemanticVersion?
+
+        <a class="method-permalink" href="#since_version:SemanticVersion?-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Represents the first version this property is available.</p>
+
+<p>See <code><a href="../CrSerializer/ExclusionStrategies/Version.html">CrSerializer::ExclusionStrategies::Version</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L30" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="since_version=(since_version:SemanticVersion?)-instance-method">
+      <div class="signature">
+        
+        def <strong>since_version=</strong>(since_version : SemanticVersion?)
+
+        <a class="method-permalink" href="#since_version=(since_version:SemanticVersion?)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Represents the first version this property is available.</p>
+
+<p>See <code><a href="../CrSerializer/ExclusionStrategies/Version.html">CrSerializer::ExclusionStrategies::Version</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L30" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="skip_when_empty?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>skip_when_empty?</strong> : Bool
+
+        <a class="method-permalink" href="#skip_when_empty?:Bool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>If this property should not be serialized if it is empty.</p>
+
+<p>See <code><a href="../CrSerializer/Annotations/SkipWhenEmpty.html">CRS::SkipWhenEmpty</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L50" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="type:IvarType.class-instance-method">
+      <div class="signature">
+        
+        def <strong>type</strong> : <span class="t">IvarType</span>.<span class="k">class</span>
+
+        <a class="method-permalink" href="#type:IvarType.class-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The type of the property.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="until_version:SemanticVersion?-instance-method">
+      <div class="signature">
+        
+        def <strong>until_version</strong> : SemanticVersion?
+
+        <a class="method-permalink" href="#until_version:SemanticVersion?-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Represents the last version this property was available.</p>
+
+<p>See <code><a href="../CrSerializer/ExclusionStrategies/Version.html">CrSerializer::ExclusionStrategies::Version</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L35" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="until_version=(until_version:SemanticVersion?)-instance-method">
+      <div class="signature">
+        
+        def <strong>until_version=</strong>(until_version : SemanticVersion?)
+
+        <a class="method-permalink" href="#until_version=(until_version:SemanticVersion?)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Represents the last version this property was available.</p>
+
+<p>See <code><a href="../CrSerializer/ExclusionStrategies/Version.html">CrSerializer::ExclusionStrategies::Version</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L35" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="value:IvarType-instance-method">
+      <div class="signature">
+        
+        def <strong>value</strong> : IvarType
+
+        <a class="method-permalink" href="#value:IvarType-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The value of the property.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/property_metadata.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

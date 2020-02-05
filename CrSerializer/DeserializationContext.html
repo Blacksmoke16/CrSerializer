@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.31.1">
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/Blacksmoke16/CrSerializer">
+  <title>CrSerializer::DeserializationContext - github.com/Blacksmoke16/CrSerializer</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CRS" data-name="crs">
+      <a href="../CRS.html">CRS</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer" data-name="crserializer">
+      <a href="../CrSerializer.html">CrSerializer</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations" data-name="crserializer::annotations">
+      <a href="../CrSerializer/Annotations.html">Annotations</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Accessor" data-name="crserializer::annotations::accessor">
+      <a href="../CrSerializer/Annotations/Accessor.html">Accessor</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/AccessorOrder" data-name="crserializer::annotations::accessororder">
+      <a href="../CrSerializer/Annotations/AccessorOrder.html">AccessorOrder</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Discriminator" data-name="crserializer::annotations::discriminator">
+      <a href="../CrSerializer/Annotations/Discriminator.html">Discriminator</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Exclude" data-name="crserializer::annotations::exclude">
+      <a href="../CrSerializer/Annotations/Exclude.html">Exclude</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/ExclusionPolicy" data-name="crserializer::annotations::exclusionpolicy">
+      <a href="../CrSerializer/Annotations/ExclusionPolicy.html">ExclusionPolicy</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Expose" data-name="crserializer::annotations::expose">
+      <a href="../CrSerializer/Annotations/Expose.html">Expose</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Groups" data-name="crserializer::annotations::groups">
+      <a href="../CrSerializer/Annotations/Groups.html">Groups</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/IgnoreOnDeserialize" data-name="crserializer::annotations::ignoreondeserialize">
+      <a href="../CrSerializer/Annotations/IgnoreOnDeserialize.html">IgnoreOnDeserialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/IgnoreOnSerialize" data-name="crserializer::annotations::ignoreonserialize">
+      <a href="../CrSerializer/Annotations/IgnoreOnSerialize.html">IgnoreOnSerialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Name" data-name="crserializer::annotations::name">
+      <a href="../CrSerializer/Annotations/Name.html">Name</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/PostDeserialize" data-name="crserializer::annotations::postdeserialize">
+      <a href="../CrSerializer/Annotations/PostDeserialize.html">PostDeserialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/PostSerialize" data-name="crserializer::annotations::postserialize">
+      <a href="../CrSerializer/Annotations/PostSerialize.html">PostSerialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/PreSerialize" data-name="crserializer::annotations::preserialize">
+      <a href="../CrSerializer/Annotations/PreSerialize.html">PreSerialize</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/ReadOnly" data-name="crserializer::annotations::readonly">
+      <a href="../CrSerializer/Annotations/ReadOnly.html">ReadOnly</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Since" data-name="crserializer::annotations::since">
+      <a href="../CrSerializer/Annotations/Since.html">Since</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Skip" data-name="crserializer::annotations::skip">
+      <a href="../CrSerializer/Annotations/Skip.html">Skip</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/SkipWhenEmpty" data-name="crserializer::annotations::skipwhenempty">
+      <a href="../CrSerializer/Annotations/SkipWhenEmpty.html">SkipWhenEmpty</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/Until" data-name="crserializer::annotations::until">
+      <a href="../CrSerializer/Annotations/Until.html">Until</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Annotations/VirtualProperty" data-name="crserializer::annotations::virtualproperty">
+      <a href="../CrSerializer/Annotations/VirtualProperty.html">VirtualProperty</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Context" data-name="crserializer::context">
+      <a href="../CrSerializer/Context.html">Context</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/DeserializationContext" data-name="crserializer::deserializationcontext">
+      <a href="../CrSerializer/DeserializationContext.html">DeserializationContext</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions" data-name="crserializer::exceptions">
+      <a href="../CrSerializer/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions/JSONParseError" data-name="crserializer::exceptions::jsonparseerror">
+      <a href="../CrSerializer/Exceptions/JSONParseError.html">JSONParseError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions/LogicError" data-name="crserializer::exceptions::logicerror">
+      <a href="../CrSerializer/Exceptions/LogicError.html">LogicError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Exceptions/ParseError" data-name="crserializer::exceptions::parseerror">
+      <a href="../CrSerializer/Exceptions/ParseError.html">ParseError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionPolicy" data-name="crserializer::exclusionpolicy">
+      <a href="../CrSerializer/ExclusionPolicy.html">ExclusionPolicy</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies" data-name="crserializer::exclusionstrategies">
+      <a href="../CrSerializer/ExclusionStrategies.html">ExclusionStrategies</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/Disjunct" data-name="crserializer::exclusionstrategies::disjunct">
+      <a href="../CrSerializer/ExclusionStrategies/Disjunct.html">Disjunct</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/ExclusionStrategy" data-name="crserializer::exclusionstrategies::exclusionstrategy">
+      <a href="../CrSerializer/ExclusionStrategies/ExclusionStrategy.html">ExclusionStrategy</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/Groups" data-name="crserializer::exclusionstrategies::groups">
+      <a href="../CrSerializer/ExclusionStrategies/Groups.html">Groups</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/ExclusionStrategies/Version" data-name="crserializer::exclusionstrategies::version">
+      <a href="../CrSerializer/ExclusionStrategies/Version.html">Version</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/Format" data-name="crserializer::format">
+      <a href="../CrSerializer/Format.html">Format</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/PropertyMetadata" data-name="crserializer::propertymetadata(ivartype, classtype)">
+      <a href="../CrSerializer/PropertyMetadata.html">PropertyMetadata</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Blacksmoke16/CrSerializer/CrSerializer/SerializationContext" data-name="crserializer::serializationcontext">
+      <a href="../CrSerializer/SerializationContext.html">SerializationContext</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> CrSerializer::DeserializationContext
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../CrSerializer/DeserializationContext.html">CrSerializer::DeserializationContext</a></li><li class="superclass"><a href="../CrSerializer/Context.html">CrSerializer::Context</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Stores runtime data about the current deserialization action.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/Blacksmoke16/CrSerializer/blob/65c527c8d52ebff79e8164768b5396c31f9a6bb3/src/deserialization_context.cr#L4" target="_blank">
+        deserialization_context.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from class <code><a href="../CrSerializer/Context.html">CrSerializer::Context</a></code></h3>
+  
+  
+    <a href="../CrSerializer/Context.html#add_exclusion_strategy(strategy:CrSerializer::ExclusionStrategies::ExclusionStrategy):self-instance-method" class="tooltip">
+      <span>add_exclusion_strategy(strategy : CrSerializer::ExclusionStrategies::ExclusionStrategy) : <span class="k">self</span></span>
+    add_exclusion_strategy</a>, 
+    
+  
+    <a href="../CrSerializer/Context.html#exclusion_strategy:CrSerializer::ExclusionStrategies::ExclusionStrategy?-instance-method" class="tooltip">
+      <span>exclusion_strategy : CrSerializer::ExclusionStrategies::ExclusionStrategy?</span>
+    exclusion_strategy</a>, 
+    
+  
+    <a href="../CrSerializer/Context.html#groups:Array(String)?-instance-method" class="tooltip">
+      <span>groups : Array(String)?</span>
+    groups</a>, 
+    
+  
+    <a href="../CrSerializer/Context.html#groups=(groups:Array(String)):self-instance-method" class="tooltip">
+      <span>groups=(groups : Array(String)) : <span class="k">self</span></span>
+    groups=</a>, 
+    
+  
+    <a href="../CrSerializer/Context.html#version:SemanticVersion?-instance-method" class="tooltip">
+      <span>version : SemanticVersion?</span>
+    version</a>, 
+    
+  
+    <a href="../CrSerializer/Context.html#version=(version:String):self-instance-method" class="tooltip">
+      <span>version=(version : String) : <span class="k">self</span></span>
+    version=</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
