@@ -1,3 +1,5 @@
+# Deprecated in favor of Athena's [Serializer](https://github.com/athena-framework/serializer) component.
+
 # CrSerializer
 [![Latest release](https://img.shields.io/github/release/Blacksmoke16/CrSerializer.svg?style=flat-square)](https://github.com/Blacksmoke16/CrSerializer/releases)
 
